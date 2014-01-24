@@ -1,8 +1,10 @@
 Fellesprosjektet 2014, gruppe 3
 ===============================
-- [x] Christoffer Nysæther
-- [ ] Fredrik Gram Larsen
-- [x] Fredrik Tørnvall
-- [x] Ken Siva Lie
-- [x] Kristoffer Ringstad Dahl
-- [x] Mathias Ose
+https://www.dropbox.com/sh/47ymssq8rhxcvk6/2J6BFwlhQD
+
+- Christoffer Nysæther
+- Fredrik Gram Larsen
+- Fredrik Tørnvall
+- Ken Siva Lie
+- Kristoffer Ringstad Dahl
+- Mathias Ose
