@@ -8,3 +8,5 @@ https://www.dropbox.com/sh/47ymssq8rhxcvk6/2J6BFwlhQD
 - Ken Siva Lie
 - Kristoffer Ringstad Dahl
 - Mathias Ose
+
+en liten test her nede - kris
