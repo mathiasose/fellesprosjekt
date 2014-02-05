@@ -9,4 +9,4 @@ https://www.dropbox.com/sh/47ymssq8rhxcvk6/2J6BFwlhQD
 - Kristoffer Ringstad Dahl
 - Mathias Ose
 
-en liten test her nede - kris
+endrer den lille testen her nede - kris
