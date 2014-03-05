@@ -1,27 +1,32 @@
 package login;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import kalender.Main;
 
-public class LoginView extends JPanel{
+
+public class LoginView extends JPanel implements KeyListener, ActionListener{
 	
 	private GridBagConstraints gbc;
 	private JTextField loginName, loginPassword;
 	private JLabel usernameLable, passwordLable;
-	private JButton loginButton;
+	public JButton loginButton;
+	public boolean sucess;
 	
 	public LoginView(){
 		
+		sucess = false;
 		usernameLable = new JLabel("Username: ");
 		passwordLable = new JLabel("Password: ");
 		
@@ -29,6 +34,7 @@ public class LoginView extends JPanel{
 		loginPassword = new JPasswordField(20);
 		
 		loginButton = new JButton("Login");
+		loginButton.addActionListener(this);
 		
 		gbc = new GridBagConstraints();
 		setLayout(new GridBagLayout());
@@ -57,17 +63,51 @@ public class LoginView extends JPanel{
 		add(loginButton, gbc);
 	}
 	
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("Login");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		LoginView panel = new LoginView();
-		frame.add(panel);
-		frame.setPreferredSize(new Dimension(800, 500));
-		frame.pack();
-		frame.setVisible(true);
+	public String getLoginName() {
+		return loginName.getText();
 	}
 
+	public void setLoginName(JTextField loginName) {
+		this.loginName = loginName;
+	}
+
+	public String getLoginPassword() {
+		return loginPassword.getText();
+	}
+
+	public void setLoginPassword(JTextField loginPassword) {
+		this.loginPassword = loginPassword;
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		if(event.getSource() == loginButton){
+			System.out.println(getLoginName() + getLoginPassword());
+			sucess = true;
+			Main.checksucsess();
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

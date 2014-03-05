@@ -1,5 +1,7 @@
 package login;
 
-public class LoginController extends LoginView{
+public class LoginController{
+	
+	
 
 }
