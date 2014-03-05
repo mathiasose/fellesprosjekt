@@ -1,21 +1,7 @@
-CREATE TABLE Employee (
+CREATE TABLE Room (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50),
-    phone VARCHAR(16),
-    email VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(128) NOT NULL,
-    invitationToAppointment INT,
-    PRIMARY KEY(id),
-    CONSTRAINT FOREIGN KEY (invitationToAppointment) REFERENCES Appointment(id)
-);
-
-CREATE TABLE Group (
-    id INT NOT NULL,
-    member INT NOT NULL,
-    subgroup INT,
-    PRIMARY KEY(id),
-    CONSTRAINT FOREIGN KEY (member) REFERENCES Employee(id),
-    CONSTRAINT FOREIGN KEY (subgroup) REFERENCES Group(id)
+    capacity INT,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE Appointment (
@@ -29,18 +15,33 @@ CREATE TABLE Appointment (
     CONSTRAINT FOREIGN KEY (reservation) REFERENCES Room(id)
 );
 
+
+CREATE TABLE Employee (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50),
+    phone VARCHAR(16),
+    email VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(128) NOT NULL,
+    invitationToAppointment INT,
+    PRIMARY KEY(id),
+    CONSTRAINT FOREIGN KEY (invitationToAppointment) REFERENCES Appointment(id)
+);
+
+CREATE TABLE ggroup (
+    id INT NOT NULL,
+    member INT NOT NULL,
+    subgroup INT,
+    PRIMARY KEY(id),
+    CONSTRAINT FOREIGN KEY (member) REFERENCES Employee(id),
+    CONSTRAINT FOREIGN KEY (subgroup) REFERENCES ggroup(id)
+);
+
 CREATE TABLE Notification (
     employee_id INT NOT NULL,
     appointment_id INT NOT NULL,
     PRIMARY KEY (employee_id, appointment_id),
     CONSTRAINT FOREIGN KEY (employee_id) REFERENCES Employee(id),
     CONSTRAINT FOREIGN KEY (appointment_id) REFERENCES Appointment(id)
-);
-
-CREATE TABLE Room (
-    id INT NOT NULL AUTO_INCREMENT,
-    capacity INT,
-    PRIMARY KEY (id)
 );
 
 INSERT INTO Employee (name, email, password) VALUES
