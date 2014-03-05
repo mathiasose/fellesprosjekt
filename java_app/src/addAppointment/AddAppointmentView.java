@@ -25,6 +25,8 @@ import javax.swing.text.MaskFormatter;
 import fellesprosjekt.GhostText;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class AddAppointmentView extends JPanel implements ActionListener, PropertyChangeListener {
 	
@@ -171,7 +173,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		saveAppointment.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println(model.getDescription());
+				System.out.println(model.toString());
 			}
 		});
 		
@@ -230,12 +232,81 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 			
 		});
 		
+		appointmentLocation.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				model.setLocation(appointmentLocation.getText());
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		appointmentDate.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				SimpleDateFormat ft = new SimpleDateFormat("dd . MM . yyyy");
+				
+				String input= appointmentDate.getText();
+				System.out.println(input);
+				java.util.Date t;
+				
+				
+				try{
+					t = ft.parse(input);
+					System.out.println(t);
+				} catch (ParseException e1){
+					System.out.println("unparseable" + ft);
+				}
+				
+				///System.out.println(t);
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		room.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO 				
+			}
+			
+		});
+		
+		
 		
 	}
 	
 	public void setModel(Appointment a){
 		this.model = a;
 		appointmentDescription.setText(a.getDescription());
+		appointmentLocation.setText(a.getLocation());
 		System.out.println("halla2");
 		
 		this.model.addPropertyChangeListener(this);
@@ -253,7 +324,17 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		Appointment model = new Appointment("Description");
+		Appointment model = new Appointment("Description", "Location", null);
+		
+		
+		//tanken var å lage rommene her, også legge det til i dropdownmenyen
+		// midlertidig løsning til db er oppe.
+		//meeen vi klarer det ikke. 
+		
+		/*Room rom1 = new Room(112,20,true);
+		Room rom2 = new Room(113,10,true);
+		Room rom3 = new Room(114,30,true);*/
+		
 		addAppointment.setModel(model);
 		
 	}
@@ -283,8 +364,13 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		String changedProperty = evt.getPropertyName();
 		
 		if (changedProperty == "description"){
-			appointmentDescription.setText(model.getDescription());			
-		}
+			appointmentDescription.setText(model.getDescription());	
+			}	
+			
+
+		if (changedProperty == "location"){
+			appointmentLocation.setText(model.getLocation());		
+			}
 		
 	}
 	

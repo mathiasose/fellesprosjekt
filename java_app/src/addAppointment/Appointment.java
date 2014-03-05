@@ -17,10 +17,13 @@ public class Appointment {
 	
 	private PropertyChangeSupport pcs;
 	
-	public Appointment ( String des){
+	public Appointment ( String des, String loc, Date dat){
 		
 		
 		description  = des;
+		location = loc;
+		date = dat;
+		
 		
 		pcs = new PropertyChangeSupport(this);
 		
@@ -37,7 +40,7 @@ public class Appointment {
 	}
 	
 	public String toString() {
-		return description;
+		return description + " " + location;
 	}
 
 	public Date getDate() {
