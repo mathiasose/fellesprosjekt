@@ -7,24 +7,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 import fellesprosjekt.GhostText;
 
 import java.sql.*;
 
-public class AddAppointmentView extends JPanel implements ActionListener {
+public class AddAppointmentView extends JPanel implements ActionListener, PropertyChangeListener {
 	
-	public JTextField appointmentDate;
+	public JFormattedTextField appointmentDate;
 	public JTextField appointmentLocation;
 	public JTextField appointmentDescription;
 	public JTextField participantEmail;
@@ -34,6 +38,8 @@ public class AddAppointmentView extends JPanel implements ActionListener {
 	public JList participantList;
 	public GhostText ghostText;
 	public DefaultListModel listModel;
+	
+	private Appointment model = null;
 	
 	
 	
@@ -49,14 +55,14 @@ public class AddAppointmentView extends JPanel implements ActionListener {
 		c = new GridBagConstraints();
 		
 		
-		appointmentDate = new JTextField();
+		appointmentDate = new JFormattedTextField(createFormatter("## '.' ## '.' ####"));
 		ghostText = new GhostText(appointmentDate, "DD.MM.YYYY");
 		
-		appointmentLocation = new JTextField(20);
+		appointmentLocation = new JTextField(30);
 		ghostText = new GhostText(appointmentLocation, "Location");
 		
 		appointmentDescription = new JTextField(50);
-		ghostText = new GhostText(appointmentDescription, "Description");
+		//ghostText = new GhostText(appointmentDescription, "Description");
 		
 		participantEmail = new JTextField(20);
 		ghostText = new GhostText(participantEmail, "Participant email");
@@ -162,6 +168,21 @@ public class AddAppointmentView extends JPanel implements ActionListener {
 			}
 		});
 		
+		saveAppointment.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println(model.getDescription());
+			}
+		});
+		
+		deleteAppointment.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0); 
+			}
+		});
+		
+		
 		participantEmail.addKeyListener(new KeyListener(){
 
 			@Override
@@ -184,7 +205,44 @@ public class AddAppointmentView extends JPanel implements ActionListener {
 			
 		});
 		
+		appointmentDescription.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+				//System.out.println(appointmentDescription.getText());
+				model.setDescription(appointmentDescription.getText());
+				
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		
+		
+	}
+	
+	public void setModel(Appointment a){
+		this.model = a;
+		appointmentDescription.setText(a.getDescription());
+		System.out.println("halla2");
+		
+		this.model.addPropertyChangeListener(this);
+	}
+	
+	public Appointment getModel(){
+		return model;
 	}
 	
 	public static void main (String[] args){
@@ -195,6 +253,9 @@ public class AddAppointmentView extends JPanel implements ActionListener {
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		Appointment model = new Appointment("Description");
+		addAppointment.setModel(model);
+		
 	}
 
 	@Override
@@ -202,7 +263,30 @@ public class AddAppointmentView extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	//gjør sånn at man bare kan skrive tall i Date-feltet
+	//med formatter får man ikke ghostText, så må ta et valg
+	protected MaskFormatter createFormatter(String s) {
+	    MaskFormatter formatter = null;
+	    try {
+	        formatter = new MaskFormatter(s);
+	    } catch (java.text.ParseException exc) {
+	        System.err.println("formatter is bad: " + exc.getMessage());
+	        System.exit(-1);
+	    }
+	    return formatter;
+	}
 
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		String changedProperty = evt.getPropertyName();
+		
+		if (changedProperty == "description"){
+			appointmentDescription.setText(model.getDescription());			
+		}
+		
+	}
 	
 
 
