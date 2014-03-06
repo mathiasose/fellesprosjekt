@@ -22,11 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
-
-<<<<<<< HEAD
-=======
 import model.Appointment;
->>>>>>> 98fe4bf7cc6c5a3737559e5cb7427ee852673f99
 import addAppointment.GhostText;
 
 import java.sql.*;

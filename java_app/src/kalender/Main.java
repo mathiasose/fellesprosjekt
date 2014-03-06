@@ -7,6 +7,13 @@ import javax.swing.JFrame;
 import addAppointment.AddAppointmentView;
 import login.LoginView;
 
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+
+import addAppointment.AddAppointmentView;
+import login.LoginView;
+
 
 public class Main{
 	
@@ -26,10 +33,7 @@ public class Main{
 		frame.add(login);
 		frame.setPreferredSize(new Dimension(800, 500));
 		frame.pack();
-		frame.setVisible(true);
-		
-	
-	
+		frame.setVisible(true);	
 	}
 	
 	public static void loginLink(){

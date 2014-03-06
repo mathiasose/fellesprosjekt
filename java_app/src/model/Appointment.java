@@ -1,8 +1,4 @@
-<<<<<<< HEAD:java_app/src/addAppointment/Appointment.java
-package addAppointment;
-=======
 package model;
->>>>>>> 98fe4bf7cc6c5a3737559e5cb7427ee852673f99:java_app/src/model/Appointment.java
 
 import java.util.List;
 import java.beans.PropertyChangeListener;
