@@ -23,6 +23,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+
+import model.Appointment;
+
 import addAppointment.GhostText;
 
 import java.sql.*;
@@ -229,7 +232,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-				
+				//hei
 			}
 			
 		});
