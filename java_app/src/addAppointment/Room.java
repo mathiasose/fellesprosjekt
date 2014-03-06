@@ -1,4 +1,5 @@
-package fellesprosjekt;
+package addAppointment;
+
 
 public class Room {
 

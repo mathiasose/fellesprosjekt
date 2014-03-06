@@ -22,11 +22,8 @@ public class LoginView extends JPanel implements KeyListener, ActionListener{
 	private JTextField loginName, loginPassword;
 	private JLabel usernameLable, passwordLable;
 	public JButton loginButton;
-	public boolean sucess;
 	
 	public LoginView(){
-		
-		sucess = false;
 		usernameLable = new JLabel("Username: ");
 		passwordLable = new JLabel("Password: ");
 		
@@ -85,8 +82,10 @@ public class LoginView extends JPanel implements KeyListener, ActionListener{
 		// TODO Auto-generated method stub
 		if(event.getSource() == loginButton){
 			System.out.println(getLoginName() + getLoginPassword());
-			sucess = true;
-			Main.checksucsess();
+			/*(USER.EMAIL = denne email) AND
+			 * USER.PASSWORD = dette passord) så slipper man inn
+			 */
+			Main.loginLink();
 		}
 	}
 
