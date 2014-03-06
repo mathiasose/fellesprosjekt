@@ -60,3 +60,9 @@ local.properties
 
 .idea/
 *.iml
+
+
+## Vagrant ting
+.vagrant
+Vagrantfile
+bootstrap.sh

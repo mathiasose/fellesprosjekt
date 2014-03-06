@@ -1,4 +1,4 @@
-package fellesprosjekt;
+package addAppointment;
 
 import java.util.List;
 import java.beans.PropertyChangeListener;
