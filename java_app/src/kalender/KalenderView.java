@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,7 +15,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class KalenderView extends JTable{
+//la til action listener
+public class KalenderView extends JTable implements ActionListener{
 	
 	private JTable kalenderTable;
 	private JButton logoutButton, addAppointmentButton, showOtherButton;
@@ -71,6 +74,11 @@ public class KalenderView extends JTable{
 		addAppointmentButton = new JButton("Add Appointment");
 		showOtherButton = new JButton("Show other");
 		
+		
+		addAppointmentButton.addActionListener(this);
+		logoutButton.addActionListener(this);
+		showOtherButton.addActionListener(this);
+		
 		gbc = new GridBagConstraints();
 		setLayout(new GridBagLayout());
 		gbc.anchor = GridBagConstraints.WEST;
@@ -119,7 +127,19 @@ public class KalenderView extends JTable{
 		frame.setSize(800, 500);
 		frame.setVisible(true);
 	}
-	
-	
+//KRISTOFFER START
+	public void actionPerformed(ActionEvent event) {
+		// TODO Auto-generated method stub
+		if(event.getSource() == addAppointmentButton){
+			Main.addApointmentLink();
+		}
+		if(event.getSource() == logoutButton){
+			Main.logoutLink();
+		}
+		if(event.getSource() == showOtherButton)
+			Main.showOtherLink();
+	}
 
+
+//KRISTOFFER END
 }
