@@ -22,10 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
-
-
 import model.Appointment;
-
 import addAppointment.GhostText;
 
 import java.sql.*;
@@ -45,6 +42,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	public JList participantList;
 	public GhostText ghostText;
 	public DefaultListModel listModel;
+	private Appointment model = null;
 	
 	
 	
