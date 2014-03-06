@@ -19,20 +19,23 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import model.Appointment;
 import fellesprosjekt.GhostText;
 
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class AddAppointmentView extends JPanel implements ActionListener, PropertyChangeListener {
 	
 	public JFormattedTextField appointmentDate;
 	public JTextField appointmentLocation;
-	public JTextField appointmentDescription;
+	public JTextArea appointmentDescription;
 	public JTextField participantEmail;
 	public JComboBox startTime, duration, room;
 	public JButton deleteAppointment, saveAppointment;
@@ -45,7 +48,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	
 	
 	
-	String[] time = {"0000","0100","0200","0300","0400","0500","0600","0700","0800","0900","2200","2300"};
+	String[] time = {"00","01","02","03","04","05","06","07","08","09","10","11","22","23"};
 	String[] dur = {"1","2","3","4"};
 	String[] rooms = {"112", "113", "114"};
 	String[] participant = {"tore","ken","jenny","mathias",};
@@ -58,12 +61,12 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		
 		
 		appointmentDate = new JFormattedTextField(createFormatter("## '.' ## '.' ####"));
-		ghostText = new GhostText(appointmentDate, "DD.MM.YYYY");
+		//ghostText = new GhostText(appointmentDate, "DD.MM.YYYY");
 		
 		appointmentLocation = new JTextField(30);
-		ghostText = new GhostText(appointmentLocation, "Location");
+		//ghostText = new GhostText(appointmentLocation, "Location");
 		
-		appointmentDescription = new JTextField(50);
+		appointmentDescription = new JTextArea(1, 3);
 		//ghostText = new GhostText(appointmentDescription, "Description");
 		
 		participantEmail = new JTextField(20);
@@ -92,6 +95,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		
 		
 		//layout
+		
 		//date-Jtextfield
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.insets = new Insets(7,7,0,7); 
@@ -269,17 +273,19 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				String input= appointmentDate.getText();
 				System.out.println(input);
 				java.util.Date t;
-				
+				Date hei = null; 
 				
 				try{
 					t = ft.parse(input);
 					System.out.println(t);
+					hei = t; 
 				} catch (ParseException e1){
 					System.out.println("unparseable" + ft);
 				}
 				
-				///System.out.println(t);
 				
+				model.setDate(hei); 
+				System.out.println(model.getDate());
 			}
 
 			@Override
@@ -307,6 +313,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		this.model = a;
 		appointmentDescription.setText(a.getDescription());
 		appointmentLocation.setText(a.getLocation());
+		appointmentDate.setValue(a.getDate());
 		System.out.println("halla2");
 		
 		this.model.addPropertyChangeListener(this);
@@ -370,6 +377,10 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 
 		if (changedProperty == "location"){
 			appointmentLocation.setText(model.getLocation());		
+			}
+		
+		if (changedProperty == "date"){
+			appointmentDate.setValue(model.getDate());		
 			}
 		
 	}
