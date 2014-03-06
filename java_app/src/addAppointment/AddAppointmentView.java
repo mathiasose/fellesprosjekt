@@ -1,4 +1,4 @@
-package fellesprosjekt;
+package addAppointment;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import model.Appointment;
-import fellesprosjekt.GhostText;
+import addAppointment.GhostText;
 
 import java.sql.*;
 import java.text.ParseException;
