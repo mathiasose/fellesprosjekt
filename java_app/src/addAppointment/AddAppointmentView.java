@@ -42,8 +42,8 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	public JList participantList;
 	public GhostText ghostText;
 	public DefaultListModel listModel;
-	
 	private Appointment model = null;
+	
 	
 	
 	
@@ -230,7 +230,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 			@Override
 			public void keyTyped(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-				
+				//hei
 			}
 			
 		});
