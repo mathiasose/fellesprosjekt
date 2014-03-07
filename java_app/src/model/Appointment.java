@@ -12,7 +12,7 @@ public class Appointment {
 	private User createdBy;
 	private Date date;
 	private String description, location;
-	private int startTime; 
+	private Date startTime; 
 	private int duration;
 	private ArrayList<Invitation> participants;
 	private Room meetingRoom;
@@ -108,11 +108,11 @@ public class Appointment {
 		this.location = location;
 	}
 
-	public int getStartTime() {
+	public Date getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(int startTime) {
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
 

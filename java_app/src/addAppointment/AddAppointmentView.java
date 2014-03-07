@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
+
 import model.Appointment;
 import addAppointment.GhostText;
 
@@ -304,6 +305,36 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 			
 		});
 		
+		startTime.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+											
+				System.out.println(startTime.getSelectedItem());
+				Object selTime = startTime.getSelectedItem();
+				String selectedTime = selTime.toString();
+				
+				SimpleDateFormat tim = new SimpleDateFormat("HH");
+				Date s;
+				Date sT = null;
+
+				try{
+					s = tim.parse(selectedTime); 
+					System.out.println(s);
+					sT =s;
+					
+				} catch (ParseException e1){
+					System.out.println("unparseable" + tim );
+				}
+				
+				
+				model.setStartTime(sT);
+				
+				
+				
+			}
+			
+		});
 		
 		
 	}
