@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public class Appointment {
 	private User createdBy;
 	private Date date;
 	private String description, location;
-	private Date startTime; 
+	private Calendar startTime; 
 	private int duration;
 	private ArrayList<Invitation> participants;
 	private Room meetingRoom;
@@ -86,8 +87,8 @@ public class Appointment {
 		return date;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDate(Date hei) {
+		this.date = hei;
 	}
 
 	public String getDescription() {
@@ -108,11 +109,11 @@ public class Appointment {
 		this.location = location;
 	}
 
-	public Date getStartTime() {
+	public Calendar getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(Calendar startTime) {
 		this.startTime = startTime;
 	}
 
