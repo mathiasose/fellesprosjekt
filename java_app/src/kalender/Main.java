@@ -69,16 +69,16 @@ public class Main{
 //		    "We will implement this as soon as we can! SORRY >_<",
 //		    "Comming this Spring",
 //		    JOptionPane.PLAIN_MESSAGE);
-		Object[] possibilities = {"Just yours", "exampleUser1", "Everybody"};
-		String s = (String)JOptionPane.showInputDialog(
+		Object[] showSomeonesAppointments = {"Just yours", "exampleUser1", "Everybody"};
+		String showOtherVariabel = (String)JOptionPane.showInputDialog(
 		                    frame,
 		                    "Select your acquaintance to show their appointments",
 		                    "Show others calenders",
 		                    JOptionPane.PLAIN_MESSAGE,
-		                    null, possibilities,
+		                    null, showSomeonesAppointments,
 		                    "Vet ikke hvorfor eller hva denne strengen er godt for :/");
 
-		System.out.println(s + "s appointments are showing!");
+		System.out.println(showOtherVariabel + "s appointments are showing!");
 		//HER MÅ VI VISE VALGTE DELTAGERES APPOINTMENTS!
 	}	
 
