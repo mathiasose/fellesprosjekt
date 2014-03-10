@@ -32,6 +32,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import kalender.Main;
+
 public class AddAppointmentView extends JPanel implements ActionListener, PropertyChangeListener {
 	
 	public JFormattedTextField appointmentDate;
@@ -39,7 +41,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	public JTextArea appointmentDescription;
 	public JTextField participantEmail;
 	public JComboBox startTime, duration, room;
-	public JButton deleteAppointment, saveAppointment;
+	public JButton cancleAppointment, saveAppointment;
 	public static JButton addParticipant;
 	public JList participantList;
 	public GhostText ghostText;
@@ -89,7 +91,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		listModel = new DefaultListModel();
 		participantList = new JList(listModel); 
 		
-		deleteAppointment = new JButton("Delete");
+		cancleAppointment = new JButton("Cancle");
 		saveAppointment = new JButton("Save");
 		addParticipant = new JButton("Add Participant");
 		
@@ -135,12 +137,12 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		c.gridy++;
 		add(appointmentDescription,c);
 		
-		//delete appointmentbutton
+		//cancle appointmentbutton
 		c.insets = new Insets(7,7,7,7); 
 		c.ipady = 0;      //make this component default
 		c.gridy = 4;
 		c.gridwidth = 1;
-		add(deleteAppointment,c);
+		add(cancleAppointment,c);
 		
 		//save appointmentbutton
 		c.gridx=2;
@@ -182,10 +184,11 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 			}
 		});
 		
-		deleteAppointment.addActionListener(new ActionListener(){
+		cancleAppointment.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0); 
+				Main.cancleLink();
+				//System.exit(0); 
 			}
 		});
 		
@@ -416,7 +419,6 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		if (changedProperty == "description"){
 			appointmentDescription.setText(model.getDescription());	
 			}	
-			
 
 		if (changedProperty == "location"){
 			appointmentLocation.setText(model.getLocation());		
