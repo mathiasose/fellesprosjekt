@@ -3,6 +3,7 @@ package kalender;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import addAppointment.AddAppointmentView;
 import login.LoginView;
@@ -62,7 +63,19 @@ public class Main{
 	
 //TRENGER FUNKSJONALITET HER ETTERHVERT
 	public static void showOtherLink(){
-		System.out.println("THIS METHOD IS YET TO BE IMPLEMENTED! SORRY >_<");
+//		JOptionPane.showMessageDialog(frame,
+//		    "We will implement this as soon as we can! SORRY >_<",
+//		    "Comming this Spring",
+//		    JOptionPane.PLAIN_MESSAGE);
+		Object[] possibilities = {"Just yours", "exampleUser1", "Everybody"};
+		String s = (String)JOptionPane.showInputDialog(
+		                    frame,
+		                    "Select your acquaintance to show their appointments",
+		                    "Show others calenders",
+		                    JOptionPane.PLAIN_MESSAGE,
+		                    null, possibilities,
+		                    "ham");
+
 	}	
 
 //Cancle tilbake til KalenderView
