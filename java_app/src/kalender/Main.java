@@ -26,11 +26,13 @@ public class Main{
 		frame = new JFrame("AppNavn");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		login = new LoginView();
+		
 		kalender = new KalenderView();
 		addAppointmentView = new AddAppointmentView();
-
+		login = new LoginView();
+			
 		frame.add(login);
+
 		frame.setPreferredSize(new Dimension(800, 500));
 		frame.pack();
 		frame.setVisible(true);	
@@ -54,7 +56,8 @@ public class Main{
 	public static void addApointmentLink(){
 		kalender.setVisible(false);
 		frame.add(addAppointmentView);
-		System.out.println("PEASE INPUT INFORMATION ABOUT YOUR APPOINTMENT!");
+		addAppointmentView.setVisible(true);
+		System.out.println("PLEASE INPUT INFORMATION ABOUT YOUR APPOINTMENT!");
 	}	
 	
 //TRENGER FUNKSJONALITET HER ETTERHVERT
@@ -62,5 +65,12 @@ public class Main{
 		System.out.println("THIS METHOD IS YET TO BE IMPLEMENTED! SORRY >_<");
 	}	
 
+//Cancle tilbake til KalenderView
+	public static void cancleLink(){
+		addAppointmentView.setVisible(false);
+		frame.add(kalender);
+		kalender.setVisible(true);
+		System.out.println("APPOINTMENT MAKING WAS CANCELED");
+	}	
 	
 }

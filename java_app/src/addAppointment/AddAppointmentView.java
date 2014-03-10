@@ -31,6 +31,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import kalender.Main;
+
 public class AddAppointmentView extends JPanel implements ActionListener, PropertyChangeListener {
 	
 	public JFormattedTextField appointmentDate;
@@ -184,7 +186,8 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		deleteAppointment.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0); 
+				Main.cancleLink();
+				//System.exit(0); 
 			}
 		});
 		
