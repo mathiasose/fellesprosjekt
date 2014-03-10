@@ -6,12 +6,15 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 //la til action listener
 public class KalenderView extends JTable implements ActionListener{
@@ -56,11 +59,21 @@ public class KalenderView extends JTable implements ActionListener{
 
 	
 	public KalenderView(){
+		
 		kalenderTable = new JTable(avtaler, ukedager);
 		kalenderTable.setGridColor(Color.BLACK);
 		kalenderTable.setEnabled(false);
+		kalenderTable.setSize(800,500);
 		
 		pane = new JScrollPane(kalenderTable);
+		ButtonColumn buttonColumnMandag = new ButtonColumn(kalenderTable, showAppointment, 1);
+		ButtonColumn buttonColumnTirsdag = new ButtonColumn(kalenderTable, showAppointment, 2);
+		ButtonColumn buttonColumnOnsdag = new ButtonColumn(kalenderTable, showAppointment, 3);
+		ButtonColumn buttonColumnTorsdag = new ButtonColumn(kalenderTable, showAppointment, 4);
+		ButtonColumn buttonColumnFredag = new ButtonColumn(kalenderTable, showAppointment, 5);
+		ButtonColumn buttonColumnL¿rdag = new ButtonColumn(kalenderTable, showAppointment, 6);
+		ButtonColumn buttonColumnS¿ndag = new ButtonColumn(kalenderTable, showAppointment, 7);
+		
 		
 		ukeNummer = new JTextField(3);
 		ukeNummer.setEditable(false);
@@ -122,7 +135,7 @@ public class KalenderView extends JTable implements ActionListener{
 		frame.add(kalender);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
-		frame.setSize(800, 500);
+		frame.setSize(1000, 700);
 		frame.setVisible(true);
 	}
 //KRISTOFFER START
@@ -140,4 +153,16 @@ public class KalenderView extends JTable implements ActionListener{
 
 
 //KRISTOFFER END
+	
+	
+	
+	Action showAppointment = new AbstractAction()
+	{
+	    public void actionPerformed(ActionEvent e)
+	    {
+	        JTable kalenderTable = (JTable)e.getSource();
+	        int modelRow = Integer.valueOf( e.getActionCommand() );
+	        ((DefaultTableModel)kalenderTable.getModel()).removeRow(modelRow);
+	    }
+	};
 }
