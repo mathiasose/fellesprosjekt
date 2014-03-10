@@ -4,11 +4,13 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 import addAppointment.AddAppointmentView;
 import login.LoginView;
 
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 
@@ -74,8 +76,10 @@ public class Main{
 		                    "Show others calenders",
 		                    JOptionPane.PLAIN_MESSAGE,
 		                    null, possibilities,
-		                    "ham");
+		                    "Vet ikke hvorfor eller hva denne strengen er godt for :/");
 
+		System.out.println(s + "s appointments are showing!");
+		//HER MÅ VI VISE VALGTE DELTAGERES APPOINTMENTS!
 	}	
 
 //Cancle tilbake til KalenderView
