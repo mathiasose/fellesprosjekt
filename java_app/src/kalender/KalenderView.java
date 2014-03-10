@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -23,8 +25,9 @@ public class KalenderView extends JTable implements ActionListener{
 	private JButton logoutButton, addAppointmentButton, showOtherButton;
 	private GridBagConstraints gbc;
 	private JScrollPane pane;
-	private JTextField ukeNummer;
-	private JLabel ukeNummerLable;
+//	private JTextField ukeNummer;
+	private JLabel ukeNummerLable, ukeNummer;
+	GregorianCalendar gc = new GregorianCalendar();
 	
 	Object[][] avtaler = {
 		    {"06:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"}, 
@@ -62,7 +65,7 @@ public class KalenderView extends JTable implements ActionListener{
 		
 		kalenderTable = new JTable(avtaler, ukedager);
 		kalenderTable.setGridColor(Color.BLACK);
-		kalenderTable.setEnabled(false);
+		//kalenderTable.setEnabled(false);
 		kalenderTable.setSize(800,500);
 		
 		pane = new JScrollPane(kalenderTable);
@@ -75,11 +78,12 @@ public class KalenderView extends JTable implements ActionListener{
 		ButtonColumn buttonColumnS¿ndag = new ButtonColumn(kalenderTable, showAppointment, 7);
 		
 		
-		ukeNummer = new JTextField(3);
-		ukeNummer.setEditable(false);
-		ukeNummer.setText("10");
+//		ukeNummer = new JTextField(3);
+//		ukeNummer.setEditable(false);
+//		ukeNummer.setText("10");
 		
 		ukeNummerLable = new JLabel("Uke:");
+		ukeNummer = new JLabel(""+gc.get(Calendar.WEEK_OF_YEAR));
 		
 		logoutButton = new JButton("Log out");
 		addAppointmentButton = new JButton("Add Appointment");
