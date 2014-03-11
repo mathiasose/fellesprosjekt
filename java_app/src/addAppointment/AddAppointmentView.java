@@ -29,6 +29,7 @@ import addAppointment.GhostText;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import kalender.Main;
@@ -278,6 +279,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				java.util.Date t;
 				Date hei = null; 
 				
+				
 				try{
 					t = ft.parse(input);
 					System.out.println(t);
@@ -316,22 +318,33 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				System.out.println(startTime.getSelectedItem());
 				Object selTime = startTime.getSelectedItem();
 				String selectedTime = selTime.toString();
+				int timeI = Integer.parseInt(selectedTime);
 				
 				SimpleDateFormat tim = new SimpleDateFormat("HH");
 				Date s;
-				Date sT = null;
+				Calendar c1 = Calendar.getInstance();
+				Date date = model.getDate();
+			
+				System.out.println(date);
+				System.out.println(date.getYear()+ "hallaaaaa");
 
-				try{
-					s = tim.parse(selectedTime); 
-					System.out.println(s);
-					sT =s;
-					
-				} catch (ParseException e1){
-					System.out.println("unparseable" + tim );
-				}
+			
+					if(date != null){
+						c1.set(Calendar.YEAR, date.getYear()+1900);
+						c1.set(Calendar.MONTH, date.getMonth());
+						c1.set(Calendar.DAY_OF_MONTH, date.getDate());
+						c1.set(Calendar.HOUR_OF_DAY, timeI);
+						c1.set(Calendar.MINUTE, 00);
+					}
+					else{
+						c1.set(Calendar.HOUR_OF_DAY, timeI);
+						c1.set(Calendar.MINUTE, 00);
+					}
+			
 				
-				
-				model.setStartTime(sT);
+
+				System.out.println(c1.getTime());
+				model.setStartTime(c1);
 				
 				
 				
