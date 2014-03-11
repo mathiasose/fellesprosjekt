@@ -41,6 +41,19 @@ public class DBConnection {
 		return null;
 	}
 	
+	public static ArrayList<String> getParticipantEmails(int appointmentID) {
+		ArrayList<String> emails = new ArrayList<String>();
+		try {
+			ResultSet rs = query("select Employee.email from Employee, Appointment, Invitation where (Appointment.id = "+appointmentID+") and (Invitation.appointment_id = Appointment.id) and (Employee.id = Invitation.employee_id)");
+			while(rs.next()){
+				emails.add(rs.getString("email"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return emails;
+	}
+	
 	public static int getEmployeeId(String email){
 		try{
 			ResultSet rs = query("select Employee.id from Employee where Employee.email = "+email);
@@ -91,6 +104,6 @@ public class DBConnection {
 	}
 
 	public static void main(String[] args) {
-
+		System.out.println(getParticipantEmails(1));
 	}
 }
