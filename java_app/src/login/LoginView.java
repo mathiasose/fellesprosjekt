@@ -22,7 +22,9 @@ public class LoginView extends JPanel implements KeyListener, ActionListener{
 	private JTextField loginName, loginPassword;
 	private JLabel usernameLable, passwordLable;
 	public JButton loginButton;
-	
+	public String emailVariabel; //emailen kalenderen tar utgangspunkt i
+	public String passwordVariabel; //emailen kalenderen tar utgangspunkt i
+
 	public LoginView(){
 		usernameLable = new JLabel("Username: ");
 		passwordLable = new JLabel("Password: ");
@@ -61,19 +63,20 @@ public class LoginView extends JPanel implements KeyListener, ActionListener{
 	}
 	
 	public String getLoginName() {
-		return loginName.getText();
+		 return emailVariabel; //emailVariabelen vi bruker videre
 	}
 
 	public void setLoginName(JTextField loginName) {
-		this.loginName = loginName;
+		 emailVariabel = loginName.getText();
+//		this.loginName = loginName;
 	}
 
 	public String getLoginPassword() {
-		return loginPassword.getText();
+		return passwordVariabel;
 	}
 
 	public void setLoginPassword(JTextField loginPassword) {
-		this.loginPassword = loginPassword;
+		passwordVariabel = loginPassword.getText();
 	}
 
 
@@ -81,7 +84,10 @@ public class LoginView extends JPanel implements KeyListener, ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		if(event.getSource() == loginButton){
-			System.out.println(getLoginName() + getLoginPassword());
+			setLoginName(loginName);
+			setLoginPassword(loginPassword);//unødvendig trur eg - Kris
+			
+			System.out.println(getLoginName() + " "+ getLoginPassword());
 			/*(USER.EMAIL = denne email) AND
 			 * USER.PASSWORD = dette passord) så slipper man inn
 			 */
