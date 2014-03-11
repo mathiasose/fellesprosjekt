@@ -1,10 +1,14 @@
 package db;
 
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import login.LoginView;
 
 public class DBConnection {
 
@@ -29,28 +33,51 @@ public class DBConnection {
 		return this.connection;
 	}
 
-	public static void getAppointment() {
-
-	}
-	
-	public void getRoom(String query){
+	public static ResultSet getAppointments() {
 		try{
-			query("select * from Room");
+			return query("select Appointment.* from Appointment, Employee, Invitation where Employee.id = Invitation.employee_id and Invitation.appointment_id = Appointment.id;");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
+	
+	public static int getEmployeeId(String email){
+		try{
+			ResultSet rs = query("select Employee.id from Employee where Employee.email = "+email);
+			while(rs.next()){
+				return rs.getInt("id");
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	public static ArrayList<Integer> getAllRoomIDs(){
+		ArrayList<Integer> rooms = new ArrayList<Integer>();
+		try{
+			ResultSet rs = query("select * from Room");
+			while(rs.next()){
+				rooms.add(rs.getInt("id"));
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return rooms;
+	}
+	
 
 	// ///////////////lager metode for å legge til appointment i
 	// DB//////////////////////
 
-	public void addAppointment() {
-		try {
-			query("insert into Appointment(location) values('HAHAHAHAHHA')");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+//	public void addAppointment() {
+//		try {
+//			query("insert into Appointment(location) values('HAHAHAHAHHA')");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	// /////////////////////////////////////////////////////////////////////////////////
 
@@ -65,15 +92,6 @@ public class DBConnection {
 	}
 
 	public static void main(String[] args) {
-		try {
-			update("insert into Appointment(start_time, duration, location) values('2014-5-17 12:00:00', '01:01:01', 'spise is')");
-			
-			ResultSet rs = query("select * from Employee");
-			while (rs.next()) {
-				System.out.println(rs.getString("name"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
 	}
 }
