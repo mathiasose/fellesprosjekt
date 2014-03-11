@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import email.EmailValidator;
 import model.Appointment;
 import addAppointment.GhostText;
 
@@ -41,7 +42,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	public JTextArea appointmentDescription;
 	public JTextField participantEmail;
 	public JComboBox startTime, duration, room;
-	public JButton cancleAppointment, saveAppointment;
+	public JButton cancelAppointment, saveAppointment;
 	public static JButton addParticipant;
 	public JList participantList;
 	public GhostText ghostText;
@@ -91,7 +92,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		listModel = new DefaultListModel();
 		participantList = new JList(listModel); 
 		
-		cancleAppointment = new JButton("Cancle");
+		cancelAppointment = new JButton("Cancel");
 		saveAppointment = new JButton("Save");
 		addParticipant = new JButton("Add Participant");
 		
@@ -142,7 +143,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		c.ipady = 0;      //make this component default
 		c.gridy = 4;
 		c.gridwidth = 1;
-		add(cancleAppointment,c);
+		add(cancelAppointment,c);
 		
 		//save appointmentbutton
 		c.gridx=2;
@@ -173,7 +174,19 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		addParticipant.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				listModel.addElement(participantEmail.getText());
+
+				EmailValidator emailV = new EmailValidator();
+				
+				String participantEM = participantEmail.getText();
+				boolean valid = emailV.validate(participantEM);
+				
+				if (valid == false || listModel.contains(participantEM) ){
+					System.out.println("not a valid email");
+				}else {
+					
+					listModel.addElement(participantEmail.getText());
+					
+				}
 			}
 		});
 		
@@ -184,7 +197,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 			}
 		});
 		
-		cancleAppointment.addActionListener(new ActionListener(){
+		cancelAppointment.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Main.cancleLink();
@@ -203,6 +216,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
+				
 				System.out.println( participantEmail.getText());
 				
 			}
@@ -314,19 +328,17 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-											
-				System.out.println(startTime.getSelectedItem());
+
+
 				Object selTime = startTime.getSelectedItem();
 				String selectedTime = selTime.toString();
+				
 				int timeI = Integer.parseInt(selectedTime);
 				
-				SimpleDateFormat tim = new SimpleDateFormat("HH");
-				Date s;
 				Calendar c1 = Calendar.getInstance();
 				Date date = model.getDate();
 			
 				System.out.println(date);
-				System.out.println(date.getYear()+ "hallaaaaa");
 
 			
 					if(date != null){
@@ -336,10 +348,9 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 						c1.set(Calendar.HOUR_OF_DAY, timeI);
 						c1.set(Calendar.MINUTE, 00);
 					}
-					else{
-						c1.set(Calendar.HOUR_OF_DAY, timeI);
-						c1.set(Calendar.MINUTE, 00);
-					}
+					c1.set(Calendar.HOUR_OF_DAY, timeI);
+					c1.set(Calendar.MINUTE, 00);
+					
 			
 				
 
@@ -348,6 +359,17 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				
 				
 				
+			}
+			
+		});
+		
+		duration.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Object durationH = duration.getSelectedItem();
+				int durationHours = Integer.parseInt((String) durationH);
+				System.out.println(durationHours);
 			}
 			
 		});
