@@ -29,14 +29,20 @@ CREATE TABLE Employee (
 
 CREATE TABLE EmployeeGroup (
     id INT NOT NULL,
-    PRIMARY KEY(id),
+    PRIMARY KEY(id)
 );
 
 CREATE TABLE Subgroup (
    child_id INT NOT NULL,
    parent_id INT NOT NULL,
    CONSTRAINT FOREIGN KEY (child_id) REFERENCES EmployeeGroup(id),
-   CONSTRAINT FOREIGN KEY (parent_id) REFERENCES EmployeeGroup(id),
+   CONSTRAINT FOREIGN KEY (parent_id) REFERENCES EmployeeGroup(id)
+);
+
+CREATE TABLE Notification (
+    id INT NOT NULL AUTO_INCREMENT,
+    time DATETIME NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE Invitation (
@@ -46,15 +52,9 @@ CREATE TABLE Invitation (
     attending BOOLEAN,
     creator BOOLEAN NOT NULL,
     hidden BOOLEAN NOT NULL,
-    PRIMARY KEY (employee_id, appointment_id),
     CONSTRAINT FOREIGN KEY (employee_id) REFERENCES Employee(id),
     CONSTRAINT FOREIGN KEY (appointment_id) REFERENCES Appointment(id),
     CONSTRAINT FOREIGN KEY (notification_id) REFERENCES Notification(id)
-);
-
-CREATE TABLE Notification (
-    id INT NOT NULL AUTO_INCREMENT,
-    time DATETIME NOT NULL
 );
 
 INSERT INTO Employee (name, email, password) VALUES
