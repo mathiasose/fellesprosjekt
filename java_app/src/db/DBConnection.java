@@ -31,9 +31,10 @@ public class DBConnection {
 		return this.connection;
 	}
 
-	public static ResultSet getAppointments() {
+	public static ResultSet getAppointments(String email) {
+		int id = getEmployeeId(email);
 		try{
-			return query("select Appointment.* from Appointment, Employee, Invitation where Employee.id = Invitation.employee_id and Invitation.appointment_id = Appointment.id;");
+			return query("select Appointment.* from Appointment, Employee, Invitation where (Employee.id = "+id+") and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id)");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
