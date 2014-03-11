@@ -29,6 +29,7 @@ import addAppointment.GhostText;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import kalender.Main;
@@ -40,7 +41,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	public JTextArea appointmentDescription;
 	public JTextField participantEmail;
 	public JComboBox startTime, duration, room;
-	public JButton deleteAppointment, saveAppointment;
+	public JButton cancleAppointment, saveAppointment;
 	public static JButton addParticipant;
 	public JList participantList;
 	public GhostText ghostText;
@@ -90,7 +91,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		listModel = new DefaultListModel();
 		participantList = new JList(listModel); 
 		
-		deleteAppointment = new JButton("Delete");
+		cancleAppointment = new JButton("Cancle");
 		saveAppointment = new JButton("Save");
 		addParticipant = new JButton("Add Participant");
 		
@@ -136,12 +137,12 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		c.gridy++;
 		add(appointmentDescription,c);
 		
-		//delete appointmentbutton
+		//cancle appointmentbutton
 		c.insets = new Insets(7,7,7,7); 
 		c.ipady = 0;      //make this component default
 		c.gridy = 4;
 		c.gridwidth = 1;
-		add(deleteAppointment,c);
+		add(cancleAppointment,c);
 		
 		//save appointmentbutton
 		c.gridx=2;
@@ -183,7 +184,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 			}
 		});
 		
-		deleteAppointment.addActionListener(new ActionListener(){
+		cancleAppointment.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Main.cancleLink();
@@ -278,6 +279,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				java.util.Date t;
 				Date hei = null; 
 				
+				
 				try{
 					t = ft.parse(input);
 					System.out.println(t);
@@ -316,22 +318,33 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				System.out.println(startTime.getSelectedItem());
 				Object selTime = startTime.getSelectedItem();
 				String selectedTime = selTime.toString();
+				int timeI = Integer.parseInt(selectedTime);
 				
 				SimpleDateFormat tim = new SimpleDateFormat("HH");
 				Date s;
-				Date sT = null;
+				Calendar c1 = Calendar.getInstance();
+				Date date = model.getDate();
+			
+				System.out.println(date);
+				System.out.println(date.getYear()+ "hallaaaaa");
 
-				try{
-					s = tim.parse(selectedTime); 
-					System.out.println(s);
-					sT =s;
-					
-				} catch (ParseException e1){
-					System.out.println("unparseable" + tim );
-				}
+			
+					if(date != null){
+						c1.set(Calendar.YEAR, date.getYear()+1900);
+						c1.set(Calendar.MONTH, date.getMonth());
+						c1.set(Calendar.DAY_OF_MONTH, date.getDate());
+						c1.set(Calendar.HOUR_OF_DAY, timeI);
+						c1.set(Calendar.MINUTE, 00);
+					}
+					else{
+						c1.set(Calendar.HOUR_OF_DAY, timeI);
+						c1.set(Calendar.MINUTE, 00);
+					}
+			
 				
-				
-				model.setStartTime(sT);
+
+				System.out.println(c1.getTime());
+				model.setStartTime(c1);
 				
 				
 				
@@ -406,7 +419,6 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		if (changedProperty == "description"){
 			appointmentDescription.setText(model.getDescription());	
 			}	
-			
 
 		if (changedProperty == "location"){
 			appointmentLocation.setText(model.getLocation());		

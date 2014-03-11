@@ -74,8 +74,8 @@ public class KalenderView extends JTable implements ActionListener{
 		ButtonColumn buttonColumnOnsdag = new ButtonColumn(kalenderTable, showAppointment, 3);
 		ButtonColumn buttonColumnTorsdag = new ButtonColumn(kalenderTable, showAppointment, 4);
 		ButtonColumn buttonColumnFredag = new ButtonColumn(kalenderTable, showAppointment, 5);
-		ButtonColumn buttonColumnL¿rdag = new ButtonColumn(kalenderTable, showAppointment, 6);
-		ButtonColumn buttonColumnS¿ndag = new ButtonColumn(kalenderTable, showAppointment, 7);
+		ButtonColumn buttonColumnLordag = new ButtonColumn(kalenderTable, showAppointment, 6);
+		ButtonColumn buttonColumnSondag = new ButtonColumn(kalenderTable, showAppointment, 7);
 		
 		
 //		ukeNummer = new JTextField(3);
