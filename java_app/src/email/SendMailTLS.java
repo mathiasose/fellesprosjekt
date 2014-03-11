@@ -1,6 +1,8 @@
 package email;
 
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -11,16 +13,16 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import db.DBConnection;
 import model.Appointment;
 
 public class SendMailTLS {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 
-		final String username = "tintangtull@gmail.com";
-		final String password = "tingTangTull1337";
-		
-		
+		final String username = "vaginaknuser@gmail.com";
+		final String password = "5431offblast";
+				
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
