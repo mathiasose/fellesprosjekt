@@ -22,6 +22,8 @@ public class SendMailTLS {
 
 		final String username = "vaginaknuser@gmail.com";
 		final String password = "5431offblast";
+		
+		System.out.println(DBConnection.getAllRoomIDs());
 				
 
 		Properties props = new Properties();

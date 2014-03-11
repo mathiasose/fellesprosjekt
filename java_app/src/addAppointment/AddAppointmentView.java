@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import db.DBConnection;
 import email.EmailValidator;
 import model.Appointment;
 import addAppointment.GhostText;
@@ -30,6 +31,7 @@ import addAppointment.GhostText;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -41,7 +43,8 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	public JTextField appointmentLocation;
 	public JTextArea appointmentDescription;
 	public JTextField participantEmail;
-	public JComboBox startTime, duration, room;
+	public JComboBox startTime, duration;
+	public JComboBox room;
 	public JButton cancelAppointment, saveAppointment;
 	public static JButton addParticipant;
 	public JList participantList;
@@ -54,7 +57,8 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	
 	String[] time = {"00","01","02","03","04","05","06","07","08","09","10","11","22","23"};
 	String[] dur = {"1","2","3","4"};
-	String[] rooms = {"112", "113", "114"};
+	ArrayList<Integer> rooms = DBConnection.getAllRoomIDs(); 
+	Object[] room_ = rooms.toArray();  
 	String[] participant = {"tore","ken","jenny","mathias",};
 	
 	public AddAppointmentView(){
@@ -85,7 +89,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		duration.setEditable(true);
 		duration.setSelectedItem("Duration in hours");
 		
-		room = new JComboBox(rooms);
+		room = new JComboBox(room_);
 		room.setEditable(true);
 		room.setSelectedItem("Rooms available");
 		
