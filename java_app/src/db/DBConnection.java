@@ -32,6 +32,14 @@ public class DBConnection {
 	public static void getAppointment() {
 
 	}
+	
+	public void getRoom(String query){
+		try{
+			query("select * from Room");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	// ///////////////lager metode for å legge til appointment i
 	// DB//////////////////////
