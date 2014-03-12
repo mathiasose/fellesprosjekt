@@ -204,7 +204,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		cancelAppointment.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Main.cancleLink();
+				Main.cancelLink();
 				//System.exit(0); 
 			}
 		});
