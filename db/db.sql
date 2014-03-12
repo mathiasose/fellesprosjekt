@@ -11,10 +11,15 @@ CREATE TABLE Appointment (
     location VARCHAR(20),
     reservation INT,
     canceled BOOLEAN,
-    PRIMARY KEY (id),
-    CONSTRAINT FOREIGN KEY (reservation) REFERENCES Room(id)
+    PRIMARY KEY (id)
 );
 
+CREATE TABLE Reservation (
+    appointment_id INT NOT NULL,
+    room_id INT NOT NULL,
+    CONSTRAINT FOREIGN KEY (appointment_id) REFERENCES Appointment(id),
+    CONSTRAINT FOREIGN KEY (room_id) REFERENCES Room(id)
+);
 
 CREATE TABLE Employee (
     id INT NOT NULL AUTO_INCREMENT,
