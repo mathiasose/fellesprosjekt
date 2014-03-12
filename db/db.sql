@@ -9,7 +9,6 @@ CREATE TABLE Appointment (
     start_time DATETIME NOT NULL,
     duration TIME NOT NULL,
     location VARCHAR(20),
-    reservation INT,
     canceled BOOLEAN,
     PRIMARY KEY (id)
 );
