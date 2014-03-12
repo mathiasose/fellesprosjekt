@@ -79,6 +79,16 @@ public class DBConnection {
 		return rooms;
 	}
 	
+	
+	public static void addAppointment(String start_time, String duration, String location, String canceled){
+		try {
+			update("insert into Appointment(start_time, duration, location, canceled) values("+"'"+start_time+"'"+", " + "'"+duration+"'"+", " + "'"+location+"'"+", " + "'"+canceled+"'"+")");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 
 	// ///////////////lager metode for å legge til appointment i
 	// DB//////////////////////
