@@ -82,8 +82,8 @@ public class Main{
 		//HER MÅ VI VISE VALGTE DELTAGERES APPOINTMENTS!
 	}	
 
-//Cancle tilbake til KalenderView
-	public static void cancleLink(){
+//Cancel tilbake til KalenderView
+	public static void cancelLink(){
 		addAppointmentView.setVisible(false);
 		frame.add(kalender);
 		kalender.setVisible(true);

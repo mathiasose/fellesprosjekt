@@ -23,7 +23,13 @@ public class SendMailTLS {
 		final String username = "vaginaknuser@gmail.com";
 		final String password = "5431offblast";
 		
-		System.out.println(DBConnection.getAllRoomIDs());
+		System.out.println(DBConnection.getParticipantEmails(1));
+		
+		for (int i = 0; i < DBConnection.getParticipantEmails(1).size(); i++){
+			System.out.println(DBConnection.getParticipantEmails(1).get(i));
+			
+		}
+		
 				
 
 		Properties props = new Properties();
@@ -38,23 +44,27 @@ public class SendMailTLS {
 				return new PasswordAuthentication(username, password);
 			}
 		  });
+		
+		for (int i = 0; i < DBConnection.getParticipantEmails(1).size(); i++){
+			try {
 
-		try {
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress("kristofferringstaddahl@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(DBConnection.getParticipantEmails(1).get(i)));
+				message.setSubject("Appointment Invitation");
+				message.setText("Dear, " + DBConnection.getParticipantEmails(1).get(i) 
+					+ "\n\n You have been invited to an icecream-party. woopwoop");
 
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("kristofferringstaddahl@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("kensivalie@gmail.com"));
-			message.setSubject("Testing Subject");
-			message.setText("Dear Mail Crawler,"
-				+ "\n\n No spam to my email, please!");
+				Transport.send(message);
 
-			Transport.send(message);
+				System.out.println("Done");
 
-			System.out.println("Done");
-
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			} catch (MessagingException e) {
+				throw new RuntimeException(e);
+			}
+			
 		}
+
 	}
 }
