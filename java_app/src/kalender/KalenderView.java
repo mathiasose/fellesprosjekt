@@ -68,16 +68,37 @@ public class KalenderView extends JTable implements ActionListener{
 		//kalenderTable.setEnabled(false);
 		kalenderTable.setSize(800,500);
 		
+		
+//		Her gjør vi "alt" til knapper, vi vil heller bare gjøre utvalgte avtaler til knapper, altså de som er avtaler og ikke "tomme felter"/avtale med tekst slik det var uten button colloumn
+
+//Tester litt:
+		boolean tirsdagsAvtale = true;
+		boolean klokkaTi = true;
+		
 		pane = new JScrollPane(kalenderTable);
-		ButtonColumn buttonColumnMandag = new ButtonColumn(kalenderTable, showAppointment, 1);
+//		ButtonColumn buttonColumnMandag = new ButtonColumn(kalenderTable, showAppointment, 1);
+		
+		
+//		if (tirsdagsAvtale = true){
+//		JButton buttonTirsdagKlokkaTi = new JButton();
+		//kalenderTable.add(buttonTirsdagKlokkaTi, 1);
+					
+		buttonToTheTable(avtaler, 3, 5);
+
+	
+//					buttonTirsdagKlokkaTi);
+//			
+//		}
+		
+		
 		ButtonColumn buttonColumnTirsdag = new ButtonColumn(kalenderTable, showAppointment, 2);
-		ButtonColumn buttonColumnOnsdag = new ButtonColumn(kalenderTable, showAppointment, 3);
-		ButtonColumn buttonColumnTorsdag = new ButtonColumn(kalenderTable, showAppointment, 4);
-		ButtonColumn buttonColumnFredag = new ButtonColumn(kalenderTable, showAppointment, 5);
-		ButtonColumn buttonColumnLordag = new ButtonColumn(kalenderTable, showAppointment, 6);
-		ButtonColumn buttonColumnSondag = new ButtonColumn(kalenderTable, showAppointment, 7);
+//		ButtonColumn buttonColumnOnsdag = new ButtonColumn(kalenderTable, showAppointment, 3);
+//		ButtonColumn buttonColumnTorsdag = new ButtonColumn(kalenderTable, showAppointment, 4);
+//		ButtonColumn buttonColumnFredag = new ButtonColumn(kalenderTable, showAppointment, 5);
+//		ButtonColumn buttonColumnLordag = new ButtonColumn(kalenderTable, showAppointment, 6);
+//		ButtonColumn buttonColumnSondag = new ButtonColumn(kalenderTable, showAppointment, 7);
 		
-		
+		//Gir feil, vet ikke hva det er godt fo anyways:
 //		ukeNummer = new JTextField(3);
 //		ukeNummer.setEditable(false);
 //		ukeNummer.setText("10");
@@ -131,7 +152,6 @@ public class KalenderView extends JTable implements ActionListener{
 		
 	}
 	
-	
 	public static void main(String[] args) {
 		KalenderView kalender = new KalenderView();
 		JFrame frame = new JFrame("Kalender");
@@ -155,6 +175,17 @@ public class KalenderView extends JTable implements ActionListener{
 			Main.showOtherLink();
 	}
 
+	private void buttonToTheTable(Object[][] matrise, int row, int coloumn) {
+		System.out.println(matrise[row][coloumn]);
+		Object obj = matrise[row][coloumn];
+		
+		JButton appointmentTestButton = new JButton("TestAvtale");		
+		matrise[row][coloumn] = appointmentTestButton;
+
+//		JButton buttonTo = new JButton();
+//		add(buttonTo);
+	}
+	
 
 //KRISTOFFER END
 	
@@ -164,9 +195,14 @@ public class KalenderView extends JTable implements ActionListener{
 	{
 	    public void actionPerformed(ActionEvent e)
 	    {
-	        JTable kalenderTable = (JTable)e.getSource();
+	    	JTable kalenderTable = (JTable)e.getSource();
 	        int modelRow = Integer.valueOf( e.getActionCommand() );
-	        ((DefaultTableModel)kalenderTable.getModel()).removeRow(modelRow);
+	        System.out.println("EDIT APPOINTMENT, SOON!");
+	    	
+//Gav feilmelding, tredje neste linje:
+//	        JTable kalenderTable = (JTable)e.getSource();
+//	        int modelRow = Integer.valueOf( e.getActionCommand() );
+//	        ((DefaultTableModel)kalenderTable.getModel()).removeRow(modelRow);
 	    }
 	};
 }
