@@ -89,19 +89,33 @@ public class DBConnection {
 		
 	}
 	
+	public static void setParticipants(String employeeId, String appointmentId, String creator, String hidden){
+		try {
+			update("insert into Invitation (employee_id, appointment_id, creator, hidden) values("+"'"+employeeId+"', '"+appointmentId+"' , '"+creator+"', '"+hidden+"')");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static int getAppointmentID(){
+		try{
+			ResultSet rs = query("select Appointment.id from Appointment");
+			while(rs.next()){
+				return rs.getInt("id");
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+		
+	}
+	
+	
 
-	// ///////////////lager metode for å legge til appointment i
-	// DB//////////////////////
-
-//	public void addAppointment() {
-//		try {
-//			query("insert into Appointment(location) values('HAHAHAHAHHA')");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-	// /////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 
 	public static void update(String update) throws SQLException {
 		Statement stmt = connect().createStatement();
@@ -114,6 +128,7 @@ public class DBConnection {
 	}
 
 	public static void main(String[] args) {
+		setParticipants("3","5","0","0");
 		System.out.println(getParticipantEmails(1));
 	}
 }
