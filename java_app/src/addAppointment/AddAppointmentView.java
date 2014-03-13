@@ -57,7 +57,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	
 	String[] time = {"00","01","02","03","04","05","06","07","08","09","10","11","22","23"};
 	String[] dur = {"1","2","3","4"};
-	ArrayList<Integer> rooms = DBConnection.getAllRoomIDs(); 
+	ArrayList<Integer> rooms = DBConnection.selectAllRoomIDs(); 
 	Object[] room_ = rooms.toArray();  
 	String[] participant = {"tore","ken","jenny","mathias",};
 	
@@ -218,7 +218,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				
 				System.out.println(start_time);
 				
-				DBConnection.addAppointment(start_time, duration, location, canceled);
+				DBConnection.insertAppointment(start_time, duration, location, canceled);
 				
 				
 				
