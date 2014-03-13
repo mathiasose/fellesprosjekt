@@ -1,55 +1,167 @@
-'''
-KTN-project 2013 / 2014
-Very simple server implementation that should serve as a basis
-for implementing the chat server
-'''
-import SocketServer
 
-'''
-The RequestHandler class for our server.
-
-It is instantiated once per connection to the server, and must
-override the handle() method to implement communication to the
-client.
-'''
+import copy
+import socketserver
+import json
+import eventDispatcher, event
+import re
 
 
-class CLientHandler(SocketServer.BaseRequestHandler):
+class ClientHandler(socketserver.BaseRequestHandler):
+    
+    dispatcher = eventDispatcher.EventDispatcher()
+    
     def handle(self):
-        # Get a reference to the socket object
+        
+        self.event_dispatcher = self.dispatcher
         self.connection = self.request
-        # Get the remote ip adress of the socket
+        
         self.ip = self.client_address[0]
-        # Get the remote port number of the socket
         self.port = self.client_address[1]
-        print 'Client connected @' + self.ip + ':' + str(self.port)
-        # Wait for data from the client
-        data = self.connection.recv(1024).strip()
-        # Check if the data exists
-        # (recv could have returned due to a disconnect)
-        if data:
-            print data
-            # Return the string in uppercase
-            self.connection.sendall(data.upper())
+        
+        print ('Client connected @' + self.ip + ':' + str(self.port))
+        
+        while True:    
+            data = self.receive()
+            
+            if data['flag'] == 'disconnect':
+                backlog.saveMsg(data)
+                
+                print ('Client disconnected @' + self.ip + ':' + str(self.port))
+                
+                self.event_dispatcher.remove_event_listener(event.NEW, self.sendNew)
+                self.event_dispatcher.dispatch_event(event.Event(event.NEW, self))
+                
+                privateData = copy.deepcopy(data)
+                privateData['message'] = 'now exiting...'
+                self.sendData(privateData)
+                return
+            
+            elif data['flag'] == 'login':
+                if not userList.validUser(data['user']):
+                    
+                    privateData = copy.deepcopy(data)
+                    privateData['message'] = 'invalid username'
+                    self.sendData(privateData)
+                else:
+                    backlog.saveMsg(data)
+                    userList.saveUser(data['user'])
+                    
+                    privateData = copy.deepcopy(data)
+                    privateData['message'] = '[ ' + privateData['user'] + ' ] ' + 'Write \'exit\' or \'quit\' to log out'
+                    self.sendData(privateData)
+                    
+                    self.sendBacklog()
+                    
+                    self.event_dispatcher.dispatch_event(event.Event(event.NEW, self))
+                    self.event_dispatcher.add_event_listener(event.NEW, self.sendNew)
+            
+            else:
+                backlog.saveMsg(data)
+                
+                print (data['time'] + ' ' + data['user'] + ': ' + data['message'])
+                self.event_dispatcher.dispatch_event(event.Event(event.NEW, self))
+        
+    
+    def sendBacklog(self):
+        
+        msgs = backlog.getMsgs()
+        if not msgs:
+            return
+        
+        if len(msgs) <= 20:
+            for i in range(len(msgs)):
+                self.sendLog(i)
+            
         else:
-            print 'Client disconnected!'
+            for i in range((len(msgs)-20), len(msgs)):
+                self.sendLog(i)
+                
+                
+    def sendData(self, data):
+        if data:
+            data = json.dumps(data)
+            data = data.encode('utf-8')
+            self.connection.sendall(data)
+                
+    
+    def sendLog(self, i):
+        data = backlog.getMsg(i)
+        if data:
+            data = json.dumps(data)
+            data = data.encode('utf-8')
+            self.connection.sendall(data)
+    
+    
+    def sendNew(self):
+        data = backlog.getMsg(-1)
+        if data:
+            data = json.dumps(data)
+            data = data.encode('utf-8')
+            self.connection.sendall(data)
 
-'''
-This will make all Request handlers being called in its own thread.
-Very important, otherwise only one client will be served at a time
-'''
+
+    def receive(self):
+        received_data = self.connection.recv(1024)
+        received_data = received_data.decode('utf-8')
+        print('check')
+        received_data = json.loads(received_data)
+        return received_data
+                
 
 
-class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
+
+class Backlog():
+
+    def __init__(self):
+        self.__messages = []
+    
+    def getMsgs(self):
+        if self.__messages:
+            return self.__messages
+    
+    def getMsg(self, i):
+        if self.__messages:
+            return self.__messages[i]
+        
+    def saveMsg(self, msg):
+        self.__messages.append(msg)
+
+
+
+
+class Userlist():
+    
+    def __init__(self):
+        self.__users = []
+        
+    def getUser(self):
+        if self.__users:
+            return self.users
+        
+    def saveUser(self, user):
+        self.__users.append(user)
+        
+    def validUser(self, username):
+        if self.__users:
+            return (not username in self.__users and re.match('^[A-Za-z0-9_]*$', username))
+        else:
+            return(re.match('^[A-Za-z0-9_]*$', username))
+        
+        
+            
+
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
+
+
+
 
 if __name__ == "__main__":
     HOST = 'localhost'
-    PORT = 9999
-
-    # Create the server, binding to localhost on port 9999
-    server = ThreadedTCPServer((HOST, PORT), CLientHandler)
-
-    # Activate the server; this will keep running until you
-    # interrupt the program with Ctrl-C
+    PORT = 8088
+    
+    backlog = Backlog()
+    userList = Userlist()
+    server = ThreadedTCPServer((HOST, PORT), ClientHandler)
     server.serve_forever()
+    

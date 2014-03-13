@@ -26,6 +26,7 @@ import javax.swing.text.MaskFormatter;
 import db.DBConnection;
 import email.EmailValidator;
 import model.Appointment;
+import model.Room;
 import addAppointment.GhostText;
 
 import java.sql.*;
@@ -55,11 +56,10 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	
 	
 	
-	String[] time = {"00","01","02","03","04","05","06","07","08","09","10","11","22","23"};
+	String[] time = {"00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
 	String[] dur = {"1","2","3","4"};
 	ArrayList<Integer> rooms = DBConnection.selectAllRoomIDs(); 
 	Object[] room_ = rooms.toArray();  
-	String[] participant = {"tore","ken","jenny","mathias",};
 	
 	public AddAppointmentView(){
 		
@@ -216,9 +216,31 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				
 				String canceled = "0";
 				
-				System.out.println(start_time);
 				
-				DBConnection.insertAppointment(start_time, duration, location, canceled);
+				System.out.println(listModel.toString() + "LM");
+				
+				int room_idi = model.getMeetingRoom();				
+				String room_id = Integer.toString(room_idi);
+
+
+				
+				
+				
+				System.out.println(start_time + " " + duration);
+				
+				int appointmentIDi = DBConnection.insertAppointment(start_time, duration, location, canceled);
+				String appointmentID = Integer.toString(appointmentIDi); 
+				
+				System.out.println(appointmentID + " appointmentid");
+				
+				DBConnection.insertReservation(appointmentID, room_id);
+				
+				for (int i = 0; i < DBConnection.selectParticipantEmails(appointmentIDi).size(); i++){
+					String employeeId = DBConnection.selectParticipantEmails(appointmentIDi).get(i);
+					DBConnection.insertInvitation(employeeId, appointmentID, "0", "0");
+				}
+				
+				
 				
 				
 				
@@ -347,7 +369,13 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO 				
+				
+				Object roomid = room.getSelectedItem();
+				String room_IDS = roomid.toString();
+				int room_ID = Integer.parseInt(room_IDS);
+				
+				model.setMeetingRoom(room_ID);
+				
 			}
 			
 		});
@@ -398,6 +426,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				Object durationH = duration.getSelectedItem();
 				int durationHours = Integer.parseInt((String) durationH);
 				System.out.println(durationHours);
+				model.setDuration(durationHours);
 			}
 			
 		});

@@ -16,7 +16,7 @@ public class Appointment {
 	private Calendar startTime; 
 	private int duration;
 	private ArrayList<Invitation> participants;
-	private Room meetingRoom;
+	private int meetingRoom;
 	
 	private PropertyChangeSupport pcs;
 	
@@ -126,11 +126,11 @@ public class Appointment {
 	}
 
 
-	public Room getMeetingRoom() {
+	public int getMeetingRoom() {
 		return meetingRoom;
 	}
 
-	public void setMeetingRoom(Room meetingRoom) {
+	public void setMeetingRoom(int meetingRoom) {
 		this.meetingRoom = meetingRoom;
 	}
 

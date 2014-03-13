@@ -2,6 +2,7 @@ package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -20,9 +21,18 @@ public class DBConnection {
 		}
 	}
 
-	public static void update(String update) throws SQLException {
-		Statement stmt = connect().createStatement();
-		stmt.executeUpdate(update);
+	public static int update(String update) throws SQLException {
+		PreparedStatement stmt = connect().prepareStatement(update, Statement.RETURN_GENERATED_KEYS);
+		int effect = stmt.executeUpdate();
+		
+		if (effect == 0) {
+			return -1;
+		} else {
+			ResultSet generatedKeys = stmt.getGeneratedKeys();
+			generatedKeys.next();
+			System.out.println(generatedKeys);
+			return generatedKeys.getInt(1);
+		}
 	}
 
 	public static ResultSet query(String query) throws SQLException {
@@ -34,7 +44,7 @@ public class DBConnection {
 		try {
 			ResultSet rs = query("select last_insert_id()");
 			while (rs.next()) {
-				return rs.getInt("id");
+				return rs.getInt(1); 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -99,14 +109,13 @@ public class DBConnection {
 	public static int insertAppointment(String start_time, String duration,
 			String location, String canceled) {
 		try {
-			update("insert into Appointment(start_time, duration, location, canceled) values('"
+			return update("insert into Appointment(start_time, duration, location, canceled) values('"
 					+ start_time
 					+ "', '"
 					+ duration
 					+ "', '"
 					+ location
 					+ "', '" + canceled + "')");
-			return selectLastInsertID();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
