@@ -23,10 +23,10 @@ public class SendMailTLS {
 		final String username = "vaginaknuser@gmail.com";
 		final String password = "5431offblast";
 		
-		System.out.println(DBConnection.getParticipantEmails(1));
+		System.out.println(DBConnection.selectParticipantEmails(1));
 		
-		for (int i = 0; i < DBConnection.getParticipantEmails(1).size(); i++){
-			System.out.println(DBConnection.getParticipantEmails(1).get(i));
+		for (int i = 0; i < DBConnection.selectParticipantEmails(1).size(); i++){
+			System.out.println(DBConnection.selectParticipantEmails(1).get(i));
 			
 		}
 		
@@ -45,15 +45,15 @@ public class SendMailTLS {
 			}
 		  });
 		
-		for (int i = 0; i < DBConnection.getParticipantEmails(1).size(); i++){
+		for (int i = 0; i < DBConnection.selectParticipantEmails(1).size(); i++){
 			try {
 
 				Message message = new MimeMessage(session);
 				message.setFrom(new InternetAddress("kristofferringstaddahl@gmail.com"));
 				message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(DBConnection.getParticipantEmails(1).get(i)));
+					InternetAddress.parse(DBConnection.selectParticipantEmails(1).get(i)));
 				message.setSubject("Appointment Invitation");
-				message.setText("Dear, " + DBConnection.getParticipantEmails(1).get(i) 
+				message.setText("Dear, " + DBConnection.selectParticipantEmails(1).get(i) 
 					+ "\n\n You have been invited to an icecream-party. woopwoop");
 
 				Transport.send(message);

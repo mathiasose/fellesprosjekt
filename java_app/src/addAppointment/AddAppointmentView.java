@@ -57,7 +57,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 	
 	String[] time = {"00","01","02","03","04","05","06","07","08","09","10","11","22","23"};
 	String[] dur = {"1","2","3","4"};
-	ArrayList<Integer> rooms = DBConnection.getAllRoomIDs(); 
+	ArrayList<Integer> rooms = DBConnection.selectAllRoomIDs(); 
 	Object[] room_ = rooms.toArray();  
 	String[] participant = {"tore","ken","jenny","mathias",};
 	
@@ -198,6 +198,30 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println(model.toString());
+			
+				String start_time = null;
+				SimpleDateFormat sdfT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				start_time = sdfT.format(model.getStartTime().getTime());
+				
+				String date = null;
+				SimpleDateFormat sdfD = new SimpleDateFormat("dd-MM-yyyy");
+				date = sdfD.format(model.getDate());
+				
+				String duration = null;
+				duration = Integer.toString(model.getDuration());
+				
+				String location = model.getLocation();
+				
+				String descrip = model.getDescription();
+				
+				String canceled = "0";
+				
+				System.out.println(start_time);
+				
+				DBConnection.insertAppointment(start_time, duration, location, canceled);
+				
+				
+				
 			}
 		});
 		
