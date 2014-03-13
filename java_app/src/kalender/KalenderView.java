@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.CellRendererPane;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,7 +30,7 @@ public class KalenderView extends JTable implements ActionListener{
 	private JLabel ukeNummerLable, ukeNummer;
 	GregorianCalendar gc = new GregorianCalendar();
 	
-	Object[][] avtaler = {
+	static Object[][] avtaler = {
 		    {"06:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"}, 
 		    {"06:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"07:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
@@ -42,13 +43,13 @@ public class KalenderView extends JTable implements ActionListener{
 		    {"10:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"11:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"11:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"12:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"12:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
+		    {"12:00", "Avtale", new JButton(), "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
+		    {"12:30", "Avtale", "Avtale", "@", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"13:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"13:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"14:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"14:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"15:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
+		    {"15:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", new AppointmentCellRendererPane()},
 		    {"15:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"16:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"16:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
@@ -60,7 +61,6 @@ public class KalenderView extends JTable implements ActionListener{
 	
 	String[] ukedager = {"Tid", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "L¿rdag", "S¿ndag"};
 
-	
 	public KalenderView(){
 		
 		kalenderTable = new JTable(avtaler, ukedager);
@@ -161,6 +161,21 @@ public class KalenderView extends JTable implements ActionListener{
 		frame.pack();
 		frame.setSize(1000, 700);
 		frame.setVisible(true);
+		
+		
+
+		for(int i = 0; i < avtaler.length; i = i+1) {
+				for(int j = 0; j < avtaler.length; j = j+1) {
+					
+					String sjekk = avtaler[i][j].toString();
+					
+					if (sjekk.equals("@")){
+						System.out.println("orld");
+					}
+					
+					
+				}
+		}
 	}
 //KRISTOFFER START
 	public void actionPerformed(ActionEvent event) {
@@ -175,6 +190,7 @@ public class KalenderView extends JTable implements ActionListener{
 			Main.showOtherLink();
 	}
 
+//	skjer ikke noe synlig her...
 	private void buttonToTheTable(Object[][] matrise, int row, int coloumn) {
 		System.out.println(matrise[row][coloumn]);
 		Object obj = matrise[row][coloumn];
@@ -188,6 +204,10 @@ public class KalenderView extends JTable implements ActionListener{
 	
 
 //KRISTOFFER END
+	
+	
+	
+	
 	
 	
 	

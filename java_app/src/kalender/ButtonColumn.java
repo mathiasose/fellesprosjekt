@@ -42,7 +42,7 @@ public class ButtonColumn extends AbstractCellEditor
 	 *  @param action the Action to be invoked when the button is invoked
 	 *  @param column the column to which the button renderer/editor is added
 	 */
-	public ButtonColumn(JTable table, Action action, int column)
+	public ButtonColumn(JTable table, Action action, int column) //legge til int row her?
 	{
 		this.table = table;
 		this.action = action;
@@ -57,6 +57,13 @@ public class ButtonColumn extends AbstractCellEditor
 		TableColumnModel columnModel = table.getColumnModel();
 		columnModel.getColumn(column).setCellRenderer( this );
 		columnModel.getColumn(column).setCellEditor( this );
+		
+		//copy paste og erstatt column med row ?
+//		TableRowModel rowModel = table.getRowModel();
+//		rowModel.getRow(row).setCellRenderer( this );
+//		rowModel.getRow(row).setCellEditor( this );
+		
+		
 		table.addMouseListener( this );
 	}
 
@@ -101,7 +108,7 @@ public class ButtonColumn extends AbstractCellEditor
 
 	@Override
 	public Component getTableCellEditorComponent(
-		JTable table, Object value, boolean isSelected, int row, int column)
+		JTable table, Object value, boolean isSelected, int row, int column) //her er int row fra før!
 	{
 		if (value == null)
 		{
@@ -133,7 +140,7 @@ public class ButtonColumn extends AbstractCellEditor
 //  Implement TableCellRenderer interface
 //
 	public Component getTableCellRendererComponent(
-		JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+		JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) //her var det row fra før :O
 	{
 		if (isSelected)
 		{
