@@ -26,6 +26,7 @@ import javax.swing.text.MaskFormatter;
 import db.DBConnection;
 import email.EmailValidator;
 import model.Appointment;
+import model.Room;
 import addAppointment.GhostText;
 
 import java.sql.*;
@@ -218,12 +219,29 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				
 				System.out.println(listModel.toString() + "LM");
 				
+				int room_idi = model.getMeetingRoom();				
+				String room_id = Integer.toString(room_idi);
+
+
 				
 				
 				
 				System.out.println(start_time + " " + duration);
 				
-				DBConnection.insertAppointment(start_time, duration, location, canceled);
+				int appointmentIDi = DBConnection.insertAppointment(start_time, duration, location, canceled);
+				String appointmentID = Integer.toString(appointmentIDi); 
+				
+				System.out.println(appointmentID + " appointmentid");
+				
+				DBConnection.insertReservation(appointmentID, room_id);
+				
+				for (int i = 0; i < DBConnection.selectParticipantEmails(appointmentIDi).size(); i++){
+					String employeeId = DBConnection.selectParticipantEmails(appointmentIDi).get(i);
+					DBConnection.insertInvitation(employeeId, appointmentID, "0", "0");
+				}
+				
+				
+				
 				
 				
 			}
@@ -351,7 +369,13 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO 				
+				
+				Object roomid = room.getSelectedItem();
+				String room_IDS = roomid.toString();
+				int room_ID = Integer.parseInt(room_IDS);
+				
+				model.setMeetingRoom(room_ID);
+				
 			}
 			
 		});
