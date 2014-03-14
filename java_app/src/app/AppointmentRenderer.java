@@ -1,4 +1,4 @@
-package kalender;
+package app;
 
 import java.awt.Component;
 
@@ -7,9 +7,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-public class AvtaleRenderer implements TableCellRenderer{
+public class AppointmentRenderer implements TableCellRenderer{
 
-	public AvtaleRenderer(){
+	public AppointmentRenderer(){
 	
 	}
 		

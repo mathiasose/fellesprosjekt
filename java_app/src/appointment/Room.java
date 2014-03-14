@@ -1,4 +1,4 @@
-package addAppointment;
+package appointment;
 
 public class Room {
 

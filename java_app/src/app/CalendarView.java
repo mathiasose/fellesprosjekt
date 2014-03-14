@@ -1,4 +1,4 @@
-package kalender;
+package app;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 //la til action listener
-public class KalenderView extends JTable implements ActionListener{
+public class CalendarView extends JTable implements ActionListener{
 	
 	private JTable kalenderTable;
 	private JButton logoutButton, addAppointmentButton, showOtherButton;
@@ -61,7 +61,7 @@ public class KalenderView extends JTable implements ActionListener{
 	
 	String[] ukedager = {"Tid", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lï¿½rdag", "Sï¿½ndag"};
 
-	public KalenderView(){
+	public CalendarView(){
 		
 		kalenderTable = new JTable(avtaler, ukedager);
 		kalenderTable.setGridColor(Color.BLACK);
@@ -153,7 +153,7 @@ public class KalenderView extends JTable implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-		KalenderView kalender = new KalenderView();
+		CalendarView kalender = new CalendarView();
 		JFrame frame = new JFrame("Kalender");
 		//frame.getContentPane().add(new JScrollPane(kalenderTable),BorderLayout.CENTER);
 		frame.add(kalender);
@@ -190,7 +190,7 @@ public class KalenderView extends JTable implements ActionListener{
 				}
 		}
 	}
-//	Hvordan kan man gjøre et object eventuelt en streng til en knapp ?????????
+//	Hvordan kan man gjï¿½re et object eventuelt en streng til en knapp ?????????
 	public static void makeButton(Object obj){
 //		JButton buttonLizm = (JButton) obj;
 
@@ -199,13 +199,13 @@ public class KalenderView extends JTable implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		if(event.getSource() == addAppointmentButton){
-			Main.addApointmentLink();
+			App.addApointmentLink();
 		}
 		if(event.getSource() == logoutButton){
-			Main.logoutLink();
+			App.logoutLink();
 		}
 		if(event.getSource() == showOtherButton)
-			Main.showOtherLink();
+			App.showOtherLink();
 	}
 
 //	skjer ikke noe synlig her...

@@ -14,9 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import app.App;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
-import kalender.Main;
 
 public class LoginView extends JPanel implements KeyListener, ActionListener {
 
@@ -67,7 +67,7 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 
 			try {
 				if (DBConnection.tryLogin(getLoginEmail(), getLoginPassword())) {
-					Main.loginLink();
+					App.loginLink();
 				} else {
 					System.out
 					.println("her bør det komme en melding om at login var feil");

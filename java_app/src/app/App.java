@@ -1,17 +1,17 @@
-package kalender;
+package app;
 
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import addAppointment.AddAppointmentView;
+import appointment.AddAppointmentView;
 import login.LoginView;
 
-public class Main {
+public class App {
 
 	static LoginView login;
-	static KalenderView kalender;
+	static CalendarView kalender;
 	static AddAppointmentView addAppointmentView;
 	static JFrame frame;
 
@@ -19,7 +19,7 @@ public class Main {
 		frame = new JFrame("Coolendar");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		kalender = new KalenderView();
+		kalender = new CalendarView();
 		addAppointmentView = new AddAppointmentView();
 		login = new LoginView();
 
