@@ -161,23 +161,41 @@ public class KalenderView extends JTable implements ActionListener{
 		frame.pack();
 		frame.setSize(1000, 700);
 		frame.setVisible(true);
-		
+//KRISTOFFER START		
 		
 
 		for(int i = 0; i < avtaler.length; i = i+1) {
-				for(int j = 0; j < avtaler.length; j = j+1) {
+				for(int j = 1; j < avtaler[i].length; j = j+1) {
 					
+//					System.out.println(avtaler[i][j].toString());
+					
+					
+//					gir feil :/
 					String sjekk = avtaler[i][j].toString();
 					
+					
 					if (sjekk.equals("@")){
-						System.out.println("orld");
+						System.out.println("fant alfakroel :D  "+sjekk);
+						avtaler[i][j] = new JButton("KnappenErHer");
+						
+						
+//						javax.swing.JButton[,0,0,0x0,invalid,alignmentX=0.0,alignmentY=0.5,border=javax.swing.plaf.BorderUIResource$CompoundBorderUIResource@3ccccd19,flags=296,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,disabledSelectedIcon=,margin=javax.swing.plaf.InsetsUIResource[top=2,left=14,bottom=2,right=14],paintBorder=true,paintFocus=true,pressedIcon=,rolloverEnabled=true,rolloverIcon=,rolloverSelectedIcon=,selectedIcon=,text=3,defaultCapable=true]
+//						avtaler[i][j] = new JButton(String.valueOf(j));
+						
+						
+//						makeButton(avtaler[i][j]);
 					}
 					
 					
 				}
 		}
 	}
-//KRISTOFFER START
+//	Hvordan kan man gjøre et object eventuelt en streng til en knapp ?????????
+	public static void makeButton(Object obj){
+//		JButton buttonLizm = (JButton) obj;
+
+	}
+	
 	public void actionPerformed(ActionEvent event) {
 		// TODO Auto-generated method stub
 		if(event.getSource() == addAppointmentButton){
