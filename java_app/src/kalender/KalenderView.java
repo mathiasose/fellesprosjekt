@@ -10,14 +10,11 @@ import java.util.GregorianCalendar;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.CellRendererPane;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 //la til action listener
 public class KalenderView extends JTable implements ActionListener{
@@ -30,7 +27,7 @@ public class KalenderView extends JTable implements ActionListener{
 	private JLabel ukeNummerLable, ukeNummer;
 	GregorianCalendar gc = new GregorianCalendar();
 	
-	static Object[][] avtaler = {
+	static String[][] avtaler = {
 		    {"06:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"}, 
 		    {"06:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"07:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
@@ -43,13 +40,13 @@ public class KalenderView extends JTable implements ActionListener{
 		    {"10:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"11:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"11:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"12:00", "Avtale", new JButton(), "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
+		    {"12:00", "Avtale", " ", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"12:30", "Avtale", "Avtale", "@", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"13:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"13:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"14:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"14:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"15:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", new JButton()},
+		    {"15:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", " "},
 		    {"15:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"16:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"16:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
@@ -91,7 +88,7 @@ public class KalenderView extends JTable implements ActionListener{
 //		}
 		
 		
-		ButtonColumn buttonColumnTirsdag = new ButtonColumn(kalenderTable, showAppointment, 2);
+//		ButtonColumn buttonColumnTirsdag = new ButtonColumn(kalenderTable, showAppointment, 2);
 //		ButtonColumn buttonColumnOnsdag = new ButtonColumn(kalenderTable, showAppointment, 3);
 //		ButtonColumn buttonColumnTorsdag = new ButtonColumn(kalenderTable, showAppointment, 4);
 //		ButtonColumn buttonColumnFredag = new ButtonColumn(kalenderTable, showAppointment, 5);
@@ -162,36 +159,45 @@ public class KalenderView extends JTable implements ActionListener{
 		frame.setSize(1000, 700);
 		frame.setVisible(true);
 //KRISTOFFER START		
-		
-
+	    
 		for(int i = 0; i < avtaler.length; i = i+1) {
 				for(int j = 1; j < avtaler[i].length; j = j+1) {
 					
 //					System.out.println(avtaler[i][j].toString());
-					
-					
+		
 //					gir feil :/
 					String sjekk = avtaler[i][j].toString();
 					
-					
+//					String tag = "Avtale";
+		            JButton knapp = new JButton(sjekk);
+		            
+		            
 					if (sjekk.equals("@")){
 						System.out.println("fant alfakroel :D  "+sjekk);
-						avtaler[i][j] = new JButton("KnappenErHer");
+//						
 						
+						
+//						avtaler[i][j] = new JButton(avtaler[i][j]); 
+						
+						
+				
+						
+//						^-^
+//						JButton buttonVariable = (JButton)avtaler[i][j]; 
+//						add(buttonVariable);
 						
 //						javax.swing.JButton[,0,0,0x0,invalid,alignmentX=0.0,alignmentY=0.5,border=javax.swing.plaf.BorderUIResource$CompoundBorderUIResource@3ccccd19,flags=296,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,disabledSelectedIcon=,margin=javax.swing.plaf.InsetsUIResource[top=2,left=14,bottom=2,right=14],paintBorder=true,paintFocus=true,pressedIcon=,rolloverEnabled=true,rolloverIcon=,rolloverSelectedIcon=,selectedIcon=,text=3,defaultCapable=true]
-//						avtaler[i][j] = new JButton(String.valueOf(j));
+//						avtaler[i][j] = nEw JButton(String.valueOf(j));
 						
 						
 //						makeButton(avtaler[i][j]);
 					}
-					
-					
 				}
+				
 		}
 	}
 //	Hvordan kan man gjøre et object eventuelt en streng til en knapp ?????????
-	public static void makeButton(Object obj){
+	public static void makeButton(String obj){
 //		JButton buttonLizm = (JButton) obj;
 
 	}
@@ -209,12 +215,12 @@ public class KalenderView extends JTable implements ActionListener{
 	}
 
 //	skjer ikke noe synlig her...
-	private void buttonToTheTable(Object[][] matrise, int row, int coloumn) {
+	private void buttonToTheTable(String[][] matrise, int row, int coloumn) {
 		System.out.println(matrise[row][coloumn]);
-		Object obj = matrise[row][coloumn];
+		String obj = matrise[row][coloumn];
 		
 		JButton appointmentTestButton = new JButton("TestAvtale");		
-		matrise[row][coloumn] = appointmentTestButton;
+//		matrise[row][coloumn] = appointmentTestButton;
 
 //		JButton buttonTo = new JButton();
 //		add(buttonTo);
@@ -229,18 +235,17 @@ public class KalenderView extends JTable implements ActionListener{
 	
 	
 	
-	Action showAppointment = new AbstractAction()
-	{
-	    public void actionPerformed(ActionEvent e)
-	    {
-	    	JTable kalenderTable = (JTable)e.getSource();
-	        int modelRow = Integer.valueOf( e.getActionCommand() );
-	        System.out.println("EDIT APPOINTMENT, SOON!");
+//	Action showAppointment = new AbstractAction();
+//	{
+//	    public void actionPerformed(ActionEvent e)	    {
+//	    	JTable kalenderTable = (JTable)e.getSource();
+//	        int modelRow = Integer.valueOf( e.getActionCommand() );
+//	        System.out.println("EDIT APPOINTMENT, SOON!");
 	    	
 //Gav feilmelding, tredje neste linje:
 //	        JTable kalenderTable = (JTable)e.getSource();
 //	        int modelRow = Integer.valueOf( e.getActionCommand() );
 //	        ((DefaultTableModel)kalenderTable.getModel()).removeRow(modelRow);
-	    }
-	};
+////	    }
+//	};
 }
