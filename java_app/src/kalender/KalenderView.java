@@ -49,7 +49,7 @@ public class KalenderView extends JTable implements ActionListener{
 		    {"13:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"14:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"14:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"15:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", new AppointmentCellRendererPane()},
+		    {"15:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", new JButton()},
 		    {"15:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"16:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
 		    {"16:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
@@ -59,7 +59,7 @@ public class KalenderView extends JTable implements ActionListener{
 		    
 		};
 	
-	String[] ukedager = {"Tid", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "L¿rdag", "S¿ndag"};
+	String[] ukedager = {"Tid", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lï¿½rdag", "Sï¿½ndag"};
 
 	public KalenderView(){
 		
@@ -69,7 +69,7 @@ public class KalenderView extends JTable implements ActionListener{
 		kalenderTable.setSize(800,500);
 		
 		
-//		Her gjør vi "alt" til knapper, vi vil heller bare gjøre utvalgte avtaler til knapper, altså de som er avtaler og ikke "tomme felter"/avtale med tekst slik det var uten button colloumn
+//		Her gjï¿½r vi "alt" til knapper, vi vil heller bare gjï¿½re utvalgte avtaler til knapper, altsï¿½ de som er avtaler og ikke "tomme felter"/avtale med tekst slik det var uten button colloumn
 
 //Tester litt:
 		boolean tirsdagsAvtale = true;

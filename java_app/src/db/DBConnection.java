@@ -22,9 +22,10 @@ public class DBConnection {
 	}
 
 	public static int update(String update) throws SQLException {
-		PreparedStatement stmt = connect().prepareStatement(update, Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement stmt = connect().prepareStatement(update,
+				Statement.RETURN_GENERATED_KEYS);
 		int effect = stmt.executeUpdate();
-		
+
 		if (effect == 0) {
 			return -1;
 		} else {
@@ -39,12 +40,13 @@ public class DBConnection {
 		Statement stmt = connect().createStatement();
 		return stmt.executeQuery(query);
 	}
-	
-	private static int selectLastInsertID() {
+
+	private static int selectLastInsertID(Connection connection) {
 		try {
-			ResultSet rs = query("select last_insert_id()");
+			Statement stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("select last_insert_id()");
 			while (rs.next()) {
-				return rs.getInt(1); 
+				return rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -52,7 +54,33 @@ public class DBConnection {
 		return -1;
 	}
 
-	public static ResultSet selectAppointments(String email) {
+	public static int selectEmployeeId(String email)
+			throws EmailNotInDatabaseException {
+		try {
+			ResultSet rs = query("select Employee.id from Employee where Employee.email = '"
+					+ email + "'");
+			while (rs.next()) {
+				return rs.getInt("id");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		throw new EmailNotInDatabaseException();
+	}
+
+	public static boolean tryLogin(String email, String password)
+			throws SQLException, EmailNotInDatabaseException {
+		int id = selectEmployeeId(email);
+		ResultSet rs = query("select Employee.password from Employee where Employee.id = "
+				+ id);
+		while (rs.next()) {
+			return rs.getString("password").equals(password);
+		}
+		throw new EmailNotInDatabaseException();
+	}
+
+	public static ResultSet selectAppointments(String email)
+			throws EmailNotInDatabaseException {
 		int id = selectEmployeeId(email);
 		try {
 			return query("select Appointment.* from Appointment, Employee, Invitation where (Employee.id = "
@@ -77,19 +105,6 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 		return emails;
-	}
-
-	public static int selectEmployeeId(String email) {
-		try {
-			ResultSet rs = query("select Employee.id from Employee where Employee.email = "
-					+ email);
-			while (rs.next()) {
-				return rs.getInt("id");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return -1;
 	}
 
 	public static ArrayList<Integer> selectAllRoomIDs() {
@@ -136,7 +151,7 @@ public class DBConnection {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void insertReservation(String appointment_id, String room_id) {
 		try {
 			update("insert into Reservation (appointment_id, room_id) values('"
@@ -144,7 +159,7 @@ public class DBConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	// public static int selectAppointmentID() {

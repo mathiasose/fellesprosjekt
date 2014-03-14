@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,106 +14,92 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import db.DBConnection;
+import db.EmailNotInDatabaseException;
 import kalender.Main;
 
+public class LoginView extends JPanel implements KeyListener, ActionListener {
 
-public class LoginView extends JPanel implements KeyListener, ActionListener{
-	
 	private GridBagConstraints gbc;
-	private JTextField loginName, loginPassword;
-	private JLabel usernameLable, passwordLable;
+	private JTextField loginEmailField, loginPasswordField;
+	private JLabel loginEmailLabel, loginPasswordLabel;
 	public JButton loginButton;
-	public String emailVariabel; //emailen kalenderen tar utgangspunkt i
-	public String passwordVariabel; //emailen kalenderen tar utgangspunkt i
 
-	public LoginView(){
-		usernameLable = new JLabel("Username: ");
-		passwordLable = new JLabel("Password: ");
-		
-		loginName = new JTextField(20);
-		loginPassword = new JPasswordField(20);
-		
-		loginButton = new JButton("Login");
-		loginButton.addActionListener(this);
-		
-		gbc = new GridBagConstraints();
-		setLayout(new GridBagLayout());
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		
-		gbc.gridx = 0;
-        gbc.gridy = 0;
-        add(usernameLable, gbc);
-        
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        add(loginName, gbc);
-        
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        add(passwordLable, gbc);
-        
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        add(loginPassword, gbc);
-        
-        
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-		add(loginButton, gbc);
-	}
-	
-	public String getLoginName() {
-		 return emailVariabel; //emailVariabelen vi bruker videre
-	}
-
-	public void setLoginName(JTextField loginName) {
-		 emailVariabel = loginName.getText();
-//		this.loginName = loginName;
+	public String getLoginEmail() {
+		return loginEmailField.getText();
 	}
 
 	public String getLoginPassword() {
-		return passwordVariabel;
+		return loginPasswordField.getText();
 	}
-
-	public void setLoginPassword(JTextField loginPassword) {
-		passwordVariabel = loginPassword.getText();
-	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
-		if(event.getSource() == loginButton){
-			setLoginName(loginName);
-			setLoginPassword(loginPassword);//unødvendig trur eg - Kris
-			
-			System.out.println(getLoginName() + " "+ getLoginPassword());
-			/*(USER.EMAIL = denne email) AND
-			 * USER.PASSWORD = dette passord) så slipper man inn
-			 */
-			Main.loginLink();
+		if (event.getSource() == loginButton) {
+			System.out.println(getLoginEmail() + " " + getLoginPassword());
+
+			try {
+				if (DBConnection.tryLogin(getLoginEmail(), getLoginPassword())) {
+					Main.loginLink();
+				} else {
+					System.out
+					.println("her bÃ¸r det komme en melding om at login var feil");
+				}
+			} catch (SQLException e) {
+				// krÃ¦sj
+				e.printStackTrace();
+			} catch (EmailNotInDatabaseException e) {
+				System.out.println(e);
+			}
 		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
-	
-	
+
+	public LoginView() {
+		loginEmailLabel = new JLabel("Email: ");
+		loginPasswordLabel = new JLabel("Password: ");
+
+		loginEmailField = new JTextField(20);
+		loginPasswordField = new JPasswordField(20);
+
+		loginButton = new JButton("Login");
+		loginButton.addActionListener(this);
+
+		gbc = new GridBagConstraints();
+		setLayout(new GridBagLayout());
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		add(loginEmailLabel, gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		add(loginEmailField, gbc);
+
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		add(loginPasswordLabel, gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		add(loginPasswordField, gbc);
+
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		add(loginButton, gbc);
+	}
+
 }
