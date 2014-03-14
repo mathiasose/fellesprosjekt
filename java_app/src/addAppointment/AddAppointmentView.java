@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import db.DBConnection;
+import db.EmailNotInDatabaseException;
 import email.EmailValidator;
 import model.Appointment;
 import model.Room;
@@ -232,16 +233,28 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				String appointmentID = Integer.toString(appointmentIDi); 
 				
 				System.out.println(appointmentID + " appointmentid");
-				
+								
 				DBConnection.insertReservation(appointmentID, room_id);
 				
-				for (int i = 0; i < DBConnection.selectParticipantEmails(appointmentIDi).size(); i++){
-					String employeeId = DBConnection.selectParticipantEmails(appointmentIDi).get(i);
-					DBConnection.insertInvitation(employeeId, appointmentID, "0", "0");
+				for (int y =0; y < listModel.getSize(); y++){
+					Object participantEmailObj = listModel.getElementAt(y);
+					String participantEmail = participantEmailObj.toString();
+					
+					try {
+						int employeeIdi = DBConnection.selectEmployeeId(participantEmail);
+						String employeeId = Integer.toString(employeeIdi);
+						DBConnection.insertInvitation(employeeId, appointmentID, "0", "0"); 
+						
+					} catch (EmailNotInDatabaseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
 				}
 				
 				
-				
+				//vinduet lukkes og du tas tilbake til kalender
 				
 				
 			}
