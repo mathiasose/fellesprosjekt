@@ -20,10 +20,37 @@ import kalender.Main;
 
 public class LoginView extends JPanel implements KeyListener, ActionListener {
 
-	private GridBagConstraints gbc;
 	private JTextField loginEmailField, loginPasswordField;
 	private JLabel loginEmailLabel, loginPasswordLabel;
 	public JButton loginButton;
+
+	public LoginView() {
+		loginEmailLabel = new JLabel("Email: ");
+		loginPasswordLabel = new JLabel("Password: ");
+
+		loginEmailField = new JTextField(20);
+		loginPasswordField = new JPasswordField(20);
+
+		loginButton = new JButton("Login");
+		loginButton.addActionListener(this);
+
+		setLayout(new GridBagLayout());
+
+		add(loginEmailLabel, GBC(0, 0));
+		add(loginEmailField, GBC(1, 0));
+		add(loginPasswordLabel, GBC(0, 2));
+		add(loginPasswordField, GBC(1, 2));
+		add(loginButton, GBC(1, 3));
+	}
+
+	private static GridBagConstraints GBC(int x, int y) {
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = x;
+		gbc.gridy = y;
+		return gbc;
+	}
 
 	public String getLoginEmail() {
 		return loginEmailField.getText();
@@ -64,42 +91,6 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-	}
-
-	public LoginView() {
-		loginEmailLabel = new JLabel("Email: ");
-		loginPasswordLabel = new JLabel("Password: ");
-
-		loginEmailField = new JTextField(20);
-		loginPasswordField = new JPasswordField(20);
-
-		loginButton = new JButton("Login");
-		loginButton.addActionListener(this);
-
-		gbc = new GridBagConstraints();
-		setLayout(new GridBagLayout());
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		add(loginEmailLabel, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		add(loginEmailField, gbc);
-
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		add(loginPasswordLabel, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		add(loginPasswordField, gbc);
-
-		gbc.gridx = 1;
-		gbc.gridy = 3;
-		add(loginButton, gbc);
 	}
 
 }
