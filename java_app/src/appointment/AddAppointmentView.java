@@ -228,7 +228,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				
 				System.out.println(start_time + " " + duration);
 				
-				int appointmentIDi = DBConnection.insertAppointment(start_time, duration, location, canceled);
+				int appointmentIDi = DBConnection.insertAppointment(start_time, duration, location, descrip, canceled);
 				String appointmentID = Integer.toString(appointmentIDi); 
 				
 				System.out.println(appointmentID + " appointmentid");

@@ -161,7 +161,9 @@ public class DBConnection {
 	public static Appointment selectAppointmentInfo(int appointmentID){
 		Appointment appointment = new Appointment();
 		try {
+
 			ResultSet rs = query("select * from Appointment where Appointment.id=" +appointmentID);
+
 			while(rs.next()){
 				appointment.setLocation(rs.getString("location"));
 				appointment.setDuration(rs.getInt("duration"));
