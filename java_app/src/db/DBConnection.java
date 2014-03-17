@@ -161,13 +161,18 @@ public class DBConnection {
 	public static Appointment selectAppointmentInfo(int appointmentID){
 		Appointment appointment = new Appointment();
 		try {
-			ResultSet rs = query("select * from Appointment where Appointment.id" +appointmentID);
+			ResultSet rs = query("select * from Appointment where Appointment.id=" +appointmentID);
 			while(rs.next()){
 				appointment.setLocation(rs.getString("location"));
 				appointment.setDuration(rs.getInt("duration"));
 				appointment.setDescription(rs.getString("description"));
 				//appointment.setStartTime(rs.getDate("start_time"));
 			}
+			ResultSet rs2 = query("select Reservation.room_id from Reservation where Reservation.appointment_id=" +appointmentID);
+			while(rs2.next()){
+				appointment.setMeetingRoom(rs2.getInt("room_id"));
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
