@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import model.Appointment;
+
 public class DBConnection {
 
 	public static Connection connect() {
@@ -75,9 +77,9 @@ public class DBConnection {
 			throws EmailNotInDatabaseException {
 		int id = selectEmployeeId(email);
 		try {
-			return query("select Appointment.* from Appointment, Employee, Invitation where (Employee.id = "
+			return query("select Appointment.* from Appointment, Employee, Invitation where (Employee.id = '"
 					+ id
-					+ ") and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id)");
+					+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id)");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -153,15 +155,23 @@ public class DBConnection {
 		}
 	}
 	
-	public static ResultSet selectAppointmentInfo(int appointmentID){
+	public static Appointment selectAppointmentInfo(int appointmentID){
+		Appointment appointment = new Appointment();
 		try {
-			return query("select * from Appointment where Appointment.id" +appointmentID);
+			ResultSet rs = query("select * from Appointment where Appointment.id" +appointmentID);
+			while(rs.next()){
+				appointment.setLocation(rs.getString("location"));
+				appointment.setDuration(rs.getInt("duration"));
+				appointment.setDescription(rs.getString("description"));
+				//appointment.setStartTime(rs.getDate("start_time"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
-		
+		return appointment;
 	}
+	
+	
 	
 
 	// public static int selectAppointmentID() {
