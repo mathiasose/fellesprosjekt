@@ -116,15 +116,18 @@ public class DBConnection {
 	}
 
 	public static int insertAppointment(String start_time, String duration,
-			String location, String canceled) {
+			String location, String description, String canceled) {
 		try {
-			return update("insert into Appointment(start_time, duration, location, canceled) values('"
+			return update("insert into Appointment(start_time, duration, location, description, canceled) values('"
 					+ start_time
 					+ "', '"
 					+ duration
 					+ "', '"
 					+ location
-					+ "', '" + canceled + "')");
+					+ "', '" 
+					+description
+					+ "', '"
+					+ canceled + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
