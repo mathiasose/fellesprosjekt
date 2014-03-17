@@ -151,8 +151,18 @@ public class DBConnection {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
+	
+	public static ResultSet selectAppointmentInfo(int appointmentID){
+		try {
+			return query("select * from Appointment where Appointment.id" +appointmentID);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
 
 	// public static int selectAppointmentID() {
 	// try {
