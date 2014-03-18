@@ -9,6 +9,7 @@ CREATE TABLE Appointment (
     start_time DATETIME NOT NULL,
     duration TIME NOT NULL,
     location VARCHAR(20),
+    description VARCHAR(140),
     canceled BOOLEAN,
     PRIMARY KEY (id)
 );
@@ -71,4 +72,12 @@ CREATE TABLE Invitation (
 );
 
 INSERT INTO Employee (name, email, password) VALUES
+  ("Knut Knutsen", "test@epost.com", "hunter99");
+INSERT INTO Employee (name, email, password) VALUES
   ("Mathias Ose", "m@thiaso.se", "hunter2");
+INSERT INTO Employee (name, email, password) VALUES
+  ("Ken Lie", "kensivalie@gmail.com", "hunter6");
+insert into Appointment(start_time, duration, location) values
+    ('2014-06-18 12:00:00', '02:01:01', 'Scrum');
+insert into Appointment(start_time, duration, location) values
+    ('2014-11-18 12:00:00', '00:31:01', 'Meeting');
