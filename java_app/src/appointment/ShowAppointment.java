@@ -54,7 +54,7 @@ public class ShowAppointment extends AddAppointmentView {
 		super.appointmentDescription.setEditable(false);
 		
 		//super.startTime.setEditable(false);
-		super.startTime.setEnabled(false);
+		super.startHour.setEnabled(false);
 		
 		super.appointmentDate.setText(Date);		
 		super.appointmentDate.setEditable(false);

@@ -46,7 +46,7 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 	public JTextField appointmentLocation;
 	public JTextArea appointmentDescription;
 	public JTextField participantEmail;
-	public JComboBox startTime, duration;
+	public JComboBox startHour, startMin, duration;
 	public JComboBox room;
 	public JButton cancelAppointment, saveAppointment;
 	public static JButton addParticipant;
@@ -55,9 +55,15 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 	public DefaultListModel listModel;
 	private Appointment model = null;
 
-	String[] time = { "00", "01", "02", "03", "04", "05", "06", "07", "08",
-			"09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-			"20", "21", "22", "23" };
+	static final String[] hours = { "00", "01", "02", "03", "04", "05", "06",
+			"07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17",
+			"18", "19", "20", "21", "22", "23" };
+	static final String[] minutes = { "00", "01", "02", "03", "04", "05", "06",
+			"07", "08", "09", "10", "11", "12", "33", "14", "15", "16", "17",
+			"18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28",
+			"29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
+			"40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50",
+			"51", "52", "53", "54", "55", "56", "57", "68", "59" };
 	String[] dur = { "1", "2", "3", "4" };
 	ArrayList<Integer> rooms = DBConnection.selectAllRoomIDs();
 	Object[] room_ = rooms.toArray();
@@ -81,13 +87,17 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 		participantEmail = new JTextField(20);
 		ghostText = new GhostText(participantEmail, "Participant email");
 
-		startTime = new JComboBox(time);
-		startTime.setEditable(true);
-		startTime.setSelectedItem("Select start time");
+		startHour = new JComboBox(hours);
+		startHour.setEditable(true);
+		startHour.setSelectedItem("Hour");
+		
+		startMin = new JComboBox(minutes);
+		startMin.setEditable(true);
+		startMin.setSelectedItem("Minute");
 
 		duration = new JComboBox(dur);
 		duration.setEditable(true);
-		duration.setSelectedItem("Duration in hours");
+		duration.setSelectedItem("Duration");
 
 		room = new JComboBox(room_);
 		room.setEditable(true);
@@ -110,10 +120,15 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 		c.gridy = 0;
 		add(appointmentDate, c);
 
-		// starttime combobox
-		c.weightx = 0.5;
+		// starthour combobox
+		c.weightx = 0.25;
 		c.gridx++;
-		add(startTime, c);
+		add(startHour, c);
+
+		// startmin combobox
+		c.weightx = 0.25;
+		c.gridx++;
+		add(startMin, c);
 
 		// duration combobox
 		c.weightx = 0.5;
@@ -198,13 +213,15 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 
 				String start_time = null;
 
-				String sT = model.getStartTime().toLocaleString();
-
-				System.out.println(sT);
-
-				String d = model.getStartTime().toLocaleString();
-
-				String dateString = d + " " + sT;
+				String dateText = appointmentDate.getText();
+				String hourText = (String) startHour.getSelectedItem();
+				String minText = (String) startMin.getSelectedItem();
+				
+				System.out.println(dateText);
+				System.out.println(hourText);
+				System.out.println(minText);
+				
+				String dateString = dateText+" "+ hourText+":"+minText+":00";
 				String halla = null;
 
 				DateFormat inputdf = new SimpleDateFormat(
@@ -348,37 +365,37 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 
 		});
 
-		appointmentDate.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-
-				Timestamp input = Timestamp.valueOf(appointmentDate.getText());
-				System.out.println(input);
-
-				/*
-				 * Timestamp t; Timestamp hei = null;
-				 * 
-				 * t = Timestamp.valueOf(input); System.out.println(t); hei = t;
-				 */
-
-				model.setAppointmentTime(input);
-				System.out.println(model.getStartTime());
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
+//		appointmentDate.addKeyListener(new KeyListener() {
+//
+//			@Override
+//			public void keyPressed(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//
+//				Timestamp input = Timestamp.valueOf(appointmentDate.getText());
+//				System.out.println(input);
+//
+//				/*
+//				 * Timestamp t; Timestamp hei = null;
+//				 * 
+//				 * t = Timestamp.valueOf(input); System.out.println(t); hei = t;
+//				 */
+//
+//				model.setAppointmentTime(input);
+//				System.out.println(model.getStartTime());
+//			}
+//
+//			@Override
+//			public void keyTyped(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//
+//		});
 
 		room.addActionListener(new ActionListener() {
 
@@ -395,36 +412,36 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 
 		});
 
-		startTime.addActionListener(new ActionListener() {
+//		startHour.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//
+//				Object selTime = startHour.getSelectedItem();
+//				String selectedTime = selTime.toString();
+//
+//				Timestamp input = Timestamp.valueOf(appointmentDate.getText()
+//						+ selectedTime);
+//				System.out.println(input);
+//
+//				model.setAppointmentTime(input);
+//				System.out.println(model.getStartTime());
+//
+//			}
+//
+//		});
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-				Object selTime = startTime.getSelectedItem();
-				String selectedTime = selTime.toString();
-
-				Timestamp input = Timestamp.valueOf(appointmentDate.getText()
-						+ selectedTime);
-				System.out.println(input);
-
-				model.setAppointmentTime(input);
-				System.out.println(model.getStartTime());
-
-			}
-
-		});
-
-		duration.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Object durationH = duration.getSelectedItem();
-				int durationHours = Integer.parseInt((String) durationH);
-				System.out.println(durationHours);
-				model.setDuration(durationHours);
-			}
-
-		});
+//		duration.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				Object durationH = duration.getSelectedItem();
+//				int durationHours = Integer.parseInt((String) durationH);
+//				System.out.println(durationHours);
+//				model.setDuration(durationHours);
+//			}
+//
+//		});
 
 	}
 
