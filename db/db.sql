@@ -7,7 +7,7 @@ CREATE TABLE Room (
 CREATE TABLE Appointment (
     id INT NOT NULL AUTO_INCREMENT,
     start_time DATETIME NOT NULL,
-    duration TIME NOT NULL,
+    duration INT NOT NULL,
     location VARCHAR(20),
     description VARCHAR(140),
     canceled BOOLEAN,
