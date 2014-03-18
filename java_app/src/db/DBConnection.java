@@ -74,18 +74,24 @@ public class DBConnection {
 		throw new EmailNotInDatabaseException();
 	}
 
+	
+	
+	public static ArrayList<Appointment> selectAppointments(String email)
 //	finner avtalene som tilhører email parameteren:
-	public static ResultSet selectAppointments(String email)
 			throws EmailNotInDatabaseException {
+		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 		int id = selectEmployeeId(email);
 		try {
-			return query("select Appointment.* from Appointment, Employee, Invitation where (Employee.id = '"
+			ResultSet rs= query("select Appointment.* from Appointment, Employee, Invitation where (Employee.id = '"
 					+ id
-					+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id)");
+					+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id and week(start_time)=week(curdate()))");
+			while(rs.next()){
+				appointments.add(selectAppointmentInfo(rs.getInt("id")));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return appointments;
 	}
 
 	public static ArrayList<String> selectParticipantEmails(int appointmentID) {

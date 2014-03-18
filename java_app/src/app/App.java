@@ -25,8 +25,8 @@ public class App {
 
 		frame.add(login);
 
-		frame.setPreferredSize(new Dimension(800, 500));
-		frame.pack();
+		frame.setSize(new Dimension(1600, 800));
+//		frame.pack();
 		frame.setVisible(true);
 	}
 

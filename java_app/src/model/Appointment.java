@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.ArrayList;
 
 public class Appointment {
-	
+
 	private int eventID;
 	private User createdBy;
 	private String date;
@@ -31,57 +31,42 @@ public class Appointment {
 		location = loc;
 		date = dat; 
 		
-		
+
 		pcs = new PropertyChangeSupport(this);
-		
 	}
-	
 
+	public Appointment() {
 
-	public Appointment (){
-		
 	}
-	
-	
+
 	public int getEventID() {
 		return eventID;
 	}
-
-
 
 	public void setEventID(int eventID) {
 		this.eventID = eventID;
 	}
 
-
-
 	public User getCreatedBy() {
 		return createdBy;
 	}
-
-
 
 	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
-
-
 	public ArrayList<Invitation> getParticipants() {
 		return participants;
 	}
-
-
 
 	public void setParticipants(ArrayList<Invitation> participants) {
 		this.participants = participants;
 	}
 
-	
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
-	
+
 	public String toString() {
 		return description + " " + location + " " + date;
 	}
@@ -131,7 +116,6 @@ public class Appointment {
 		this.duration = duration;
 	}
 
-
 	public int getMeetingRoom() {
 		return meetingRoom;
 	}
@@ -139,7 +123,6 @@ public class Appointment {
 	public void setMeetingRoom(int meetingRoom) {
 		this.meetingRoom = meetingRoom;
 	}
-
 
 
 	public Timestamp getAppointmentTime() {
@@ -150,6 +133,12 @@ public class Appointment {
 
 	public void setAppointmentTime(Timestamp appointmentTime) {
 		this.appointmentTime = appointmentTime;
+		
+	}
+		
+	public boolean equals(Appointment that) {
+		return this.getEventID() == that.getEventID();
+
 	}
 
 }
