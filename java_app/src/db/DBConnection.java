@@ -1,6 +1,7 @@
 package db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -168,18 +169,8 @@ public class DBConnection {
 				appointment.setLocation(rs.getString("location"));
 				appointment.setDuration(rs.getInt("duration"));
 				appointment.setDescription(rs.getString("description"));
-				//appointment.setStartTime(rs.getTimestamp("start_time"));
-				
-				String temp = rs.getString("start_time");
-				
-				java.util.Date dt = new java.util.Date();
-				
-				java.text.SimpleDateFormat sdf = 
-					     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				appointment.setDate(rs.getDate("start_time"));
 
-					String dateTime = sdf.format(temp);
-				
-				
 			}
 			ResultSet rs2 = query("select Reservation.room_id from Reservation where Reservation.appointment_id=" +appointmentID);
 			while(rs2.next()){
