@@ -170,7 +170,7 @@ public class DBConnection {
 				appointment.setLocation(rs.getString("location"));
 				appointment.setDuration(rs.getInt("duration"));
 				appointment.setDescription(rs.getString("description"));
-				appointment.setDate(rs.getDate("start_time"));
+				appointment.setAppointmentTime(rs.getTimestamp("start_time"));
 
 			}
 			ResultSet rs2 = query("select Reservation.room_id from Reservation where Reservation.appointment_id=" +appointmentID);

@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -11,22 +12,24 @@ public class Appointment {
 	
 	private int eventID;
 	private User createdBy;
-	private Date date;
+	private String date;
 	private String description, location;
-	private Calendar startTime; 
+	private String startTime; 
 	private int duration;
 	private ArrayList<Invitation> participants;
 	private int meetingRoom;
 	
+	private Timestamp appointmentTime;
+	
 	private PropertyChangeSupport pcs;
 	
 	
-	public Appointment ( String des, String loc, Date dat){
+	public Appointment ( String des, String loc, String dat){
 		
 		
 		description  = des;
 		location = loc;
-		date = dat;
+		date = dat; 
 		
 		
 		pcs = new PropertyChangeSupport(this);
@@ -83,11 +86,11 @@ public class Appointment {
 		return description + " " + location + " " + date;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date hei) {
+	public void setDate(String hei) {
 		this.date = hei;
 	}
 
@@ -112,11 +115,11 @@ public class Appointment {
 		this.location = location;
 	}
 
-	public Calendar getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Calendar startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
@@ -135,6 +138,18 @@ public class Appointment {
 
 	public void setMeetingRoom(int meetingRoom) {
 		this.meetingRoom = meetingRoom;
+	}
+
+
+
+	public Timestamp getAppointmentTime() {
+		return appointmentTime;
+	}
+
+
+
+	public void setAppointmentTime(Timestamp appointmentTime) {
+		this.appointmentTime = appointmentTime;
 	}
 
 }

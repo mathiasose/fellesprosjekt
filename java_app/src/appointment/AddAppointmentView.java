@@ -32,6 +32,7 @@ import app.App;
 import appointment.GhostText;
 
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		c = new GridBagConstraints();
 		
 		
-		appointmentDate = new JFormattedTextField(createFormatter("## '.' ## '.' ####"));
+		appointmentDate = new JFormattedTextField(createFormatter("## '.' ## '.' ####" ));
 		//ghostText = new GhostText(appointmentDate, "DD.MM.YYYY");
 		
 		appointmentLocation = new JTextField(30);
@@ -200,12 +201,33 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				System.out.println(model.toString());
 			
 				String start_time = null;
-				SimpleDateFormat sdfT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				start_time = sdfT.format(model.getStartTime().getTime());
 				
-				String date = null;
-				SimpleDateFormat sdfD = new SimpleDateFormat("dd-MM-yyyy");
-				date = sdfD.format(model.getDate());
+				String sT = model.getStartTime()+":00:00";
+				
+				System.out.println(sT);
+				
+				String d = model.getDate();
+				
+				String dateString = d+" "+sT;
+				String halla = null;
+				
+				DateFormat inputdf = new SimpleDateFormat("dd . MM . yyyy HH:mm:ss");
+				try {
+					Date date = inputdf.parse(dateString);
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					halla = sdf.format(date);
+					model.setAppointmentTime(Timestamp.valueOf(halla));
+					System.out.println(halla);
+					start_time = halla;
+				} catch (ParseException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}			
+				
+											
+				
+				
+				System.out.println(model.getAppointmentTime().getTime());
 				
 				String duration = null;
 				duration = Integer.toString(model.getDuration());
@@ -348,24 +370,20 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				SimpleDateFormat ft = new SimpleDateFormat("dd . MM . yyyy");
 				
 				String input= appointmentDate.getText();
 				System.out.println(input);
-				java.util.Date t;
-				Date hei = null; 
+				
+				/*Timestamp t;
+				Timestamp hei = null; 
+				
+				t = Timestamp.valueOf(input);
+				System.out.println(t);
+				hei = t; */
 				
 				
-				try{
-					t = ft.parse(input);
-					System.out.println(t);
-					hei = t; 
-				} catch (ParseException e1){
-					System.out.println("unparseable" + ft);
-				}
 				
-				
-				model.setDate(hei); 
+				model.setDate(input); 
 				System.out.println(model.getDate());
 			}
 
@@ -401,29 +419,9 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				Object selTime = startTime.getSelectedItem();
 				String selectedTime = selTime.toString();
 				
-				int timeI = Integer.parseInt(selectedTime);
+				model.setStartTime(selectedTime);
 				
-				Calendar c1 = Calendar.getInstance();
-				Date date = model.getDate();
-			
-				System.out.println(date);
-
-			
-					if(date != null){
-						c1.set(Calendar.YEAR, date.getYear()+1900);
-						c1.set(Calendar.MONTH, date.getMonth());
-						c1.set(Calendar.DAY_OF_MONTH, date.getDate());
-						c1.set(Calendar.HOUR_OF_DAY, timeI);
-						c1.set(Calendar.MINUTE, 00);
-					}
-					c1.set(Calendar.HOUR_OF_DAY, timeI);
-					c1.set(Calendar.MINUTE, 00);
-					
-			
-				
-
-				System.out.println(c1.getTime());
-				model.setStartTime(c1);
+				System.out.println(model.getStartTime());
 				
 				
 				
