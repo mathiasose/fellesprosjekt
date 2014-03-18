@@ -1,4 +1,4 @@
-package kalender;
+package app;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -108,7 +108,7 @@ public class ButtonColumn extends AbstractCellEditor
 
 	@Override
 	public Component getTableCellEditorComponent(
-		JTable table, Object value, boolean isSelected, int row, int column) //her er int row fra før!
+		JTable table, Object value, boolean isSelected, int row, int column) //her er int row fra fï¿½r!
 	{
 		if (value == null)
 		{
@@ -140,7 +140,7 @@ public class ButtonColumn extends AbstractCellEditor
 //  Implement TableCellRenderer interface
 //
 	public Component getTableCellRendererComponent(
-		JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) //her var det row fra før :O
+		JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) //her var det row fra fï¿½r :O
 	{
 		if (isSelected)
 		{

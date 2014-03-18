@@ -22,18 +22,10 @@ public class DBConnection {
 	}
 
 	public static int update(String update) throws SQLException {
-		PreparedStatement stmt = connect().prepareStatement(update,
-				Statement.RETURN_GENERATED_KEYS);
-		int effect = stmt.executeUpdate();
-
-		if (effect == 0) {
-			return -1;
-		} else {
-			ResultSet generatedKeys = stmt.getGeneratedKeys();
-			generatedKeys.next();
-			System.out.println(generatedKeys);
-			return generatedKeys.getInt(1);
-		}
+		Connection connection = connect();
+		Statement stmt = connection.createStatement();
+		stmt.executeUpdate(update);
+		return selectLastInsertID(connection);
 	}
 
 	public static ResultSet query(String query) throws SQLException {

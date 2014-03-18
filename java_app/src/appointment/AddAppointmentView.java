@@ -1,4 +1,4 @@
-package addAppointment;
+package appointment;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,10 +24,12 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import db.DBConnection;
+import db.EmailNotInDatabaseException;
 import email.EmailValidator;
 import model.Appointment;
 import model.Room;
-import addAppointment.GhostText;
+import app.App;
+import appointment.GhostText;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -35,8 +37,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import kalender.Main;
 
 public class AddAppointmentView extends JPanel implements ActionListener, PropertyChangeListener {
 	
@@ -232,16 +232,28 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 				String appointmentID = Integer.toString(appointmentIDi); 
 				
 				System.out.println(appointmentID + " appointmentid");
-				
+								
 				DBConnection.insertReservation(appointmentID, room_id);
 				
-				for (int i = 0; i < DBConnection.selectParticipantEmails(appointmentIDi).size(); i++){
-					String employeeId = DBConnection.selectParticipantEmails(appointmentIDi).get(i);
-					DBConnection.insertInvitation(employeeId, appointmentID, "0", "0");
+				for (int y =0; y < listModel.getSize(); y++){
+					Object participantEmailObj = listModel.getElementAt(y);
+					String participantEmail = participantEmailObj.toString();
+					
+					try {
+						int employeeIdi = DBConnection.selectEmployeeId(participantEmail);
+						String employeeId = Integer.toString(employeeIdi);
+						DBConnection.insertInvitation(employeeId, appointmentID, "0", "0"); 
+						
+					} catch (EmailNotInDatabaseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
 				}
 				
 				
-				
+				//vinduet lukkes og du tas tilbake til kalender
 				
 				
 			}
@@ -250,7 +262,7 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		cancelAppointment.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Main.cancelLink();
+				App.cancelLink();
 				//System.exit(0); 
 			}
 		});
@@ -459,8 +471,8 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		Appointment model = new Appointment("Description", "Location", null);
 		
 		
-		//tanken var å lage rommene her, også legge det til i dropdownmenyen
-		// midlertidig løsning til db er oppe.
+		//tanken var ï¿½ lage rommene her, ogsï¿½ legge det til i dropdownmenyen
+		// midlertidig lï¿½sning til db er oppe.
 		//meeen vi klarer det ikke. 
 		
 		/*Room rom1 = new Room(112,20,true);
@@ -477,8 +489,8 @@ public class AddAppointmentView extends JPanel implements ActionListener, Proper
 		
 	}
 	
-	//gjør sånn at man bare kan skrive tall i Date-feltet
-	//med formatter får man ikke ghostText, så må ta et valg
+	//gjï¿½r sï¿½nn at man bare kan skrive tall i Date-feltet
+	//med formatter fï¿½r man ikke ghostText, sï¿½ mï¿½ ta et valg
 	protected MaskFormatter createFormatter(String s) {
 	    MaskFormatter formatter = null;
 	    try {
