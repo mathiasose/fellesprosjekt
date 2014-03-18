@@ -1,6 +1,7 @@
 package db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -169,6 +170,10 @@ public class DBConnection {
 				appointment.setDuration(rs.getInt("duration"));
 				appointment.setDescription(rs.getString("description"));
 				//appointment.setStartTime(rs.getDate("start_time"));
+				
+				Date time = rs.getDate("start_time");
+				
+				appointment.setDate(time);
 			}
 			ResultSet rs2 = query("select Reservation.room_id from Reservation where Reservation.appointment_id=" +appointmentID);
 			while(rs2.next()){
