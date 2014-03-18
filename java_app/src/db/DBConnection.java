@@ -121,7 +121,7 @@ public class DBConnection {
 			return update("insert into Appointment(start_time, duration, location, description, canceled) values('"
 					+ start_time
 					+ "', '"
-					+ duration
+					+ duration+"0000"
 					+ "', '"
 					+ location
 					+ "', '" 
