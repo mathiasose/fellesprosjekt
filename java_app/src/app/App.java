@@ -13,7 +13,7 @@ public class App {
 	static LoginView login;
 	static CalendarView kalender;
 	static AddAppointmentView addAppointmentView;
-	static JFrame frame;
+	public static JFrame frame;
 
 	public static void main(String[] args) {
 		frame = new JFrame("Coolendar");

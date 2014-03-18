@@ -1,6 +1,7 @@
 package db;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -73,6 +74,7 @@ public class DBConnection {
 		throw new EmailNotInDatabaseException();
 	}
 
+//	finner avtalene som tilhører email parameteren:
 	public static ResultSet selectAppointments(String email)
 			throws EmailNotInDatabaseException {
 		int id = selectEmployeeId(email);
@@ -121,7 +123,7 @@ public class DBConnection {
 			return update("insert into Appointment(start_time, duration, location, description, canceled) values('"
 					+ start_time
 					+ "', '"
-					+ duration
+					+ duration+"0000"
 					+ "', '"
 					+ location
 					+ "', '" 
@@ -168,7 +170,8 @@ public class DBConnection {
 				appointment.setLocation(rs.getString("location"));
 				appointment.setDuration(rs.getInt("duration"));
 				appointment.setDescription(rs.getString("description"));
-				//appointment.setStartTime(rs.getDate("start_time"));
+				appointment.setDate(rs.getDate("start_time"));
+
 			}
 			ResultSet rs2 = query("select Reservation.room_id from Reservation where Reservation.appointment_id=" +appointmentID);
 			while(rs2.next()){

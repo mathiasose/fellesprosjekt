@@ -76,9 +76,12 @@ public class Appointment {
 	}
 
 	public void setDescription(String description) {
-		String oldValue = this.description;
 		this.description = description;
+		
+		/*
+		String oldValue = this.description;
 		pcs.firePropertyChange("description", oldValue, description);
+		*/
 	}
 
 	public String getLocation() {

@@ -34,8 +34,8 @@ public class CalendarView extends JComponent {
 			day -= 1;
 		}
 		AppointmentPanel panel = new AppointmentPanel(appointment);
-//		panel.setSize(new Dimension(this.getWidth(), 100));
-//		panel.setMaximumSize(panel.getSize());
+		// panel.setSize(new Dimension(this.getWidth(), 100));
+		// panel.setMaximumSize(panel.getSize());
 		week[day].add(panel);
 	}
 
@@ -43,20 +43,22 @@ public class CalendarView extends JComponent {
 		JFrame frame = new JFrame("Kalender");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(new Dimension(1600, 800));
-//		frame.pack();
+		// frame.pack();
 		frame.setVisible(true);
 
 		CalendarView mainCal = new CalendarView();
 		mainCal.initTest();
 		frame.add(mainCal);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void initTest() {
-		Appointment testAppointment = new Appointment("1", "room", new java.util.Date(2014, 3, 17, 16, 0));
+		Appointment testAppointment = new Appointment("1", "room",
+				new java.util.Date(2014, 3, 17, 16, 0));
 		testAppointment.setEventID(42);
 		testAppointment.setDuration(60);
-		Appointment testAppointment2 = new Appointment("2", "room", new java.util.Date(2014, 3, 17, 12, 0));
+		Appointment testAppointment2 = new Appointment("2", "room",
+				new java.util.Date(2014, 3, 17, 12, 0));
 		testAppointment2.setEventID(43);
 		testAppointment2.setDuration(120);
 
