@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.sql.Timestamp;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -64,7 +65,7 @@ public class CalendarView extends JComponent {
 
 	private void addAppointment(Appointment appointment) {
 		@SuppressWarnings("deprecation")
-		int day = appointment.getDate().getDay();
+		int day = appointment.getStartTime().getDay();
 		if (day == 0) {
 			day = 6;
 		} else {
@@ -90,12 +91,10 @@ public class CalendarView extends JComponent {
 
 	@SuppressWarnings("deprecation")
 	private void initTest() {
-		Appointment testAppointment = new Appointment("1", "room",
-				new java.util.Date(2014, 3, 17, 16, 0));
+		Appointment testAppointment = new Appointment("1", "room", new Timestamp(2014, 3, 18, 12, 0, 0, 0));
 		testAppointment.setEventID(42);
 		testAppointment.setDuration(60);
-		Appointment testAppointment2 = new Appointment("2", "room",
-				new java.util.Date(2014, 3, 17, 12, 0));
+		Appointment testAppointment2 = new Appointment("2", "room", new Timestamp(2014, 3, 18, 16, 0, 0, 0));
 		testAppointment2.setEventID(43);
 		testAppointment2.setDuration(120);
 

@@ -38,7 +38,7 @@ public class ShowAppointment extends AddAppointmentView {
 		System.out.println(Duration + "dur");
 		
 
-		Timestamp date = DBConnection.selectAppointmentInfo(dbID).getAppointmentTime();
+		Timestamp date = DBConnection.selectAppointmentInfo(dbID).getStartTime();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
 		String Date = sdf.format(date);

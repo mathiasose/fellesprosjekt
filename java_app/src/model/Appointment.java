@@ -12,25 +12,20 @@ public class Appointment {
 
 	private int eventID;
 	private User createdBy;
-	private String date;
 	private String description, location;
-	private String startTime; 
 	private int duration;
 	private ArrayList<Invitation> participants;
 	private int meetingRoom;
-	
-	private Timestamp appointmentTime;
-	
+
+	private Timestamp startTime;
+
 	private PropertyChangeSupport pcs;
-	
-	
-	public Appointment ( String des, String loc, String dat){
-		
-		
-		description  = des;
+
+	public Appointment(String des, String loc, Timestamp dat) {
+
+		description = des;
 		location = loc;
-		date = dat; 
-		
+		startTime = dat;
 
 		pcs = new PropertyChangeSupport(this);
 	}
@@ -68,15 +63,7 @@ public class Appointment {
 	}
 
 	public String toString() {
-		return description + " " + location + " " + date;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String hei) {
-		this.date = hei;
+		return description + " " + location + " " + startTime;
 	}
 
 	public String getDescription() {
@@ -85,11 +72,11 @@ public class Appointment {
 
 	public void setDescription(String description) {
 		this.description = description;
-		
+
 		/*
-		String oldValue = this.description;
-		pcs.firePropertyChange("description", oldValue, description);
-		*/
+		 * String oldValue = this.description;
+		 * pcs.firePropertyChange("description", oldValue, description);
+		 */
 	}
 
 	public String getLocation() {
@@ -98,14 +85,6 @@ public class Appointment {
 
 	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	public String getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
 	}
 
 	public int getDuration() {
@@ -124,18 +103,15 @@ public class Appointment {
 		this.meetingRoom = meetingRoom;
 	}
 
-
-	public Timestamp getAppointmentTime() {
-		return appointmentTime;
+	public Timestamp getStartTime() {
+		return startTime;
 	}
-
-
 
 	public void setAppointmentTime(Timestamp appointmentTime) {
-		this.appointmentTime = appointmentTime;
-		
+		this.startTime = appointmentTime;
+
 	}
-		
+
 	public boolean equals(Appointment that) {
 		return this.getEventID() == that.getEventID();
 
