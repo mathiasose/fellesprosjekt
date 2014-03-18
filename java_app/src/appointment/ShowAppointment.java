@@ -13,6 +13,7 @@ public class ShowAppointment extends AddAppointmentView {
 	public ShowAppointment(){
 		
 		System.out.println("halla!");
+		
 		try {
 			System.out.println(DBConnection.selectAppointments("kensivalie@gmail.com"));
 		} catch (EmailNotInDatabaseException e) {

@@ -168,7 +168,18 @@ public class DBConnection {
 				appointment.setLocation(rs.getString("location"));
 				appointment.setDuration(rs.getInt("duration"));
 				appointment.setDescription(rs.getString("description"));
-				//appointment.setStartTime(rs.getDate("start_time"));
+				//appointment.setStartTime(rs.getTimestamp("start_time"));
+				
+				String temp = rs.getString("start_time");
+				
+				java.util.Date dt = new java.util.Date();
+				
+				java.text.SimpleDateFormat sdf = 
+					     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+					String dateTime = sdf.format(temp);
+				
+				
 			}
 			ResultSet rs2 = query("select Reservation.room_id from Reservation where Reservation.appointment_id=" +appointmentID);
 			while(rs2.next()){
