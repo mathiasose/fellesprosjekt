@@ -13,7 +13,7 @@ public class App {
 	static LoginView login;
 	static CalendarView kalender;
 	static AddAppointmentView addAppointmentView;
-	static JFrame frame;
+	public static JFrame frame;
 
 	public static void main(String[] args) {
 		frame = new JFrame("Coolendar");
@@ -25,8 +25,8 @@ public class App {
 
 		frame.add(login);
 
-		frame.setPreferredSize(new Dimension(800, 500));
-		frame.pack();
+		frame.setSize(new Dimension(1600, 800));
+//		frame.pack();
 		frame.setVisible(true);
 	}
 

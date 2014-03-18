@@ -1,15 +1,19 @@
 package login;
 
+//Man kan logge seg inn ved foreksempel putte inn : "m@thiaso.se" og "hunter2"
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -68,15 +72,18 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 			try {
 				if (DBConnection.tryLogin(getLoginEmail(), getLoginPassword())) {
 					App.loginLink();
-				} else {
-					System.out
-					.println("her bør det komme en melding om at login var feil");
+//					printer ut avtalene som tilh�rer brukeren:
+					System.out.println(getLoginEmail() + "'s Appointments: " + DBConnection.selectAppointments(getLoginEmail()));
+//					System.out.println(DBConnection.selectAppointments(getLoginEmail()).getString(1));
+					
 				}
 			} catch (SQLException e) {
 				// kræsj
 				e.printStackTrace();
 			} catch (EmailNotInDatabaseException e) {
 				System.out.println(e);
+				JOptionPane.showMessageDialog(App.frame,
+					    "Wrong user/password combination");
 			}
 		}
 	}

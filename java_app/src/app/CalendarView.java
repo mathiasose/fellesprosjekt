@@ -1,251 +1,106 @@
 package app;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.JPanel;
+
+import model.Appointment;
 
 //la til action listener
-public class CalendarView extends JTable implements ActionListener{
-	
-	private JTable kalenderTable;
-	private JButton logoutButton, addAppointmentButton, showOtherButton;
-	private GridBagConstraints gbc;
-	private JScrollPane pane;
-//	private JTextField ukeNummer;
-	private JLabel ukeNummerLable, ukeNummer;
-	GregorianCalendar gc = new GregorianCalendar();
-	
-	static String[][] avtaler = {
-		    {"06:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"}, 
-		    {"06:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"07:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"07:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"08:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"08:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"09:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"09:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"10:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"10:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"11:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"11:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"12:00", "Avtale", " ", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"12:30", "Avtale", "Avtale", "@", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"13:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"13:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"14:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"14:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"15:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", " "},
-		    {"15:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"16:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"16:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"17:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"17:30", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"},
-		    {"18:00", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale", "Avtale"}
-		    
-		};
-	
-	String[] ukedager = {"Tid", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "L�rdag", "S�ndag"};
+public class CalendarView extends JComponent {
+	private final DayPanel[] week = { new DayPanel("Mandag"),
+			new DayPanel("Tirsdag"), new DayPanel("Onsdag"),
+			new DayPanel("Torsdag"), new DayPanel("Fredag"),
+			new DayPanel("Lørdag"), new DayPanel("Søndag") };
 
-	public CalendarView(){
+	public CalendarView() {
+		JPanel topRow = new JPanel();
+		JPanel midRow = new JPanel();
+		JPanel botRow = new JPanel();
 		
-		kalenderTable = new JTable(avtaler, ukedager);
-		kalenderTable.setGridColor(Color.BLACK);
-		//kalenderTable.setEnabled(false);
-		kalenderTable.setSize(800,500);
+		this.setLayout(new BorderLayout());
+		this.add(topRow, BorderLayout.NORTH);
+		this.add(midRow, BorderLayout.CENTER);
+		this.add(botRow, BorderLayout.SOUTH);
 		
+		/* top row */
+		JPanel header = new JPanel();
 		
-//		Her gj�r vi "alt" til knapper, vi vil heller bare gj�re utvalgte avtaler til knapper, alts� de som er avtaler og ikke "tomme felter"/avtale med tekst slik det var uten button colloumn
-
-//Tester litt:
-		boolean tirsdagsAvtale = true;
-		boolean klokkaTi = true;
+		JLabel headerText = new JLabel("UKE ??");
+		headerText.setFont(new Font("Serif", Font.PLAIN, 32));
+		JButton prevWeekButton = new JButton("<");
+		JButton nextWeekButton = new JButton(">");
 		
-		pane = new JScrollPane(kalenderTable);
-//		ButtonColumn buttonColumnMandag = new ButtonColumn(kalenderTable, showAppointment, 1);
+		header.add(prevWeekButton);
+		header.add(headerText);
+		header.add(nextWeekButton);
 		
+		JButton logoutButton = new JButton("Logg ut");
 		
-//		if (tirsdagsAvtale = true){
-//		JButton buttonTirsdagKlokkaTi = new JButton();
-		//kalenderTable.add(buttonTirsdagKlokkaTi, 1);
-					
-		buttonToTheTable(avtaler, 3, 5);
-
-	
-//					buttonTirsdagKlokkaTi);
-//			
-//		}
+		topRow.setLayout(new BorderLayout());
+		topRow.add(header, BorderLayout.WEST);
+		topRow.add(logoutButton, BorderLayout.EAST);
 		
+		/* middle row */
+		midRow.setLayout(new GridLayout(1, 7));
+		for (DayPanel dp : week) {
+			midRow.add(dp);
+		}
 		
-//		ButtonColumn buttonColumnTirsdag = new ButtonColumn(kalenderTable, showAppointment, 2);
-//		ButtonColumn buttonColumnOnsdag = new ButtonColumn(kalenderTable, showAppointment, 3);
-//		ButtonColumn buttonColumnTorsdag = new ButtonColumn(kalenderTable, showAppointment, 4);
-//		ButtonColumn buttonColumnFredag = new ButtonColumn(kalenderTable, showAppointment, 5);
-//		ButtonColumn buttonColumnLordag = new ButtonColumn(kalenderTable, showAppointment, 6);
-//		ButtonColumn buttonColumnSondag = new ButtonColumn(kalenderTable, showAppointment, 7);
+		/* bottom row */
+		JButton addAppButton = new JButton("Legg til avtale");
+		JButton showOtherButton = new JButton("Vis andre");
 		
-		//Gir feil, vet ikke hva det er godt fo anyways:
-//		ukeNummer = new JTextField(3);
-//		ukeNummer.setEditable(false);
-//		ukeNummer.setText("10");
-		
-		ukeNummerLable = new JLabel("Uke:");
-		ukeNummer = new JLabel(""+gc.get(Calendar.WEEK_OF_YEAR));
-		
-		logoutButton = new JButton("Log out");
-		addAppointmentButton = new JButton("Add Appointment");
-		showOtherButton = new JButton("Show other");
-		
-		
-		addAppointmentButton.addActionListener(this);
-		logoutButton.addActionListener(this);
-		showOtherButton.addActionListener(this);
-		
-		gbc = new GridBagConstraints();
-		setLayout(new GridBagLayout());
-		gbc.anchor = GridBagConstraints.WEST;
-//		gbc.fill = GridBagConstraints.HORIZONTAL;
-		
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		add(ukeNummerLable, gbc);
-		
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		add(ukeNummer, gbc);
-		
-		gbc.gridx = 2;
-		gbc.gridy = 0;
-		gbc.anchor = GridBagConstraints.EAST;
-		add(logoutButton, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		gbc.gridwidth=3;
-		add(pane, gbc);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		add(showOtherButton, gbc);
-		
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		gbc.gridwidth=1;
-		add(addAppointmentButton, gbc);
-		
-		
-		
-		
+		botRow.add(addAppButton);
+		botRow.add(showOtherButton);
 	}
-	
+
+	private void addAppointment(Appointment appointment) {
+		@SuppressWarnings("deprecation")
+		int day = appointment.getDate().getDay();
+		if (day == 0) {
+			day = 6;
+		} else {
+			day -= 1;
+		}
+		AppointmentPanel panel = new AppointmentPanel(appointment);
+		// panel.setSize(new Dimension(this.getWidth(), 100));
+		// panel.setMaximumSize(panel.getSize());
+		week[day].add(panel);
+	}
+
 	public static void main(String[] args) {
-		CalendarView kalender = new CalendarView();
 		JFrame frame = new JFrame("Kalender");
-		//frame.getContentPane().add(new JScrollPane(kalenderTable),BorderLayout.CENTER);
-		frame.add(kalender);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setSize(1000, 700);
+		frame.setSize(new Dimension(1600, 800));
+		// frame.pack();
 		frame.setVisible(true);
-//KRISTOFFER START		
-	    
-		for(int i = 0; i < avtaler.length; i = i+1) {
-				for(int j = 1; j < avtaler[i].length; j = j+1) {
-					
-//					System.out.println(avtaler[i][j].toString());
-		
-//					gir feil :/
-					String sjekk = avtaler[i][j].toString();
-					
-//					String tag = "Avtale";
-		            JButton knapp = new JButton(sjekk);
-		            
-		            
-					if (sjekk.equals("@")){
-						System.out.println("fant alfakroel :D  "+sjekk);
-//						
-						
-						
-//						avtaler[i][j] = new JButton(avtaler[i][j]); 
-						
-						
-				
-						
-//						^-^
-//						JButton buttonVariable = (JButton)avtaler[i][j]; 
-//						add(buttonVariable);
-						
-//						javax.swing.JButton[,0,0,0x0,invalid,alignmentX=0.0,alignmentY=0.5,border=javax.swing.plaf.BorderUIResource$CompoundBorderUIResource@3ccccd19,flags=296,maximumSize=,minimumSize=,preferredSize=,defaultIcon=,disabledIcon=,disabledSelectedIcon=,margin=javax.swing.plaf.InsetsUIResource[top=2,left=14,bottom=2,right=14],paintBorder=true,paintFocus=true,pressedIcon=,rolloverEnabled=true,rolloverIcon=,rolloverSelectedIcon=,selectedIcon=,text=3,defaultCapable=true]
-//						avtaler[i][j] = nEw JButton(String.valueOf(j));
-						
-						
-//						makeButton(avtaler[i][j]);
-					}
-				}
-				
-		}
-	}
-//	Hvordan kan man gj�re et object eventuelt en streng til en knapp ?????????
-	public static void makeButton(Object obj){
-//		JButton buttonLizm = (JButton) obj;
 
-	}
-	
-	public void actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
-		if(event.getSource() == addAppointmentButton){
-			App.addApointmentLink();
-		}
-		if(event.getSource() == logoutButton){
-			App.logoutLink();
-		}
-		if(event.getSource() == showOtherButton)
-			App.showOtherLink();
+		CalendarView mainCal = new CalendarView();
+		mainCal.initTest();
+		frame.add(mainCal);
 	}
 
-//	skjer ikke noe synlig her...
-	private void buttonToTheTable(String[][] matrise, int row, int coloumn) {
-		System.out.println(matrise[row][coloumn]);
-		String obj = matrise[row][coloumn];
-		
-		JButton appointmentTestButton = new JButton("TestAvtale");		
-//		matrise[row][coloumn] = appointmentTestButton;
+	@SuppressWarnings("deprecation")
+	private void initTest() {
+		Appointment testAppointment = new Appointment("1", "room",
+				new java.util.Date(2014, 3, 17, 16, 0));
+		testAppointment.setEventID(42);
+		testAppointment.setDuration(60);
+		Appointment testAppointment2 = new Appointment("2", "room",
+				new java.util.Date(2014, 3, 17, 12, 0));
+		testAppointment2.setEventID(43);
+		testAppointment2.setDuration(120);
 
-//		JButton buttonTo = new JButton();
-//		add(buttonTo);
+		addAppointment(testAppointment);
+		addAppointment(testAppointment2);
 	}
-	
 
-//KRISTOFFER END
-	
-	
-	
-	
-	
-	
-	
-//	Action showAppointment = new AbstractAction();
-//	{
-//	    public void actionPerformed(ActionEvent e)	    {
-//	    	JTable kalenderTable = (JTable)e.getSource();
-//	        int modelRow = Integer.valueOf( e.getActionCommand() );
-//	        System.out.println("EDIT APPOINTMENT, SOON!");
-	    	
-//Gav feilmelding, tredje neste linje:
-//	        JTable kalenderTable = (JTable)e.getSource();
-//	        int modelRow = Integer.valueOf( e.getActionCommand() );
-//	        ((DefaultTableModel)kalenderTable.getModel()).removeRow(modelRow);
-////	    }
-//	};
 }

@@ -77,6 +77,7 @@ public class DBConnection {
 	
 	
 	public static ArrayList<Appointment> selectAppointments(String email)
+//	finner avtalene som tilhører email parameteren:
 			throws EmailNotInDatabaseException {
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 		int id = selectEmployeeId(email);
