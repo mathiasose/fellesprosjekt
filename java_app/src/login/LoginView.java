@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -68,15 +69,16 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 			try {
 				if (DBConnection.tryLogin(getLoginEmail(), getLoginPassword())) {
 					App.loginLink();
-				} else {
-					System.out
-					.println("her bÃ¸r det komme en melding om at login var feil");
+//					printer ut avtalene som tilhører brukeren:
+					System.out.println(DBConnection.selectAppointments(getLoginEmail()) +" er dette riktig resultset lokasjon? Hvordan får vi settet og ikke lokasjonen i såfall???");
 				}
 			} catch (SQLException e) {
 				// krÃ¦sj
 				e.printStackTrace();
 			} catch (EmailNotInDatabaseException e) {
 				System.out.println(e);
+				JOptionPane.showMessageDialog(App.frame,
+					    "Feil brukernavn/passordkombinasjon");
 			}
 		}
 	}
