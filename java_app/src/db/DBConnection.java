@@ -163,7 +163,7 @@ public class DBConnection {
 				appointment.setLocation(rs.getString("location"));
 				appointment.setDuration(rs.getInt("duration"));
 				appointment.setDescription(rs.getString("description"));
-				appointment.setDate(rs.getTimestamp("start_time"));
+				appointment.setAppointmentTime(rs.getTimestamp("start_time"));
 				appointment.setMeetingRoom(rs.getInt("room_id"));
 				//appointment.setParticipants();
 				

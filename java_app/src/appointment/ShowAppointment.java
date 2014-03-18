@@ -2,7 +2,8 @@ package appointment;
 
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,7 +23,7 @@ public class ShowAppointment extends AddAppointmentView {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		int dbID = 4;
+		int dbID = 5;
 		
 		DBConnection.selectAppointmentInfo(1);
 		
@@ -37,7 +38,7 @@ public class ShowAppointment extends AddAppointmentView {
 		System.out.println(Duration + "dur");
 		
 
-		Date date = DBConnection.selectAppointmentInfo(dbID).getDate();
+		Timestamp date = DBConnection.selectAppointmentInfo(dbID).getStartTime();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
 		String Date = sdf.format(date);
@@ -53,7 +54,7 @@ public class ShowAppointment extends AddAppointmentView {
 		super.appointmentDescription.setEditable(false);
 		
 		//super.startTime.setEditable(false);
-		super.startTime.setEnabled(false);
+		super.startHour.setEnabled(false);
 		
 		super.appointmentDate.setText(Date);		
 		super.appointmentDate.setEditable(false);
