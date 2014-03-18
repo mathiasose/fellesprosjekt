@@ -1,13 +1,15 @@
 package app;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
+import java.awt.Font;
 import java.awt.GridLayout;
-import java.sql.Date;
-import java.util.Calendar;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import model.Appointment;
 
@@ -19,10 +21,45 @@ public class CalendarView extends JComponent {
 			new DayPanel("Lørdag"), new DayPanel("Søndag") };
 
 	public CalendarView() {
-		setLayout(new GridLayout(1, 7));
+		JPanel topRow = new JPanel();
+		JPanel midRow = new JPanel();
+		JPanel botRow = new JPanel();
+		
+		this.setLayout(new BorderLayout());
+		this.add(topRow, BorderLayout.NORTH);
+		this.add(midRow, BorderLayout.CENTER);
+		this.add(botRow, BorderLayout.SOUTH);
+		
+		/* top row */
+		JPanel header = new JPanel();
+		
+		JLabel headerText = new JLabel("UKE ??");
+		headerText.setFont(new Font("Serif", Font.PLAIN, 32));
+		JButton prevWeekButton = new JButton("<");
+		JButton nextWeekButton = new JButton(">");
+		
+		header.add(prevWeekButton);
+		header.add(headerText);
+		header.add(nextWeekButton);
+		
+		JButton logoutButton = new JButton("Logg ut");
+		
+		topRow.setLayout(new BorderLayout());
+		topRow.add(header, BorderLayout.WEST);
+		topRow.add(logoutButton, BorderLayout.EAST);
+		
+		/* middle row */
+		midRow.setLayout(new GridLayout(1, 7));
 		for (DayPanel dp : week) {
-			add(dp);
+			midRow.add(dp);
 		}
+		
+		/* bottom row */
+		JButton addAppButton = new JButton("Legg til avtale");
+		JButton showOtherButton = new JButton("Vis andre");
+		
+		botRow.add(addAppButton);
+		botRow.add(showOtherButton);
 	}
 
 	private void addAppointment(Appointment appointment) {
