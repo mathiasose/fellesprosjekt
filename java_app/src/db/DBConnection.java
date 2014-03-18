@@ -73,6 +73,7 @@ public class DBConnection {
 		throw new EmailNotInDatabaseException();
 	}
 
+//	finner avtalene som tilhører email parameteren:
 	public static ResultSet selectAppointments(String email)
 			throws EmailNotInDatabaseException {
 		int id = selectEmployeeId(email);

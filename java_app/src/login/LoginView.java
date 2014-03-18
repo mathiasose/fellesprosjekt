@@ -1,11 +1,14 @@
 package login;
 
+//Man kan logge seg inn ved foreksempel putte inn : "m@thiaso.se" og "hunter2"
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -70,7 +73,9 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 				if (DBConnection.tryLogin(getLoginEmail(), getLoginPassword())) {
 					App.loginLink();
 //					printer ut avtalene som tilhører brukeren:
-					System.out.println(DBConnection.selectAppointments(getLoginEmail()) +" er dette riktig resultset lokasjon? Hvordan får vi settet og ikke lokasjonen i såfall???");
+					System.out.println(getLoginEmail() + "'s Appointments: " + DBConnection.selectAppointments(getLoginEmail()));
+//					System.out.println(DBConnection.selectAppointments(getLoginEmail()).getString(1));
+					
 				}
 			} catch (SQLException e) {
 				// krÃ¦sj
@@ -78,7 +83,7 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 			} catch (EmailNotInDatabaseException e) {
 				System.out.println(e);
 				JOptionPane.showMessageDialog(App.frame,
-					    "Feil brukernavn/passordkombinasjon");
+					    "Wrong user/password combination");
 			}
 		}
 	}
