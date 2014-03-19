@@ -2,11 +2,8 @@ package app;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,21 +19,17 @@ class DayPanel extends JPanel {
 		add(title);
 	}
 
-	@Override
-	public Component add(Component comp) {
+	public Component add(AppointmentPanel appointmentPanel) {
+		System.out.println(appointmentPanel.getModel());
 		for (Component c : this.getComponents()) {
-			if (c instanceof AppointmentPanel
-					&& comp instanceof AppointmentPanel) {
-				AppointmentPanel ap1 = (AppointmentPanel) c;
-				AppointmentPanel ap2 = (AppointmentPanel) comp;
-				if (ap1.equals(ap2)) {
+			if (c instanceof AppointmentPanel) {
+				AppointmentPanel existingAppointmentPanel = (AppointmentPanel) c;
+				if (existingAppointmentPanel.equals(appointmentPanel)) {
 					return null;
 				}
 			}
 		}
-
-		return super.add(comp);
-
+		return super.add(appointmentPanel);
 	}
 
 }

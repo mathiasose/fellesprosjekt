@@ -71,7 +71,9 @@ public class CalendarView extends JComponent {
 		
 		/* add aptmts */
 		try {
-			System.out.println(DBConnection.selectAppointments(session.getEmail()));
+			for (Appointment appointment : DBConnection.selectAppointments(session.getEmail())) {
+				addAppointment(appointment);
+			}
 		} catch (EmailNotInDatabaseException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
