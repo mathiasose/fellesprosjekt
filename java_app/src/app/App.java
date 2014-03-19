@@ -74,7 +74,7 @@ public class App {
 		
 		frame.add(showApp);
 		showApp.setVisible(true);
-		System.out.println("PLEASE INPUT INFORMATION ABOUT YOUR APPOINTMENT!");
+		System.out.println("PLEASE WATCH!");
 	}
 
 	// TRENGER FUNKSJONALITET HER ETTERHVERT

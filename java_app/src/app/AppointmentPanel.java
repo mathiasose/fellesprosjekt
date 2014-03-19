@@ -29,7 +29,7 @@ class AppointmentPanel extends JPanel {
 		
 		Dimension dim = new Dimension(getWidth(), getHeight());
 		System.out.println(dim);
-//		this.setVisible(true);
+		this.setVisible(true);
 	}
 
 	public boolean equals(AppointmentPanel appointmentPanel) {

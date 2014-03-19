@@ -84,6 +84,16 @@ public class CalendarView extends JComponent {
 			
 		});
 		
+		addAppButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				session.getAppInstance().goToAddApointment();
+				
+			}
+			
+		});
+		
 		
 		/* add aptmts */
 		try {
