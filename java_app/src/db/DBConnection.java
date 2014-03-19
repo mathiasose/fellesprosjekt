@@ -16,7 +16,7 @@ public class DBConnection {
 	public static Connection connect() throws SQLException {
 		String url = "jdbc:mysql://mysql.stud.ntnu.no/tornvall_felles";
 		String username = "tornvall_g3";
-		String password = "lol123abc";
+		String password = "123abc";
 		return DriverManager.getConnection(url, username, password);
 	}
 
