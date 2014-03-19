@@ -66,12 +66,18 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 			"40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50",
 			"51", "52", "53", "54", "55", "56", "57", "68", "59" };
 	String[] dur = { "1", "2", "3", "4" };
-	ArrayList<Integer> rooms = DBConnection.selectAllRoomIDs();
+	ArrayList<Integer> rooms;
 	Object[] room_ = rooms.toArray();
 	private UserSession session;
 
 	public AddAppointmentView(final UserSession session) {
 		this.session = session;
+		
+		try {
+			rooms = DBConnection.selectAllRoomIDs();
+		} catch (SQLException e3) {
+			session.getAppInstance().showMessageDialog("Could not talk to database. Are you sure you're connected to the internet?");
+		}
 
 		GridBagConstraints c;
 		setLayout(new GridBagLayout());
@@ -238,8 +244,7 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 					System.out.println(halla);
 					start_time = halla;
 				} catch (ParseException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
+					session.getAppInstance().showMessageDialog("Could not talk to database. Are you sure you're connected to the internet?");
 				}
 
 				System.out.println(model.getStartTime().getTime());
@@ -260,8 +265,13 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 
 				System.out.println(start_time + " " + duration);
 
-				int appointmentIDi = DBConnection.insertAppointment(start_time,
-						duration, location, descrip, canceled);
+				int appointmentIDi = 0;
+				try {
+					appointmentIDi = DBConnection.insertAppointment(start_time,
+							duration, location, descrip, canceled);
+				} catch (SQLException e1) {
+					session.getAppInstance().showMessageDialog("Could not talk to database. Are you sure you're connected to the internet?");
+				}
 				String appointmentID = Integer.toString(appointmentIDi);
 
 				System.out.println(appointmentID + " appointmentid");
@@ -282,6 +292,8 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 					} catch (EmailNotInDatabaseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (SQLException e) {
+						session.getAppInstance().showMessageDialog("Could not talk to database. Are you sure you're connected to the internet?");
 					}
 
 				}

@@ -23,14 +23,12 @@ public class App {
 		
 		frame = new JFrame("Coolendar");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		kalender = new CalendarView(session);
-		addAppointmentView = new AddAppointmentView(session);
+		
 		login = new LoginView(session);
-
 		frame.add(login);
 
 		frame.setSize(new Dimension(1600, 800));
+		
 		frame.setVisible(true);
 	}
 
@@ -40,9 +38,10 @@ public class App {
 
 	public void goToCalendar() {
 		login.setVisible(false);
+		
+		kalender = new CalendarView(session);
 		frame.add(kalender);
 		kalender.setVisible(true);
-		System.out.println("WELCOME!");
 	}
 
 	// log out fra kalender view
@@ -50,12 +49,13 @@ public class App {
 		session.end();
 		kalender.setVisible(false);
 		login.setVisible(true);
-		System.out.println("GOOD BYE!");
 	}
 
 	// Tar deg til AddAppointment Viewet
 	public void goToAddApointment() {
 		kalender.setVisible(false);
+		
+		addAppointmentView = new AddAppointmentView(session);
 		frame.add(addAppointmentView);
 		addAppointmentView.setVisible(true);
 		System.out.println("PLEASE INPUT INFORMATION ABOUT YOUR APPOINTMENT!");
