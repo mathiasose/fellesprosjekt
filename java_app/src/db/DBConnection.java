@@ -157,7 +157,6 @@ public class DBConnection {
 	}
 
 	
-	
 
 
 	
@@ -186,7 +185,6 @@ public class DBConnection {
 		}
 		return appointment;
 	}
-	
 	
 
 	// public static int selectAppointmentID() {

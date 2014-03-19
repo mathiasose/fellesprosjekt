@@ -1,4 +1,4 @@
-package appointment;
+package appointment; 
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -178,9 +178,9 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 		// jscrollpane containing participants
 		c.insets = new Insets(7, 7, 0, 7);
 		c.gridx = 3;
-		c.gridy = 0;
+		c.gridy = 1;
 		c.ipady = 40;
-		c.gridheight = 3;
+		c.gridheight = 2;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		add(new JScrollPane(participantList), c);
 

@@ -8,12 +8,17 @@ import java.sql.Timestamp;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import login.UserSession;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
 
 public class ShowAppointment extends AddAppointmentView {
 	
-	public ShowAppointment(){
+
+	public ShowAppointment(UserSession session){
+		
+		super(session);  
+
 		System.out.println("halla!");
 		
 		try {
@@ -24,7 +29,7 @@ public class ShowAppointment extends AddAppointmentView {
 		}
 		int dbID = 5;
 		
-		DBConnection.selectAppointmentInfo(1);
+		DBConnection.selectAppointmentInfo(dbID);
 		
 		System.out.println(DBConnection.selectAppointmentInfo(dbID));
 		
@@ -34,15 +39,20 @@ public class ShowAppointment extends AddAppointmentView {
 		
 		
 		
+		
+		
 		System.out.println(Duration + "dur");
 		
 
-		Timestamp date = DBConnection.selectAppointmentInfo(dbID).getStartTime();
+		Timestamp timeS = DBConnection.selectAppointmentInfo(dbID).getStartTime();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
-		String Date = sdf.format(date);
+		String Date = sdf.format(timeS);
 		
-		System.out.println(Date);
+		SimpleDateFormat sdf1 = new SimpleDateFormat("HH"); 
+		String startH = sdf1.format(timeS);
+		
+		System.out.println(startH);
 		
 		
 		
@@ -53,7 +63,8 @@ public class ShowAppointment extends AddAppointmentView {
 		super.appointmentDescription.setEditable(false);
 		
 		//super.startTime.setEditable(false);
-		super.startHour.setEnabled(false);
+		super.startHour.setEditable(false);
+		super.startHour.setSelectedItem(startH);
 		
 		super.appointmentDate.setText(Date);		
 		super.appointmentDate.setEditable(false);
@@ -67,14 +78,14 @@ public class ShowAppointment extends AddAppointmentView {
 	
 	
 	
-	public static void main(String[] args) {
-		ShowAppointment sa = new ShowAppointment();
-		JFrame frame = new JFrame ("showapp");
-		frame.getContentPane().add(sa);
-		frame.pack();
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-	}
+//	public static void main(String[] args) {
+//		ShowAppointment sa = new ShowAppointment();
+//		JFrame frame = new JFrame ("showapp");
+//		frame.getContentPane().add(sa);
+//		frame.pack();
+//		frame.setVisible(true);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		
+//	}
 	
 }
