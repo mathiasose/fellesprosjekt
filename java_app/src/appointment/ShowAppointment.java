@@ -14,7 +14,6 @@ import db.EmailNotInDatabaseException;
 public class ShowAppointment extends AddAppointmentView {
 	
 	public ShowAppointment(){
-		
 		System.out.println("halla!");
 		
 		try {
