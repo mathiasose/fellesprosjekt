@@ -1,4 +1,4 @@
-package login;
+package authentication;
 
 //Man kan logge seg inn ved foreksempel putte inn : "m@thiaso.se" og "hunter2"
 

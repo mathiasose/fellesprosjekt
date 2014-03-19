@@ -6,18 +6,19 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import appointment.AddAppointmentView;
-import appointment.ShowAppointment;
-import login.LoginView;
-import login.UserSession;
+import calendar.CalendarView;
+import appointment.NewAppointmentView;
+import appointment.AppointmentView;
+import authentication.LoginView;
+import authentication.UserSession;
 
 public class App {
 	
 	private UserSession session;
 	private JFrame frame;
 	private CalendarView kalender;
-	private AddAppointmentView addAppointmentView;
-	private ShowAppointment showApp;
+	private NewAppointmentView addAppointmentView;
+	private AppointmentView showApp;
 	private LoginView login;
 
 	public App() {
@@ -54,7 +55,7 @@ public class App {
 	// Tar deg til AddAppointment Viewet
 	public void goToAddApointment() {
 		kalender.setVisible(false);
-		addAppointmentView = new AddAppointmentView(session);
+		addAppointmentView = new NewAppointmentView(session);
 		frame.add(addAppointmentView);
 		addAppointmentView.setVisible(true);
 	}
@@ -62,7 +63,7 @@ public class App {
 	public void goToshowAppointment() {
 		kalender.setVisible(false); 
 		try {
-			showApp = new ShowAppointment(session);
+			showApp = new AppointmentView(session);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -130,7 +130,7 @@ public class DBConnection {
 		try {
 			ResultSet rs = query("select Appointment.*, Reservation.* from Appointment left join Reservation on Appointment.id = Reservation.appointment_id, Employee, Invitation where (Employee.id = '"
 					+ id
-					+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id) and (week(start_time)='"+weekNo+"')");
+					+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id) and (week(start_time)="+weekNo+")");
 			while (rs.next()) {
 				Appointment appointment = new Appointment();
 				appointment.setEventID(rs.getInt("id"));

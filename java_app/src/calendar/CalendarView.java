@@ -1,4 +1,4 @@
-package app;
+package calendar;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -13,9 +13,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import authentication.UserSession;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
-import login.UserSession;
 import model.Appointment;
 
 //la til action listener

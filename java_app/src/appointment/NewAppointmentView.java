@@ -26,11 +26,11 @@ import javax.swing.text.MaskFormatter;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
 import email.EmailValidator;
-import login.UserSession;
 import model.Appointment;
 import model.Room;
 import app.App;
 import appointment.GhostText;
+import authentication.UserSession;
 
 import java.sql.*;
 import java.text.DateFormat;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddAppointmentView extends JPanel implements ActionListener,
+public class NewAppointmentView extends JPanel implements ActionListener,
 		PropertyChangeListener {
 
 	public JFormattedTextField appointmentDate;
@@ -71,7 +71,7 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 	String[] room_ = {"yolo"}; 
 	private UserSession session;
 
-	public AddAppointmentView(final UserSession session) {
+	public NewAppointmentView(final UserSession session) {
 		this.session = session;
 		
 		try {

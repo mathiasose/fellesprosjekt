@@ -1,4 +1,4 @@
-package app;
+package calendar;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -14,9 +14,9 @@ class DayPanel extends JPanel {
 	public DayPanel(String dayName) {
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setBackground(Color.WHITE);
 		setBorder(BorderFactory.createLineBorder(Color.BLUE));
-		title = new JLabel(dayName);
-		add(title);
+		add(new JLabel(dayName));
 	}
 
 	public Component add(AppointmentPanel appointmentPanel) {

@@ -1,4 +1,4 @@
-package login;
+package authentication;
 
 import java.sql.SQLException;
 import app.App;

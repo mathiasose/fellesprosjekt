@@ -1,4 +1,4 @@
-package login;
+package authentication;
 
 public class LoginController{
 	

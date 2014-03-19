@@ -1,4 +1,4 @@
-package app;
+package calendar;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import model.Appointment;
 
-class AppointmentPanel extends JPanel {
+public class AppointmentPanel extends JPanel {
 	private Appointment model;
 
 	public AppointmentPanel(Appointment appointment) {

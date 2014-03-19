@@ -10,13 +10,13 @@ import java.sql.Timestamp;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import login.UserSession;
+import authentication.UserSession;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
 
-public class ShowAppointment extends AddAppointmentView {
+public class AppointmentView extends NewAppointmentView {
 	
-	public ShowAppointment(UserSession session) throws SQLException{
+	public AppointmentView(UserSession session) throws SQLException{
 		
 		super(session);  
 		
