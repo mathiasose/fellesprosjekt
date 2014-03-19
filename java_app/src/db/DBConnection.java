@@ -152,6 +152,7 @@ public class DBConnection {
 //	finner avtalene som tilhører email parameteren:
 			throws EmailNotInDatabaseException {
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+		ArrayList<Integer> participants = new ArrayList<Integer>();
 		int id = selectEmployeeId(email);
 		try {
 			ResultSet rs= query("select Appointment.*, Reservation.* from Appointment left join Reservation on Appointment.id = Reservation.appointment_id, Employee, Invitation where (Employee.id = '"
@@ -165,8 +166,14 @@ public class DBConnection {
 				appointment.setDescription(rs.getString("description"));
 				appointment.setAppointmentTime(rs.getTimestamp("start_time"));
 				appointment.setMeetingRoom(rs.getInt("room_id"));
-				//appointment.setParticipants();
 				
+				ResultSet rs2=query("select Invitation.* from Invitation left join Appointment on Invitation.appointment_id = Appointment.id where Appointment.id ="
+				+rs.getInt("id")
+				+"and Invitation.appointment_id ="+rs.getInt("id"));
+				while(rs2.next()){
+					participants.add(rs2.getInt("employee_id"));
+				}
+				appointment.setParticipants(participants);
 				appointments.add(appointment);
 				
 			}
@@ -176,33 +183,35 @@ public class DBConnection {
 		return appointments;
 	}
 	
+	
+
 
 	
-//	public static Appointment selectAppointmentInfo(int appointmentID){
-//		Appointment appointment = new Appointment();
-//		try {
-//
-//			ResultSet rs = query("select * from Appointment where Appointment.id=" +appointmentID);
-//
-//			while(rs.next()){
-//				appointment.setLocation(rs.getString("location"));
-//				appointment.setDuration(rs.getInt("duration"));
-//				appointment.setDescription(rs.getString("description"));
-//				appointment.setDate(rs.getDate("start_time"));
+	public static Appointment selectAppointmentInfo(int appointmentID){
+		Appointment appointment = new Appointment();
+		try {
+
+			ResultSet rs = query("select * from Appointment where Appointment.id=" +appointmentID);
+
+			while(rs.next()){
+				appointment.setLocation(rs.getString("location"));
+				appointment.setDuration(rs.getInt("duration"));
+				appointment.setDescription(rs.getString("description"));
+				appointment.setAppointmentTime(rs.getTimestamp("start_time"));
 //				appointment.setMeetingRoom();
 //				appointment.setParticipants();
-//
-//			}
-//			ResultSet rs2 = query("select Reservation.room_id from Reservation where Reservation.appointment_id=" +appointmentID);
-//			while(rs2.next()){
-//				appointment.setMeetingRoom(rs2.getInt("room_id"));
-//			}
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return appointment;
-//	}
+
+			}
+			ResultSet rs2 = query("select Reservation.room_id from Reservation where Reservation.appointment_id=" +appointmentID);
+			while(rs2.next()){
+				appointment.setMeetingRoom(rs2.getInt("room_id"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return appointment;
+	}
 	
 	
 	
