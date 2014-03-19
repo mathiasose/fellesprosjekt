@@ -29,7 +29,7 @@ class AppointmentPanel extends JPanel {
 		
 		Dimension dim = new Dimension(getWidth(), getHeight());
 		System.out.println(dim);
-		setVisible(true);
+//		this.setVisible(true);
 	}
 
 	public boolean equals(AppointmentPanel appointmentPanel) {
@@ -38,10 +38,14 @@ class AppointmentPanel extends JPanel {
 	
 	@Override
 	public int getHeight() {
-		return (int)(800*((double)getModel().getDuration()/(24*60)));
+		double duration = (double)getModel().getDuration();
+		if (duration == 0) {
+			duration = 120;
+		}
+		return (int)(800*(duration/(24*60)));
 	}
 
-	private Appointment getModel() {
+	public Appointment getModel() {
 		return model;
 	}
 

@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import db.DBConnection;
 import db.EmailNotInDatabaseException;
 import login.UserSession;
 import model.Appointment;
@@ -84,6 +85,15 @@ public class CalendarView extends JComponent {
 		});
 		
 		
+		/* add aptmts */
+		try {
+			for (Appointment appointment : DBConnection.selectAppointments(session.getEmail())) {
+				addAppointment(appointment);
+			}
+		} catch (EmailNotInDatabaseException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 

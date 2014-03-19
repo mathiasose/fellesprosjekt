@@ -9,7 +9,7 @@ import db.DBConnection;
 import db.EmailNotInDatabaseException;
 
 public class UserSession {
-	private String user;
+	private String email;
 	private boolean authenticated = false;
 	private App appInstance;
 
@@ -17,8 +17,8 @@ public class UserSession {
 		this.appInstance = app;
 	}
 
-	public String getUser() {
-		return user;
+	public String getEmail() {
+		return email;
 	}
 
 	public boolean isAuthenticated() {
@@ -28,7 +28,7 @@ public class UserSession {
 	public boolean authenticate(String loginEmail, String loginPassword)
 			throws EmailNotInDatabaseException, SQLException {
 		if (DBConnection.tryLogin(loginEmail, loginPassword)) {
-			this.user = loginEmail;
+			this.email = loginEmail;
 			this.authenticated = true;
 			return true;
 		}
@@ -36,7 +36,7 @@ public class UserSession {
 	}
 
 	public void end() {
-		this.user = null;
+		this.email = null;
 		this.authenticated = false;
 	}
 

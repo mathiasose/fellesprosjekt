@@ -102,7 +102,8 @@ public class DBConnection {
 	}
 
 	public static void insertInvitation(String employeeId,
-			String appointmentId, String creator, String hidden) throws SQLException {
+			String appointmentId, String creator, String hidden)
+			throws SQLException {
 		update("insert into Invitation (employee_id, appointment_id, creator, hidden) values('"
 				+ employeeId
 				+ "', '"
@@ -125,6 +126,7 @@ public class DBConnection {
 	// finner avtalene som tilh�rer email parameteren:
 			throws EmailNotInDatabaseException, SQLException {
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+		ArrayList<Integer> participants = new ArrayList<Integer>();
 		int id = selectEmployeeId(email);
 		try {
 			ResultSet rs = query("select Appointment.*, Reservation.* from Appointment left join Reservation on Appointment.id = Reservation.appointment_id, Employee, Invitation where (Employee.id = '"
@@ -132,7 +134,7 @@ public class DBConnection {
 					+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id and week(start_time)=week(curdate()))");
 			while (rs.next()) {
 				Appointment appointment = new Appointment();
-
+				appointment.setEventID(rs.getInt("id"));
 				appointment.setLocation(rs.getString("location"));
 				appointment.setDuration(rs.getInt("duration"));
 				appointment.setDescription(rs.getString("description"));
@@ -141,6 +143,14 @@ public class DBConnection {
 				appointment.setEventID(rs.getInt("id")); 
 				// appointment.setParticipants();
 
+				ResultSet rs2 = query("select Invitation.* from (Invitation left join Appointment on Invitation.appointment_id = Appointment.id)"
+						+ " where Appointment.id ="
+						+ rs.getInt("id")
+						+ " and Invitation.appointment_id =" + rs.getInt("id"));
+				while (rs2.next()) {
+					participants.add(rs2.getInt("employee_id"));
+				}
+				//appointment.setParticipants(participants);
 				appointments.add(appointment);
 
 			}
@@ -150,7 +160,6 @@ public class DBConnection {
 		return appointments;
 	}
 
-	
 
 	
 //	public static Appointment selectAppointmentInfo(int appointmentID){

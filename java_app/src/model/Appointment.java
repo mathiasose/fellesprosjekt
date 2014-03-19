@@ -14,7 +14,7 @@ public class Appointment {
 	private User createdBy;
 	private String description, location;
 	private int duration;
-	private ArrayList<Invitation> participants;
+	private ArrayList<Integer> participants;
 	private int meetingRoom;
 
 	private Timestamp startTime;
@@ -50,11 +50,11 @@ public class Appointment {
 		this.createdBy = createdBy;
 	}
 
-	public ArrayList<Invitation> getParticipants() {
+	public ArrayList<Integer> getParticipants() {
 		return participants;
 	}
 
-	public void setParticipants(ArrayList<Invitation> participants) {
+	public void setParticipants(ArrayList<Integer> participants) {
 		this.participants = participants;
 	}
 
