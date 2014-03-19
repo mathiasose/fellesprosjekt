@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import javax.swing.JButton;
@@ -12,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import db.DBConnection;
+import db.EmailNotInDatabaseException;
 import login.UserSession;
 import model.Appointment;
 
@@ -65,6 +68,14 @@ public class CalendarView extends JComponent {
 		
 		botRow.add(addAppButton);
 		botRow.add(showOtherButton);
+		
+		/* add aptmts */
+		try {
+			System.out.println(DBConnection.selectAppointments(session.getEmail()));
+		} catch (EmailNotInDatabaseException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void addAppointment(Appointment appointment) {
