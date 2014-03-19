@@ -26,9 +26,12 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 
 	private JTextField loginEmailField, loginPasswordField;
 	private JLabel loginEmailLabel, loginPasswordLabel;
-	public JButton loginButton;
+	private JButton loginButton;
+	private UserSession session;
 
-	public LoginView() {
+	public LoginView(UserSession session) {
+		this.session = session;
+		
 		loginEmailLabel = new JLabel("Email: ");
 		loginPasswordLabel = new JLabel("Password: ");
 
@@ -67,23 +70,12 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == loginButton) {
-			System.out.println(getLoginEmail() + " " + getLoginPassword());
-
 			try {
-				if (DBConnection.tryLogin(getLoginEmail(), getLoginPassword())) {
-					App.loginLink();
-//					printer ut avtalene som tilhører brukeren:
-					System.out.println(getLoginEmail() + "'s Appointments: " + DBConnection.selectAppointments(getLoginEmail()));
-//					System.out.println(DBConnection.selectAppointments(getLoginEmail()).getString(1));
-					
+				if (session.authenticate(getLoginEmail(), getLoginPassword())) {
+					session.getAppInstance().goToCalendar();
 				}
-			} catch (SQLException e) {
-				// krÃ¦sj
-				e.printStackTrace();
 			} catch (EmailNotInDatabaseException e) {
-				System.out.println(e);
-				JOptionPane.showMessageDialog(App.frame,
-					    "Wrong user/password combination");
+				session.getAppInstance().showMessageDialog("Wrong user/password combination");
 			}
 		}
 	}

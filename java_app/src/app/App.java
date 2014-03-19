@@ -1,5 +1,6 @@
 package app;
 
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -7,30 +8,37 @@ import javax.swing.JOptionPane;
 
 import appointment.AddAppointmentView;
 import login.LoginView;
+import login.UserSession;
 
 public class App {
+	
+	private UserSession session;
+	private JFrame frame;
+	private CalendarView kalender;
+	private AddAppointmentView addAppointmentView;
+	private LoginView login;
 
-	static LoginView login;
-	static CalendarView kalender;
-	static AddAppointmentView addAppointmentView;
-	public static JFrame frame;
-
-	public static void main(String[] args) {
+	public App() {
+		session = new UserSession(this);
+		
 		frame = new JFrame("Coolendar");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		kalender = new CalendarView();
-		addAppointmentView = new AddAppointmentView();
-		login = new LoginView();
+		kalender = new CalendarView(session);
+		addAppointmentView = new AddAppointmentView(session);
+		login = new LoginView(session);
 
 		frame.add(login);
 
 		frame.setSize(new Dimension(1600, 800));
-//		frame.pack();
 		frame.setVisible(true);
 	}
 
-	public static void loginLink() {
+	public static void main(String[] args) {
+		new App();
+	}
+
+	public void goToCalendar() {
 		login.setVisible(false);
 		frame.add(kalender);
 		kalender.setVisible(true);
@@ -38,14 +46,15 @@ public class App {
 	}
 
 	// log out fra kalender view
-	public static void logoutLink() {
+	public void logoutAndGoToLogin() {
+		session.end();
 		kalender.setVisible(false);
 		login.setVisible(true);
 		System.out.println("GOOD BYE!");
 	}
 
 	// Tar deg til AddAppointment Viewet
-	public static void addApointmentLink() {
+	public void goToAddApointment() {
 		kalender.setVisible(false);
 		frame.add(addAppointmentView);
 		addAppointmentView.setVisible(true);
@@ -53,7 +62,7 @@ public class App {
 	}
 
 	// TRENGER FUNKSJONALITET HER ETTERHVERT
-	public static void showOtherLink() {
+	public void goToshowOther() {
 		// JOptionPane.showMessageDialog(frame,
 		// "We will implement this as soon as we can! SORRY >_<",
 		// "Comming this Spring",
@@ -71,11 +80,15 @@ public class App {
 	}
 
 	// Cancel tilbake til KalenderView
-	public static void cancelLink() {
+	public void cancelAddAppointment() {
 		addAppointmentView.setVisible(false);
 		frame.add(kalender);
 		kalender.setVisible(true);
 		System.out.println("APPOINTMENT MAKING WAS CANCELED");
+	}
+
+	public void showMessageDialog(String msg) {
+		JOptionPane.showMessageDialog(frame, msg);
 	}
 
 }
