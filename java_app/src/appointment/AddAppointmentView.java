@@ -26,6 +26,7 @@ import javax.swing.text.MaskFormatter;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
 import email.EmailValidator;
+import login.UserSession;
 import model.Appointment;
 import model.Room;
 import app.App;
@@ -67,8 +68,10 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 	String[] dur = { "1", "2", "3", "4" };
 	ArrayList<Integer> rooms = DBConnection.selectAllRoomIDs();
 	Object[] room_ = rooms.toArray();
+	private UserSession session;
 
-	public AddAppointmentView() {
+	public AddAppointmentView(final UserSession session) {
+		this.session = session;
 
 		GridBagConstraints c;
 		setLayout(new GridBagLayout());
@@ -291,7 +294,7 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 		cancelAppointment.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				App.cancelLink();
+				session.getAppInstance().cancelAddAppointment();
 				// System.exit(0);
 			}
 		});
@@ -459,28 +462,28 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 		return model;
 	}
 
-	public static void main(String[] args) {
-		AddAppointmentView addAppointment = new AddAppointmentView();
-		JFrame frame = new JFrame("hallaa");
-		frame.getContentPane().add(addAppointment);
-		frame.pack();
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		Appointment model = new Appointment("Description", "Location", null);
-
-		// tanken var � lage rommene her, ogs� legge det til i dropdownmenyen
-		// midlertidig l�sning til db er oppe.
-		// meeen vi klarer det ikke.
-
-		/*
-		 * Room rom1 = new Room(112,20,true); Room rom2 = new Room(113,10,true);
-		 * Room rom3 = new Room(114,30,true);
-		 */
-
-		addAppointment.setModel(model);
-
-	}
+//	public static void main(String[] args) {
+//		AddAppointmentView addAppointment = new AddAppointmentView();
+//		JFrame frame = new JFrame("hallaa");
+//		frame.getContentPane().add(addAppointment);
+//		frame.pack();
+//		frame.setVisible(true);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//		Appointment model = new Appointment("Description", "Location", null);
+//
+//		// tanken var � lage rommene her, ogs� legge det til i dropdownmenyen
+//		// midlertidig l�sning til db er oppe.
+//		// meeen vi klarer det ikke.
+//
+//		/*
+//		 * Room rom1 = new Room(112,20,true); Room rom2 = new Room(113,10,true);
+//		 * Room rom3 = new Room(114,30,true);
+//		 */
+//
+//		addAppointment.setModel(model);
+//
+//	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
