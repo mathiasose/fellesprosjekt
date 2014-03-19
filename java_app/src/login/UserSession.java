@@ -20,21 +20,17 @@ public class UserSession {
 	public String getUser() {
 		return user;
 	}
-	
+
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
 
-	public boolean authenticate(String loginEmail, String loginPassword) throws EmailNotInDatabaseException {
-		try {
-			if (DBConnection.tryLogin(loginEmail, loginPassword)) {
-				this.user = loginEmail;
-				this.authenticated = true;
-				return true;
-			}
-		} catch (SQLException e) {
-			// kræsj
-			e.printStackTrace();
+	public boolean authenticate(String loginEmail, String loginPassword)
+			throws EmailNotInDatabaseException, SQLException {
+		if (DBConnection.tryLogin(loginEmail, loginPassword)) {
+			this.user = loginEmail;
+			this.authenticated = true;
+			return true;
 		}
 		return false;
 	}
@@ -43,7 +39,7 @@ public class UserSession {
 		this.user = null;
 		this.authenticated = false;
 	}
-	
+
 	public App getAppInstance() {
 		return appInstance;
 	}
