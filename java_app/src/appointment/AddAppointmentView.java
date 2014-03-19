@@ -1,4 +1,4 @@
-package appointment;
+package appointment; 
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

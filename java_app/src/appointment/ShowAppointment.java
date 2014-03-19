@@ -8,13 +8,15 @@ import java.sql.Timestamp;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import login.UserSession;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
 
 public class ShowAppointment extends AddAppointmentView {
 	
-	public ShowAppointment(){
+	public ShowAppointment(UserSession session){
 		
+		super(session);  
 		System.out.println("halla!");
 		
 		try {
@@ -74,14 +76,14 @@ public class ShowAppointment extends AddAppointmentView {
 	
 	
 	
-	public static void main(String[] args) {
-		ShowAppointment sa = new ShowAppointment();
-		JFrame frame = new JFrame ("showapp");
-		frame.getContentPane().add(sa);
-		frame.pack();
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-	}
+//	public static void main(String[] args) {
+//		ShowAppointment sa = new ShowAppointment();
+//		JFrame frame = new JFrame ("showapp");
+//		frame.getContentPane().add(sa);
+//		frame.pack();
+//		frame.setVisible(true);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		
+//	}
 	
 }
