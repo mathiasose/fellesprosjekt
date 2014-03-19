@@ -25,7 +25,7 @@ public class ShowAppointment extends AddAppointmentView {
 		}
 		int dbID = 5;
 		
-		DBConnection.selectAppointmentInfo(1);
+		DBConnection.selectAppointmentInfo(dbID);
 		
 		System.out.println(DBConnection.selectAppointmentInfo(dbID));
 		
@@ -35,15 +35,20 @@ public class ShowAppointment extends AddAppointmentView {
 		
 		
 		
+		
+		
 		System.out.println(Duration + "dur");
 		
 
-		Timestamp date = DBConnection.selectAppointmentInfo(dbID).getStartTime();
+		Timestamp timeS = DBConnection.selectAppointmentInfo(dbID).getStartTime();
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
-		String Date = sdf.format(date);
+		String Date = sdf.format(timeS);
 		
-		System.out.println(Date);
+		SimpleDateFormat sdf1 = new SimpleDateFormat("HH"); 
+		String startH = sdf1.format(timeS);
+		
+		System.out.println(startH);
 		
 		
 		
@@ -54,7 +59,8 @@ public class ShowAppointment extends AddAppointmentView {
 		super.appointmentDescription.setEditable(false);
 		
 		//super.startTime.setEditable(false);
-		super.startHour.setEnabled(false);
+		super.startHour.setEditable(false);
+		super.startHour.setSelectedItem(startH);
 		
 		super.appointmentDate.setText(Date);		
 		super.appointmentDate.setEditable(false);

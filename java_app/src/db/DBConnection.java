@@ -178,31 +178,31 @@ public class DBConnection {
 	
 
 	
-//	public static Appointment selectAppointmentInfo(int appointmentID){
-//		Appointment appointment = new Appointment();
-//		try {
-//
-//			ResultSet rs = query("select * from Appointment where Appointment.id=" +appointmentID);
-//
-//			while(rs.next()){
-//				appointment.setLocation(rs.getString("location"));
-//				appointment.setDuration(rs.getInt("duration"));
-//				appointment.setDescription(rs.getString("description"));
-//				appointment.setDate(rs.getDate("start_time"));
-//				appointment.setMeetingRoom();
-//				appointment.setParticipants();
-//
-//			}
-//			ResultSet rs2 = query("select Reservation.room_id from Reservation where Reservation.appointment_id=" +appointmentID);
-//			while(rs2.next()){
-//				appointment.setMeetingRoom(rs2.getInt("room_id"));
-//			}
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return appointment;
-//	}
+	public static Appointment selectAppointmentInfo(int appointmentID){
+		Appointment appointment = new Appointment();
+		try {
+
+			ResultSet rs = query("select * from Appointment where Appointment.id=" +appointmentID);
+
+			while(rs.next()){
+				appointment.setLocation(rs.getString("location"));
+				appointment.setDuration(rs.getInt("duration"));
+				appointment.setDescription(rs.getString("description"));
+				appointment.setAppointmentTime(rs.getTimestamp("start_time"));
+				appointment.setMeetingRoom(rs.getInt("room_id"));
+				//appointment.setParticipants();
+
+			}
+			ResultSet rs2 = query("select Reservation.room_id from Reservation where Reservation.appointment_id=" +appointmentID);
+			while(rs2.next()){
+				appointment.setMeetingRoom(rs2.getInt("room_id"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return appointment;
+	}
 	
 	
 	
