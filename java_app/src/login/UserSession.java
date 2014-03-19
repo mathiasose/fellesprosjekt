@@ -1,9 +1,6 @@
 package login;
 
 import java.sql.SQLException;
-
-import javax.swing.JOptionPane;
-
 import app.App;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;

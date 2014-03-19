@@ -1,6 +1,5 @@
 package app;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.sql.SQLException;
 
@@ -43,7 +42,6 @@ public class App {
 		kalender = new CalendarView(session);
 		frame.add(kalender);
 		kalender.setVisible(true);
-		System.out.println("WELCOME!");
 	}
 
 	// log out fra kalender view
@@ -51,7 +49,6 @@ public class App {
 		session.end();
 		kalender.setVisible(false);
 		login.setVisible(true);
-		System.out.println("GOOD BYE!");
 	}
 
 	// Tar deg til AddAppointment Viewet
@@ -60,7 +57,6 @@ public class App {
 		addAppointmentView = new AddAppointmentView(session);
 		frame.add(addAppointmentView);
 		addAppointmentView.setVisible(true);
-		System.out.println("PLEASE INPUT INFORMATION ABOUT YOUR APPOINTMENT!");
 	}
 	
 	public void goToshowAppointment() {
@@ -74,7 +70,6 @@ public class App {
 		
 		frame.add(showApp);
 		showApp.setVisible(true);
-		System.out.println("PLEASE INPUT INFORMATION ABOUT YOUR APPOINTMENT!");
 	}
 
 	// TRENGER FUNKSJONALITET HER ETTERHVERT
@@ -100,7 +95,6 @@ public class App {
 		addAppointmentView.setVisible(false);
 		frame.add(kalender);
 		kalender.setVisible(true);
-		System.out.println("APPOINTMENT MAKING WAS CANCELED");
 	}
 
 	public void showMessageDialog(String msg) {

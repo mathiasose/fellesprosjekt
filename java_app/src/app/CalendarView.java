@@ -1,17 +1,15 @@
 package app;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -27,9 +25,13 @@ public class CalendarView extends JComponent {
 			new DayPanel("Torsdag"), new DayPanel("Fredag"),
 			new DayPanel("Lørdag"), new DayPanel("Søndag") };
 	private UserSession session;
+	private int weekNo;
 
 	public CalendarView(final UserSession session) {
 		this.session = session;
+		
+		Calendar now = Calendar.getInstance();
+		this.weekNo = now.get(Calendar.WEEK_OF_YEAR);
 		
 		JPanel topRow = new JPanel();
 		JPanel midRow = new JPanel();
@@ -43,7 +45,7 @@ public class CalendarView extends JComponent {
 		/* top row */
 		JPanel header = new JPanel();
 		
-		JLabel headerText = new JLabel("UKE ??");
+		JLabel headerText = new JLabel("UKE "+ weekNo);
 		headerText.setFont(new Font("Serif", Font.PLAIN, 32));
 		JButton prevWeekButton = new JButton("<");
 		JButton nextWeekButton = new JButton(">");
@@ -84,10 +86,14 @@ public class CalendarView extends JComponent {
 			
 		});
 		
-		
-		/* add aptmts */
+		addAppointments(session.getEmail(), weekNo);
+	}
+
+
+
+	private void addAppointments(String userEmail, int weekNo) {
 		try {
-			for (Appointment appointment : DBConnection.selectAppointments(session.getEmail())) {
+			for (Appointment appointment : DBConnection.selectAppointments(userEmail, weekNo)) {
 				addAppointment(appointment);
 			}
 		} catch (EmailNotInDatabaseException | SQLException e) {
@@ -110,6 +116,10 @@ public class CalendarView extends JComponent {
 		// panel.setSize(new Dimension(this.getWidth(), 100));
 		// panel.setMaximumSize(panel.getSize());
 		week[day].add(panel);
+	}
+	
+	public void setWeek(int weekNo) {
+		this.weekNo = weekNo;
 	}
 
 //	public static void main(String[] args) {

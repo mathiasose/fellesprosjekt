@@ -1,9 +1,7 @@
 package db;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -28,6 +26,7 @@ public class DBConnection {
 	}
 
 	public static ResultSet query(String query) throws SQLException {
+		System.out.println(query);
 		Statement stmt = connect().createStatement();
 		return stmt.executeQuery(query);
 	}
@@ -122,7 +121,7 @@ public class DBConnection {
 		}
 	}
 
-	public static ArrayList<Appointment> selectAppointments(String email)
+	public static ArrayList<Appointment> selectAppointments(String email, int weekNo)
 	// finner avtalene som tilh�rer email parameteren:
 			throws EmailNotInDatabaseException, SQLException {
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
@@ -131,7 +130,7 @@ public class DBConnection {
 		try {
 			ResultSet rs = query("select Appointment.*, Reservation.* from Appointment left join Reservation on Appointment.id = Reservation.appointment_id, Employee, Invitation where (Employee.id = '"
 					+ id
-					+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id and week(start_time)=week(curdate()))");
+					+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id) and (week(start_time)='"+weekNo+"')");
 			while (rs.next()) {
 				Appointment appointment = new Appointment();
 				appointment.setEventID(rs.getInt("id"));
