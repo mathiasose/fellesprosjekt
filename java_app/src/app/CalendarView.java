@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import javax.swing.JButton;
@@ -12,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import db.EmailNotInDatabaseException;
 import login.UserSession;
 import model.Appointment;
 
@@ -23,7 +27,7 @@ public class CalendarView extends JComponent {
 			new DayPanel("Lørdag"), new DayPanel("Søndag") };
 	private UserSession session;
 
-	public CalendarView(UserSession session) {
+	public CalendarView(final UserSession session) {
 		this.session = session;
 		
 		JPanel topRow = new JPanel();
@@ -42,10 +46,12 @@ public class CalendarView extends JComponent {
 		headerText.setFont(new Font("Serif", Font.PLAIN, 32));
 		JButton prevWeekButton = new JButton("<");
 		JButton nextWeekButton = new JButton(">");
+		JButton showAppointment = new JButton("ShowAppYOLOSWAG");
 		
 		header.add(prevWeekButton);
 		header.add(headerText);
 		header.add(nextWeekButton);
+		header.add(showAppointment);
 		
 		JButton logoutButton = new JButton("Logg ut");
 		
@@ -65,7 +71,22 @@ public class CalendarView extends JComponent {
 		
 		botRow.add(addAppButton);
 		botRow.add(showOtherButton);
+		
+		
+		showAppointment.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				session.getAppInstance().goToshowAppointment();
+				
+			}
+			
+		});
+		
+		
 	}
+	
+
 
 	private void addAppointment(Appointment appointment) {
 		@SuppressWarnings("deprecation")

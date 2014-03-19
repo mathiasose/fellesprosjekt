@@ -2,11 +2,13 @@ package app;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import appointment.AddAppointmentView;
+import appointment.ShowAppointment;
 import login.LoginView;
 import login.UserSession;
 
@@ -16,6 +18,7 @@ public class App {
 	private JFrame frame;
 	private CalendarView kalender;
 	private AddAppointmentView addAppointmentView;
+	private ShowAppointment showApp;
 	private LoginView login;
 
 	public App() {
@@ -23,12 +26,11 @@ public class App {
 		
 		frame = new JFrame("Coolendar");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		login = new LoginView(session);
 		frame.add(login);
 
 		frame.setSize(new Dimension(1600, 800));
-		
 		frame.setVisible(true);
 	}
 
@@ -38,10 +40,10 @@ public class App {
 
 	public void goToCalendar() {
 		login.setVisible(false);
-		
 		kalender = new CalendarView(session);
 		frame.add(kalender);
 		kalender.setVisible(true);
+		System.out.println("WELCOME!");
 	}
 
 	// log out fra kalender view
@@ -49,15 +51,29 @@ public class App {
 		session.end();
 		kalender.setVisible(false);
 		login.setVisible(true);
+		System.out.println("GOOD BYE!");
 	}
 
 	// Tar deg til AddAppointment Viewet
 	public void goToAddApointment() {
 		kalender.setVisible(false);
-		
 		addAppointmentView = new AddAppointmentView(session);
 		frame.add(addAppointmentView);
 		addAppointmentView.setVisible(true);
+		System.out.println("PLEASE INPUT INFORMATION ABOUT YOUR APPOINTMENT!");
+	}
+	
+	public void goToshowAppointment() {
+		kalender.setVisible(false); 
+		try {
+			showApp = new ShowAppointment(session);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		frame.add(showApp);
+		showApp.setVisible(true);
 		System.out.println("PLEASE INPUT INFORMATION ABOUT YOUR APPOINTMENT!");
 	}
 

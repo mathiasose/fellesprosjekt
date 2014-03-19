@@ -67,7 +67,8 @@ public class AddAppointmentView extends JPanel implements ActionListener,
 			"51", "52", "53", "54", "55", "56", "57", "68", "59" };
 	String[] dur = { "1", "2", "3", "4" };
 	ArrayList<Integer> rooms;
-	Object[] room_ = rooms.toArray();
+	//Object[] room_ = rooms.toArray();
+	String[] room_ = {"yolo"}; 
 	private UserSession session;
 
 	public AddAppointmentView(final UserSession session) {
