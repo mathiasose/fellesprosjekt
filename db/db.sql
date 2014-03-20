@@ -72,46 +72,78 @@ CREATE TABLE Invitation (
 );
 
 INSERT INTO Employee (name, email, password) VALUES
-    ("Knut Knutsen", "test@epost.com", "hunter99");
-INSERT INTO Employee (name, email, password) VALUES
-    ("Mathias Ose", "m@thiaso.se", "hunter2");
-INSERT INTO Employee (name, email, password) values
-    ("Ken Lie", "kensivalie@gmail.com", "hunter6");
-INSERT INTO Employee (name, email, password) VALUES
-    ("Fredrik Tørnvall", "freboto@gmail.com", "testtest");
-INSERT INTO Employee (name, email, password) VALUES
-    ("Jens Jensen", "jjens@gmail.com", "hunter5");
-INSERT INTO Employee (name, email, password) VALUES
+    ("Knut Knutsen", "test@epost.com", "hunter99"),
+    ("Mathias Ose", "m@thiaso.se", "hunter2"),
+    ("Ken Lie", "kensivalie@gmail.com", "hunter6"),
+    ("Fredrik Tørnvall", "freboto@gmail.com", "testtest"),
+    ("Jens Jensen", "jjens@gmail.com", "hunter5"),
     ("Frode Thorsen", "thorsen@gmail.com", "hunter9");
 
-######################################################
 insert into Appointment(start_time, duration, location, description, canceled) values
-    ('2014-06-18 12:13:00', '02:00:00', '3. etg' 'Scrum møte med gruppe 4', '0');
-insert into Appointment(start_time, duration, location, description, canceled) values
-    ('2014-06-18 08:00:00', '00:30:00', 'Kontoret', 'Regional møte', '0');
-insert into Appointment(start_time, duration, location, description, canceled) values
-    ('2014-06-19 08:30:00', '00:30:00', 'Kontoret', 'Scrum status', '0');
-insert into Appointment(start_time, duration, location, description, canceled) values
-    ('2014-06-19 10:30:00', '00:30:00', 'Kontoret', 'Planlegging av reise', '0');
-insert into Appointment(start_time, duration, location, description, canceled) values
-    ('2014-06-19 12:00:00', '00:30:00','Kantina', 'Lunch', '0');
-insert into Appointment(start_time, duration, location, description, canceled) values
-    ('2014-06-20 08:30:00', '00:30:00', 'Kontoret', 'Scrum status', '0');
-insert into Appointment(start_time, duration, location, description, canceled) values
-    ('2014-06-21 08:30:00', '00:30:00', 'Kontoret', 'Scrum status', '0');
-insert into Appointment(start_time, duration, location, description, canceled) values
-    ('2014-06-22 08:30:00', '00:30:00', 'Kontoret', 'Scrum status', '0');
-######################################################
+    ('2014-03-18 12:13:00', 120, '3. etg', 'Scrum møte med gruppe 4', '0'),
+    ('2014-03-18 08:00:00', 30, 'Kontoret', 'Regional møte', '0'),
+    ('2014-03-19 08:30:00', 30, 'Kontoret', 'Scrum status', '0'),
+    ('2014-03-19 10:30:00', 30, 'Kontoret', 'Planlegging av reise', '0'),
+    ('2014-03-19 12:00:00', 30, 'Kantina', 'Lunch', '0'),
+    ('2014-03-20 08:30:00', 30, 'Kontoret', 'Scrum status', '0'),
+    ('2014-03-21 08:30:00', 30, 'Kontoret', 'Scrum status', '0'),
+    ('2014-03-22 08:30:00', 30, 'Kontoret', 'Scrum status', '0'),
+    ('2014-04-01 08:30:00', 30, 'Kontoret', 'Scrum status', '0'),
+    ('2014-04-02 08:30:00', 30, 'Kontoret', 'Scrum status', '0'),
+    ('2014-04-03 08:30:00', 30, 'Kontoret', 'Scrum status', '0'),
+    ('2014-04-04 08:30:00', 30, 'Kontoret', 'Scrum status', '0'),
+    ('2014-04-05 08:30:00', 30, 'Kontoret', 'Scrum status', '0');
+
 insert into Invitation (employee_id, appointment_id, creator, hidden) values
-    ('1', '1', '1', '0');
-insert into Invitation (employee_id, appointment_id, creator, hidden) values
-    ('1', '3', '0', '0');
-insert into Invitation (employee_id, appointment_id, creator, hidden) values
-    ('3', '1', '0', '0');
-insert into Invitation (employee_id, appointment_id, creator, hidden) values
-    ('3', '3', '1', '0');
+    (1, 1, 1, 0),
+    (1, 3, 0, 0),
+    (3, 1, 0, 0),
+    (3, 3, 1, 0),
+    (2, 1, 0, 0),
+    (2, 2, 0, 0),
+    (2, 3, 0, 0),
+    (2, 4, 1, 0),
+    (2, 5, 1, 0),
+    (5, 4, 0, 0),
+    (5, 5, 0, 0),
+    (2, 9, 0, 0),
+    (2, 10, 0, 0),
+    (2, 11, 0, 0),
+    (2, 12, 0, 0),
+    (2, 13, 0, 0);
 
 
+
+insert into Room (id, capacity) values
+    (1, 15),
+    (2, 10),
+    (3, 20),
+    (4, 10),
+    (5, 10),
+    (6, 10),
+    (7, 50),
+    (8, 100),
+    (9, 6),
+    (10, 13),
+    (11, 10),
+    (12, 20),
+    (13, 20),
+    (14, 15),
+    (15, 13);
+
+insert into Reservation (appointment_id, room_id) values 
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5),
+    (7, 1),
+    (8, 1),
+    (9, 5),
+    (10, 5),
+    (11, 5)
+    (12, 5),
+    (13, 5);
 
 
 

@@ -164,6 +164,20 @@ public class DBConnection {
 		}
 		return appointments;
 	}
+	
+	public static ArrayList<Boolean> selectAttendingStatus(int appointmentID){
+		ArrayList<Boolean> attendingStatus = new ArrayList<Boolean>();
+		try{
+			ResultSet rs = query("select Invitation.attending from Invitation where Invitation.appointment_id ="+ appointmentID);
+			while(rs.next()){
+				attendingStatus.add(rs.getBoolean("attending"));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		
+		return attendingStatus;
+		
+	}
 
 	// public static Appointment selectAppointmentInfo(int appointmentID){
 	// Appointment appointment = new Appointment();
