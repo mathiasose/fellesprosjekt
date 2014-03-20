@@ -154,7 +154,7 @@ public class DBConnection {
 				while (rs2.next()) {
 					participants.add(rs2.getInt("employee_id"));
 				}
-				// appointment.setParticipants(participants);
+				appointment.setParticipants(participants);
 				appointments.add(appointment);
 
 			}

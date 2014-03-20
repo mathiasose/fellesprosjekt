@@ -3,6 +3,7 @@ package appointment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -30,7 +31,8 @@ public class AppointmentView extends NewAppointmentView {
 		int Duration = 0;
 		Timestamp timeS = null;
 		String userEmail = "m@thiaso.se";
-		System.out.println("f�rweekno");
+		ArrayList<Integer> participants = new ArrayList<Integer>();
+
 		Timestamp weekNol = model.getStartTime();
 		Calendar tempCal = Calendar.getInstance();
 		tempCal.setTime(weekNol);
@@ -63,6 +65,10 @@ public class AppointmentView extends NewAppointmentView {
 					.get(avtalenr).getDuration();
 			timeS = DBConnection.selectAppointments(userEmail, weekNo)
 					.get(avtalenr).getStartTime();
+
+			participants = DBConnection.selectAppointments(userEmail, weekNo)
+					.get(avtalenr).getParticipants(); 
+
 			int room = DBConnection.selectAppointments(userEmail, weekNo)
 					.get(avtalenr).getMeetingRoom();
 
@@ -105,7 +111,14 @@ public class AppointmentView extends NewAppointmentView {
 		super.duration.setEnabled(false);
 		super.duration.setSelectedItem(Duration);
 
-		// super.duration.setSelectedItem(duration);
+		for (int i = 0; i < participants.size(); i++){
+			
+
+			super.listModel.add(0, "kensivalie@gmail.com");
+			
+		}
+
+		super.duration.setSelectedItem(duration);
 
 		super.participantEmail.setVisible(false);
 
