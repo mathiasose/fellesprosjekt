@@ -8,7 +8,9 @@ import java.util.ArrayList;
 public class Appointment {
 
 	private int eventID;
-	private User createdBy;
+//	private User createdBy;
+	private int createdByID;
+
 	private String description, location;
 	private int duration;
 	private ArrayList<String> participants;
@@ -39,13 +41,13 @@ public class Appointment {
 		this.eventID = eventID;
 	}
 
-	public User getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(User createdBy) {
-		this.createdBy = createdBy;
-	}
+//	public User getCreatedBy() {
+//		return createdBy;
+//	}
+//
+//	public void setCreatedBy(User createdBy) {
+//		this.createdBy = createdBy;
+//	}
 
 	public ArrayList<String> getParticipants() {
 		return participants;
@@ -117,4 +119,11 @@ public class Appointment {
 
 	}
 
+	public void setCreatedByID(int id) {
+		this.createdByID = id;
+	}
+
+	public int getCreatedByID() {
+		return createdByID;
+	}
 }
