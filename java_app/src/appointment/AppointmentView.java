@@ -1,5 +1,6 @@
 package appointment;
 
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -19,19 +21,21 @@ import db.EmailNotInDatabaseException;
 
 public class AppointmentView extends NewAppointmentView {
 
-	public AppointmentView(UserSession session, Appointment model)
+	public AppointmentView(final UserSession session, Appointment model)
 			throws SQLException {
 
 		super(session);
 
-		int dbID = model.getEventID();
+		final int dbID = model.getEventID();
 		int avtalenr = 0;
 		String Description = null;
 		String Location = null;
 		int Duration = 0;
 		Timestamp timeS = null;
-		String userEmail = "m@thiaso.se";
+		final String userEmail = session.getEmail();
 		ArrayList<String> participants = new ArrayList<String>();
+
+		JButton acceptInvitation, declineInvitation;
 
 		Timestamp weekNol = model.getStartTime();
 		Calendar tempCal = Calendar.getInstance();
@@ -45,35 +49,27 @@ public class AppointmentView extends NewAppointmentView {
 			selectAppointments = DBConnection.selectAppointments(userEmail,
 					weekNo);
 			for (int i = 0; i < selectAppointments.size(); i++) {
-				if (selectAppointments.get(i)
-						.getEventID() == dbID) {
+				if (selectAppointments.get(i).getEventID() == dbID) {
 					avtalenr = i;
 				}
 			}
-			
-			Description = selectAppointments
-					.get(avtalenr).getDescription();
-			Location = selectAppointments
-					.get(avtalenr).getLocation();
-			Duration = selectAppointments
-					.get(avtalenr).getDuration();
-			timeS = selectAppointments
-					.get(avtalenr).getStartTime();
-			
-			participants = selectAppointments
-					.get(avtalenr).getParticipants(); 
-			
-			int room = selectAppointments
-					.get(avtalenr).getMeetingRoom();
-			
+
+			Description = selectAppointments.get(avtalenr).getDescription();
+			Location = selectAppointments.get(avtalenr).getLocation();
+			Duration = selectAppointments.get(avtalenr).getDuration();
+			timeS = selectAppointments.get(avtalenr).getStartTime();
+
+			participants = selectAppointments.get(avtalenr).getParticipants();
+
+			int room = selectAppointments.get(avtalenr).getMeetingRoom();
+
 			super.appointmentLocation.setText(Location);
-			
+
 			super.appointmentDescription.setText(Description);
 		} catch (EmailNotInDatabaseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	
 
 		System.out.println(Duration + "dur");
 
@@ -105,34 +101,60 @@ public class AppointmentView extends NewAppointmentView {
 		super.duration.setEnabled(false);
 		super.duration.setSelectedItem(Duration);
 
-//		for (int i = 0; i < participants.size(); i++){
-//			
-//			super.listModel.add(i, participants.get(i));
-//			System.out.println(participants);
-//			
-//		}
+		if (participants != null) {
+			for (int i = 0; i < participants.size(); i++) {
+
+				super.listModel.add(i, participants.get(i));
+				System.out.println(participants);
+
+			}
+		}
 
 		super.duration.setSelectedItem(duration);
 
 		super.participantEmail.setVisible(false);
+		super.saveAppointment.setVisible(false);
+		super.addParticipant.setVisible(false);
+		super.deleteParticipant.setVisible(false);
 
-		super.saveAppointment.setText("Accept Invitation");
-		super.saveAppointment.addActionListener(new ActionListener() {
+		acceptInvitation = new JButton("Accept Invitaion");
+		declineInvitation = new JButton("Decline Invitation");
+
+		GridBagConstraints c = new GridBagConstraints();
+		
+		if()
+		c.gridx = 2;
+		c.gridy = 4;
+		add(acceptInvitation, c);
+
+		c.gridx++;
+		add(declineInvitation, c);
+
+		acceptInvitation.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("accept");
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+					DBConnection.updateInvitationStatus(dbID, session.getEmployeeID(), true);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 
 			}
 
 		});
 
-		super.addParticipant.setText("Decline Invitation");
-		super.addParticipant.addActionListener(new ActionListener() {
+		declineInvitation.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("decline");
+
+				try {
+					DBConnection.updateInvitationStatus(dbID, session.getEmployeeID(), false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 
 			}
 
