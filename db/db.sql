@@ -72,12 +72,48 @@ CREATE TABLE Invitation (
 );
 
 INSERT INTO Employee (name, email, password) VALUES
-  ("Knut Knutsen", "test@epost.com", "hunter99");
+    ("Knut Knutsen", "test@epost.com", "hunter99");
 INSERT INTO Employee (name, email, password) VALUES
-  ("Mathias Ose", "m@thiaso.se", "hunter2");
+    ("Mathias Ose", "m@thiaso.se", "hunter2");
+INSERT INTO Employee (name, email, password) values
+    ("Ken Lie", "kensivalie@gmail.com", "hunter6");
 INSERT INTO Employee (name, email, password) VALUES
-  ("Ken Lie", "kensivalie@gmail.com", "hunter6");
-insert into Appointment(start_time, duration, location) values
-    ('2014-06-18 12:00:00', '02:01:01', 'Scrum');
-insert into Appointment(start_time, duration, location) values
-    ('2014-11-18 12:00:00', '00:31:01', 'Meeting');
+    ("Fredrik Tørnvall", "freboto@gmail.com", "testtest");
+INSERT INTO Employee (name, email, password) VALUES
+    ("Jens Jensen", "jjens@gmail.com", "hunter5");
+INSERT INTO Employee (name, email, password) VALUES
+    ("Frode Thorsen", "thorsen@gmail.com", "hunter9");
+
+######################################################
+insert into Appointment(start_time, duration, location, description, canceled) values
+    ('2014-06-18 12:13:00', '02:00:00', '3. etg' 'Scrum møte med gruppe 4', '0');
+insert into Appointment(start_time, duration, location, description, canceled) values
+    ('2014-06-18 08:00:00', '00:30:00', 'Kontoret', 'Regional møte', '0');
+insert into Appointment(start_time, duration, location, description, canceled) values
+    ('2014-06-19 08:30:00', '00:30:00', 'Kontoret', 'Scrum status', '0');
+insert into Appointment(start_time, duration, location, description, canceled) values
+    ('2014-06-19 10:30:00', '00:30:00', 'Kontoret', 'Planlegging av reise', '0');
+insert into Appointment(start_time, duration, location, description, canceled) values
+    ('2014-06-19 12:00:00', '00:30:00','Kantina', 'Lunch', '0');
+insert into Appointment(start_time, duration, location, description, canceled) values
+    ('2014-06-20 08:30:00', '00:30:00', 'Kontoret', 'Scrum status', '0');
+insert into Appointment(start_time, duration, location, description, canceled) values
+    ('2014-06-21 08:30:00', '00:30:00', 'Kontoret', 'Scrum status', '0');
+insert into Appointment(start_time, duration, location, description, canceled) values
+    ('2014-06-22 08:30:00', '00:30:00', 'Kontoret', 'Scrum status', '0');
+######################################################
+insert into Invitation (employee_id, appointment_id, creator, hidden) values
+    ('1', '1', '1', '0');
+insert into Invitation (employee_id, appointment_id, creator, hidden) values
+    ('1', '3', '0', '0');
+insert into Invitation (employee_id, appointment_id, creator, hidden) values
+    ('3', '1', '0', '0');
+insert into Invitation (employee_id, appointment_id, creator, hidden) values
+    ('3', '3', '1', '0');
+
+
+
+
+
+
+

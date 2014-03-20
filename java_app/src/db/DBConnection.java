@@ -77,11 +77,12 @@ public class DBConnection {
 		return emails;
 	}
 
-	public static ArrayList<Integer> selectAllRoomIDs() throws SQLException {
-		ArrayList<Integer> rooms = new ArrayList<Integer>();
+	public static ArrayList<String> selectAllRoomIDs() throws SQLException {
+		ArrayList<String> rooms = new ArrayList<String>();
 		ResultSet rs = query("select * from Room");
 		while (rs.next()) {
-			rooms.add(rs.getInt("id"));
+			rooms.add(rs.getString("id"));
+			rooms.add(rs.getString("capacity"));
 		}
 		return rooms;
 		// show capacity?
