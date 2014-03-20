@@ -126,7 +126,7 @@ public class DBConnection {
 		}
 
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
-		ArrayList<Integer> participants = new ArrayList<Integer>();
+		ArrayList<String> participants = new ArrayList<String>();
 		int id = selectEmployeeId(email);
 
 		ResultSet rs = query("select Appointment.*, Reservation.* from Appointment left join Reservation on Appointment.id = Reservation.appointment_id, Employee, Invitation where (Employee.id = '"
@@ -144,17 +144,19 @@ public class DBConnection {
 			appointment.setEventID(rs.getInt("id"));
 			// appointment.setParticipants();
 
-			ResultSet rs2 = query("select Invitation.* from (Invitation left join Appointment on Invitation.appointment_id = Appointment.id)"
-					+ " where Appointment.id ="
+			ResultSet rs2 = query("select email from Invitation left join Appointment on Invitation.appointment_id = Appointment.id left join Employee on )"
+					+ " Invitation.employee_id = Employee.id where Invitation.appointment_id="
 					+ rs.getInt("id")
 					+ " and Invitation.appointment_id =" + rs.getInt("id"));
 			while (rs2.next()) {
-				participants.add(rs2.getInt("employee_id"));
+				participants.add(rs2.getString("email"));
 			}
 			// appointment.setParticipants(participants);
 			appointments.add(appointment);
 
 		}
+		
+		
 
 		return appointments;
 	}
@@ -165,7 +167,9 @@ public class DBConnection {
 		ResultSet rs = query("select Invitation.attending from Invitation where Invitation.appointment_id ="
 				+ appointmentID);
 		while (rs.next()) {
-			attendingStatus.add(rs.getBoolean("attending"));
+			boolean boolean1 = rs.getBoolean("attending");
+			attendingStatus.add(boolean1);
+			System.out.println(boolean1);
 		}
 
 		return attendingStatus;
