@@ -1,26 +1,21 @@
 package calendar;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Font;
-import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import db.DBConnection;
+import model.Appointment;
 import app.App;
 import authentication.UserSession;
-import model.Appointment;
+import db.DBConnection;
 
 public class AppointmentPanel extends JPanel {
 	private Appointment model;

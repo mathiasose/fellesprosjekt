@@ -1,19 +1,14 @@
 package email;
 
+import java.net.PasswordAuthentication;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import sun.rmi.transport.Transport;
+
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 
 import db.DBConnection;
-import model.Appointment;
 
 public class SendMailTLS {
 

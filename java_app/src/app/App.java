@@ -5,12 +5,12 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import model.Appointment;
-import calendar.CalendarView;
-import db.DBConnection;
-import appointment.NewAppointmentView;
 import appointment.AppointmentView;
+import appointment.EditAppointmentView;
 import authentication.LoginView;
 import authentication.UserSession;
+import calendar.CalendarView;
+import db.DBConnection;
 
 public class App {
 	public static final boolean DEBUG = true;
@@ -23,8 +23,8 @@ public class App {
 	private UserSession session;
 
 	private CalendarView calendarView;
-	private NewAppointmentView newAppointmentView;
-	private AppointmentView appointmentView;
+	private AppointmentView newAppointmentView;
+	private EditAppointmentView appointmentView;
 	private LoginView loginView;
 	private Appointment model;
 
@@ -69,13 +69,13 @@ public class App {
 	}
 
 	public void goToAddApointment() {
-		newAppointmentView = new NewAppointmentView(session);
+		newAppointmentView = new AppointmentView(session);
 		frame.setView(newAppointmentView);
 	}
 
 	public void goToshowAppointment(Appointment model) {
 		try {
-			appointmentView = new AppointmentView(session, model);
+			appointmentView = new EditAppointmentView(session, model);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

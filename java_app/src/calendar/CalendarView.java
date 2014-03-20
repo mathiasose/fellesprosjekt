@@ -15,12 +15,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import model.Appointment;
 import app.App;
 import appointment.GhostText;
 import authentication.UserSession;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
-import model.Appointment;
 
 public class CalendarView extends JComponent {
 	private final WeekDayPanel[] week = { new WeekDayPanel("Mandag"),
