@@ -68,9 +68,7 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 	String[] dur = { "1", "2", "3", "4" };
 	ArrayList<String> rooms;
 	ArrayList<String> roomsnumb = new ArrayList<String>();
-	
 
-	
 	private UserSession session;
 
 	public NewAppointmentView(final UserSession session) {
@@ -81,26 +79,25 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 			rooms = DBConnection.selectAllRoomIDs();
 
 			ArrayList<String> roomscap = new ArrayList<String>();
-			
+
 			System.out.println(rooms);
-			
-			for (int i =0; i < rooms.size(); i= i+ 2){
+
+			for (int i = 0; i < rooms.size(); i = i + 2) {
 				roomsnumb.add(rooms.get(i));
 
 			}
-			
-			for (int i = 1; i< rooms.size(); i=i+2){
+
+			for (int i = 1; i < rooms.size(); i = i + 2) {
 				roomscap.add(rooms.get(i));
-				
+
 			}
-			
+
 		} catch (SQLException e3) {
 			session.appDialog(App.AUTH_ERROR_MSG);
 		}
 
+		System.out.println(roomsnumb + "YOLO3");
 
-		System.out.println(roomsnumb+"YOLO3");
-		
 		GridBagConstraints c;
 		setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
@@ -130,7 +127,7 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 		duration.setEditable(true);
 		duration.setSelectedItem("Duration");
 
-		room = new JComboBox(roomsnumb.toArray()); 
+		room = new JComboBox(roomsnumb.toArray());
 		room.setEditable(true);
 		room.setSelectedItem("Rooms available");
 
@@ -246,35 +243,30 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 		saveAppointment.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//Setters to model
+				// Setters to model
 				model.setDescription(appointmentDescription.getText());
-				
-				
+
 				model.setLocation(appointmentLocation.getText());
-				
+
 				Object durationH = duration.getSelectedItem();
 				int durationHours = Integer.parseInt((String) durationH);
 				model.setDuration(durationHours);
-				
+
 				Object roomid = room.getSelectedItem();
 				String room_IDS = roomid.toString();
 				int room_ID = Integer.parseInt(room_IDS);
 
 				model.setMeetingRoom(room_ID);
 
-				
-				
 				String start_time = null;
 
 				String dateText = appointmentDate.getText();
 				String hourText = (String) startHour.getSelectedItem();
 				String minText = (String) startMin.getSelectedItem();
 
-				
-
 				String dateString = dateText + " " + hourText + ":" + minText
 						+ ":00";
-				
+
 				String halla = null;
 				DateFormat inputdf = new SimpleDateFormat(
 						"dd . MM . yyyy HH:mm:ss");
@@ -290,12 +282,11 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 							.showMessageDialog(
 									"Could not talk to database. Are you sure you're connected to the internet?");
 				}
-				
+
 				System.out.println(model.getStartTime().getTime());
-				
-				//nå settes ikke model lenger
-				
-				
+
+				// nï¿½ settes ikke model lenger
+
 				String duration = null;
 				duration = Integer.toString(model.getDuration());
 
@@ -326,8 +317,12 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 				try {
 					DBConnection.insertReservation(appointmentID, room_id);
 				} catch (SQLException e1) {
+
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
+
+					session.appDialog(App.DB_ERROR_MSG);
+
 				}
 
 				for (int y = 0; y < listModel.getSize(); y++) {
@@ -350,6 +345,7 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 
 				}
 
+				session.getAppInstance().goToCalendar();
 				// vinduet lukkes og du tas tilbake til kalender
 
 			}
@@ -376,10 +372,6 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 			
 			
 		});
-
-
-
-
 
 		// appointmentDate.addKeyListener(new KeyListener() {
 		//
@@ -413,20 +405,20 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 		//
 		// });
 
-//		room.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//
-//				Object roomid = room.getSelectedItem();
-//				String room_IDS = roomid.toString();
-//				int room_ID = Integer.parseInt(room_IDS);
-//
-//				model.setMeetingRoom(room_ID);
-//
-//			}
-//
-//		});
+		// room.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent arg0) {
+		//
+		// Object roomid = room.getSelectedItem();
+		// String room_IDS = roomid.toString();
+		// int room_ID = Integer.parseInt(room_IDS);
+		//
+		// model.setMeetingRoom(room_ID);
+		//
+		// }
+		//
+		// });
 
 		// startHour.addActionListener(new ActionListener() {
 		//
@@ -468,7 +460,7 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 		appointmentDate.setValue(a.getStartTime());
 		System.out.println("halla2");
 
-		//this.model.addPropertyChangeListener(this);
+		// this.model.addPropertyChangeListener(this);
 	}
 
 	public Appointment getModel() {

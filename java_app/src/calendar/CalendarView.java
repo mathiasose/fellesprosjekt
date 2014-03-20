@@ -157,6 +157,9 @@ public class CalendarView extends JComponent {
 		} catch (EmailNotInDatabaseException e) {
 			session.appDialog("Fant ikke den brukeren");
 		} catch (SQLException e) {
+			if (App.DEBUG) {
+				e.printStackTrace();
+			}
 			session.appDialog(App.DB_ERROR_MSG);
 		}
 	}
@@ -184,32 +187,5 @@ public class CalendarView extends JComponent {
 	public void setWeek(int weekNo) {
 		this.weekNo = weekNo;
 	}
-
-	// public static void main(String[] args) {
-	// JFrame frame = new JFrame("Kalender");
-	// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	// frame.setSize(new Dimension(1600, 800));
-	// // frame.pack();
-	// frame.setVisible(true);
-	//
-	// CalendarView mainCal = new CalendarView();
-	// mainCal.initTest();
-	// frame.add(mainCal);
-	// }
-	//
-	// @SuppressWarnings("deprecation")
-	// private void initTest() {
-	// Appointment testAppointment = new Appointment("1", "room", new
-	// Timestamp(2014, 3, 18, 12, 0, 0, 0));
-	// testAppointment.setEventID(42);
-	// testAppointment.setDuration(60);
-	// Appointment testAppointment2 = new Appointment("2", "room", new
-	// Timestamp(2014, 3, 18, 16, 0, 0, 0));
-	// testAppointment2.setEventID(43);
-	// testAppointment2.setDuration(120);
-	//
-	// addAppointment(testAppointment);
-	// addAppointment(testAppointment2);
-	// }
 
 }

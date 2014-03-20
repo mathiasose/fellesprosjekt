@@ -2,12 +2,13 @@ package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import model.Appointment;
+import app.App;
 
 public class DBConnection {
 
@@ -18,7 +19,7 @@ public class DBConnection {
 		return DriverManager.getConnection(url, username, password);
 	}
 
-	public static int update(String update) throws SQLException {
+	private static int update(String update) throws SQLException {
 		Connection connection = connect();
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate(update);
@@ -26,20 +27,19 @@ public class DBConnection {
 	}
 
 	public static ResultSet query(String query) throws SQLException {
-		// System.out.println(query);
+		if (App.DEBUG) {
+			System.out.println(query);
+		}
 		Statement stmt = connect().createStatement();
 		return stmt.executeQuery(query);
 	}
 
-	private static int selectLastInsertID(Connection connection) {
-		try {
-			Statement stmt = connection.createStatement();
-			ResultSet rs = stmt.executeQuery("select last_insert_id()");
-			while (rs.next()) {
-				return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+	private static int selectLastInsertID(Connection connection)
+			throws SQLException {
+		Statement stmt = connection.createStatement();
+		ResultSet rs = stmt.executeQuery("select last_insert_id()");
+		while (rs.next()) {
+			return rs.getInt(1);
 		}
 		return -1;
 	}
@@ -85,7 +85,6 @@ public class DBConnection {
 			rooms.add(rs.getString("capacity"));
 		}
 		return rooms;
-		// show capacity?
 	}
 
 	public static int insertAppointment(String start_time, String duration,
@@ -97,7 +96,8 @@ public class DBConnection {
 				+ duration
 				+ "', '"
 				+ location
-				+ "', '" + description + "', '" + canceled + "')");
+				+ "', '"
+				+ description + "', '" + canceled + "')");
 	}
 
 	public static void insertInvitation(String employeeId,
@@ -112,7 +112,8 @@ public class DBConnection {
 				+ "', '" + hidden + "')");
 	}
 
-	public static void insertReservation(String appointment_id, String room_id) throws SQLException {
+	public static void insertReservation(String appointment_id, String room_id)
+			throws SQLException {
 		update("insert into Reservation (appointment_id, room_id) values('"
 				+ appointment_id + "', '" + room_id + "')");
 	}
@@ -144,12 +145,15 @@ public class DBConnection {
 			appointment.setAppointmentTime(rs.getTimestamp("start_time"));
 			appointment.setMeetingRoom(rs.getInt("room_id"));
 			appointment.setEventID(rs.getInt("id"));
+
 			// appointment.setParticipants();
 
-			ResultSet rs2 = query("select email from Invitation left join Appointment on Invitation.appointment_id = Appointment.id left join Employee on )"
-					+ " Invitation.employee_id = Employee.id where Invitation.appointment_id="
+			ResultSet rs2 = query("select email from (Invitation left join Appointment on (Invitation.appointment_id = Appointment.id) left join Employee on (Invitation.employee_id = Employee.id))"
+					+ " where (Invitation.appointment_id="
 					+ rs.getInt("id")
-					+ " and Invitation.appointment_id =" + rs.getInt("id"));
+					+ ") and "
+					+ "(Invitation.appointment_id ="
+					+ rs.getInt("id") + ")");
 			while (rs2.next()) {
 				participants.add(rs2.getString("email"));
 			}
@@ -157,12 +161,9 @@ public class DBConnection {
 			appointments.add(appointment);
 
 		}
-		
-		
 
 		return appointments;
 	}
-
 
 	public static ArrayList<Boolean> selectAttendingStatus(int appointmentID)
 			throws SQLException {
@@ -184,45 +185,20 @@ public class DBConnection {
 
 	}
 
-	// public static Appointment selectAppointmentInfo(int appointmentID){
-	// Appointment appointment = new Appointment();
-	// try {
-	//
-	// ResultSet rs = query("select * from Appointment where Appointment.id="
-	// +appointmentID);
-	//
-	// while(rs.next()){
-	// appointment.setLocation(rs.getString("location"));
-	// appointment.setDuration(rs.getInt("duration"));
-	// appointment.setDescription(rs.getString("description"));
-	// appointment.setAppointmentTime(rs.getTimestamp("start_time"));
-	// appointment.setMeetingRoom(rs.getInt("room_id"));
-	// //appointment.setParticipants();
-	//
-	// }
-	// ResultSet rs2 =
-	// query("select Reservation.room_id from Reservation where Reservation.appointment_id="
-	// +appointmentID);
-	// while(rs2.next()){
-	// appointment.setMeetingRoom(rs2.getInt("room_id"));
-	// }
-	//
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// }
-	// return appointment;
-	// }
+	public static void updateInvitationStatus(int appointmentID,
+			int employeeID, boolean status) throws SQLException {
+		String sqlBoolStatus = status ? "1" : "0";
+		update("update Invitation SET (attending = " + sqlBoolStatus
+				+ ") where (appointment_id = " + appointmentID
+				+ "( and (employee_id = " + employeeID + ")");
+	}
 
-	// public static int selectAppointmentID() {
+	// public static void main(String[] args) {
 	// try {
-	// ResultSet rs = query("select Appointment.id from Appointment");
-	// while (rs.next()) {
-	// return rs.getInt("id");
-	// }
+	// updateInvitationStatus(1, 2, true);
 	// } catch (SQLException e) {
+	// // TODO Auto-generated catch block
 	// e.printStackTrace();
 	// }
-	// return -1;
-	//
 	// }
 }

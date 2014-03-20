@@ -80,6 +80,9 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 			} catch (EmailNotInDatabaseException e) {
 				session.appDialog(App.AUTH_ERROR_MSG);
 			} catch (SQLException e) {
+				if (App.DEBUG) {
+					e.printStackTrace();
+				}
 				session.appDialog(App.DB_ERROR_MSG);
 			}
 		}
