@@ -91,7 +91,8 @@ public class CalendarView extends JComponent {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				showUsers.add("test@epost.com");
-				session.getAppInstance().goToCalendar();
+				System.out.println(showUsers);
+				populateView();
 			}
 		});
 
@@ -156,6 +157,7 @@ public class CalendarView extends JComponent {
 		for (String email : showUsers) {
 			addAppointments(email, weekNo);
 		}
+		session.validate();
 	}
 
 	private void addAppointments(String userEmail, int weekNo) {
