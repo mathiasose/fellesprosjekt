@@ -1,6 +1,7 @@
 package appointment;
 
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -34,6 +35,7 @@ public class AppointmentView extends NewAppointmentView {
 		Timestamp timeS = null;
 		final String userEmail = session.getEmail();
 		ArrayList<String> participants = new ArrayList<String>();
+		int createdbyID = -1;
 
 		JButton acceptInvitation, declineInvitation;
 
@@ -58,8 +60,8 @@ public class AppointmentView extends NewAppointmentView {
 			Location = selectAppointments.get(avtalenr).getLocation();
 			Duration = selectAppointments.get(avtalenr).getDuration();
 			timeS = selectAppointments.get(avtalenr).getStartTime();
-
 			participants = selectAppointments.get(avtalenr).getParticipants();
+			createdbyID = selectAppointments.get(avtalenr).getCreatedByID();
 
 			int room = selectAppointments.get(avtalenr).getMeetingRoom();
 
@@ -67,8 +69,8 @@ public class AppointmentView extends NewAppointmentView {
 
 			super.appointmentDescription.setText(Description);
 		} catch (EmailNotInDatabaseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			session.appDialog("error");
+			session.getAppInstance().goToCalendar();
 		}
 
 		System.out.println(Duration + "dur");
@@ -100,6 +102,8 @@ public class AppointmentView extends NewAppointmentView {
 
 		super.duration.setEnabled(false);
 		super.duration.setSelectedItem(Duration);
+		
+		super.room.setEnabled(false);
 
 		if (participants != null) {
 			for (int i = 0; i < participants.size(); i++) {
@@ -122,13 +126,18 @@ public class AppointmentView extends NewAppointmentView {
 
 		GridBagConstraints c = new GridBagConstraints();
 		
-		if()
-		c.gridx = 2;
-		c.gridy = 4;
-		add(acceptInvitation, c);
-
-		c.gridx++;
-		add(declineInvitation, c);
+		if(session.getEmployeeID() != createdbyID){ 
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(7, 7, 0, 7);
+			c.weightx = 0.5;
+			c.gridx = 2;
+			c.gridy = 4;
+			add(acceptInvitation, c);
+	
+			c.gridx++;
+			add(declineInvitation, c);
+		
+		}
 
 		acceptInvitation.addActionListener(new ActionListener() {
 
@@ -137,6 +146,8 @@ public class AppointmentView extends NewAppointmentView {
 
 				try {
 					DBConnection.updateInvitationStatus(dbID, session.getEmployeeID(), true);
+					System.out.println("true");
+					session.getAppInstance().goToCalendar();
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -152,6 +163,8 @@ public class AppointmentView extends NewAppointmentView {
 
 				try {
 					DBConnection.updateInvitationStatus(dbID, session.getEmployeeID(), false);
+					System.out.println("false");
+					session.getAppInstance().goToCalendar();
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
