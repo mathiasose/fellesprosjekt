@@ -122,9 +122,12 @@ public class DBConnection {
 	}
 
 	public static ArrayList<Appointment> selectAppointments(String email,
-			int weekNo)
-	// finner avtalene som tilh�rer email parameteren:
-			throws EmailNotInDatabaseException, SQLException {
+			int weekNo) throws EmailNotInDatabaseException, SQLException {
+		weekNo = weekNo - 1; // sql 0-indexes weeks
+		if (weekNo == 0){
+			weekNo = 51;
+		}
+
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 		ArrayList<Integer> participants = new ArrayList<Integer>();
 		int id = selectEmployeeId(email);
