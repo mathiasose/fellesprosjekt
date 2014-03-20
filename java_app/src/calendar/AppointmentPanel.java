@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.sql.Timestamp;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -28,6 +29,7 @@ public class AppointmentPanel extends JPanel {
 
 		// this.setLayout(new BorderLayout());
 		// this.setLayout(new GridLayout(0, 1));
+//		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 		String description = model.getDescription();
 		if (description == null) {

@@ -1,7 +1,6 @@
 package calendar;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -164,7 +163,7 @@ public class CalendarView extends JComponent {
 
 	private void clearAppointments() {
 		for (DayPanel day : week) {
-			day.removeAll();
+			day.removeAllAppointments();
 		}
 	}
 
