@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+import model.Appointment;
 import calendar.CalendarView;
 import db.DBConnection;
 import appointment.NewAppointmentView;
@@ -23,6 +24,7 @@ public class App {
 	private NewAppointmentView newAppointmentView;
 	private AppointmentView appointmentView;
 	private LoginView loginView;
+	private Appointment model;
 
 	public App() {
 		frame = new Frame();
@@ -66,9 +68,9 @@ public class App {
 		frame.setView(newAppointmentView);
 	}
 
-	public void goToshowAppointment() {
+	public void goToshowAppointment(Appointment model) {
 		try {
-			appointmentView = new AppointmentView(session);
+			appointmentView = new AppointmentView(session, model);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

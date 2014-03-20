@@ -1,7 +1,6 @@
 package calendar;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -30,16 +29,9 @@ public class CalendarView extends JComponent {
 	private int weekNo;
 	private HashSet<String> showUsers = new HashSet<String>();
 	private JLabel headerText;
-	private JPanel header;
-	private JButton prevWeekButton;
-	private JButton nextWeekButton;
-	private JButton showAppointment;
-	private JButton logoutButton;
-	private JPanel topRow;
-	private JPanel midRow;
-	private JPanel botRow;
-	private JButton addAppointmentButton;
-	private JButton showOtherButton;
+	private JPanel header, topRow, midRow, botRow;
+	private JButton prevWeekButton, nextWeekButton, showAppointment,
+			logoutButton, addAppointmentButton, showOtherButton;
 
 	public CalendarView(final UserSession session) {
 		this.session = session;
@@ -50,14 +42,13 @@ public class CalendarView extends JComponent {
 
 		showUsers.add(session.getEmail());
 		populateView();
-
 	}
 
 	private void initListeners() {
 		showAppointment.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				session.getAppInstance().goToshowAppointment();
+				
 			}
 
 		});
@@ -172,7 +163,7 @@ public class CalendarView extends JComponent {
 
 	private void clearAppointments() {
 		for (DayPanel day : week) {
-			day.removeAll();
+			day.removeAllAppointments();
 		}
 	}
 
@@ -184,7 +175,7 @@ public class CalendarView extends JComponent {
 		} else {
 			day -= 1;
 		}
-		AppointmentPanel panel = new AppointmentPanel(appointment);
+		AppointmentPanel panel = new AppointmentPanel(appointment, session);
 		// panel.setSize(new Dimension(this.getWidth(), 100));
 		// panel.setMaximumSize(panel.getSize());
 		week[day].add(panel);

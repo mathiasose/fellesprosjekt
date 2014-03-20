@@ -77,6 +77,9 @@ public class Appointment {
 	}
 
 	public String getLocation() {
+		if (meetingRoom != 0) {
+			return "Room " + meetingRoom;
+		}
 		return location;
 	}
 
