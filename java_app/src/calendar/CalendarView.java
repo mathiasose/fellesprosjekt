@@ -18,7 +18,6 @@ import db.DBConnection;
 import db.EmailNotInDatabaseException;
 import model.Appointment;
 
-//la til action listener
 public class CalendarView extends JComponent {
 	private final DayPanel[] week = { new DayPanel("Mandag"),
 			new DayPanel("Tirsdag"), new DayPanel("Onsdag"),

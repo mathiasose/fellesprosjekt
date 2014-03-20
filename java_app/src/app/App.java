@@ -1,37 +1,48 @@
 package app;
 
-import java.awt.Dimension;
 import java.sql.SQLException;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import calendar.CalendarView;
+import db.DBConnection;
 import appointment.NewAppointmentView;
 import appointment.AppointmentView;
 import authentication.LoginView;
 import authentication.UserSession;
 
 public class App {
-	
+	private Frame frame;
+
 	private UserSession session;
-	private JFrame frame;
-	private CalendarView kalender;
-	private NewAppointmentView addAppointmentView;
-	private AppointmentView showApp;
-	private LoginView login;
+
+	private CalendarView calendarView;
+	private NewAppointmentView newAppointmentView;
+	private AppointmentView appointmentView;
+	private LoginView loginView;
 
 	public App() {
+		frame = new Frame();
+
+		testConnection();
+
 		session = new UserSession(this);
 		
-		frame = new JFrame("Coolendar");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		loginView = new LoginView(session);
+		frame.setView(loginView);
 
-		login = new LoginView(session);
-		frame.add(login);
+	}
 
-		frame.setSize(new Dimension(1600, 800));
-		frame.setVisible(true);
+	private void testConnection() {
+		try {
+			DBConnection.connect();
+		} catch (SQLException e) {
+			showMessageDialog("Could not talk to database. Are you sure you're connected to the internet?");
+		}
+	}
+
+	public void showMessageDialog(String msg) {
+		JOptionPane.showMessageDialog(frame, msg);
 	}
 
 	public static void main(String[] args) {
@@ -39,38 +50,29 @@ public class App {
 	}
 
 	public void goToCalendar() {
-		login.setVisible(false);
-		kalender = new CalendarView(session);
-		frame.add(kalender);
-		kalender.setVisible(true);
+		calendarView = new CalendarView(session);
+		frame.setView(calendarView);
 	}
 
-	// log out fra kalender view
 	public void logoutAndGoToLogin() {
 		session.end();
-		kalender.setVisible(false);
-		login.setVisible(true);
+		frame.setView(loginView);
 	}
 
-	// Tar deg til AddAppointment Viewet
 	public void goToAddApointment() {
-		kalender.setVisible(false);
-		addAppointmentView = new NewAppointmentView(session);
-		frame.add(addAppointmentView);
-		addAppointmentView.setVisible(true);
+		newAppointmentView = new NewAppointmentView(session);
+		frame.setView(newAppointmentView);
 	}
-	
+
 	public void goToshowAppointment() {
-		kalender.setVisible(false); 
 		try {
-			showApp = new AppointmentView(session);
+			appointmentView = new AppointmentView(session);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		
-		frame.add(showApp);
-		showApp.setVisible(true);
+		}
+
+		frame.setView(appointmentView);
 	}
 
 	// TRENGER FUNKSJONALITET HER ETTERHVERT
@@ -80,7 +82,7 @@ public class App {
 		// "Comming this Spring",
 		// JOptionPane.PLAIN_MESSAGE);
 		Object[] showSomeonesAppointments = { "Just yours", "exampleUser1",
-		"Everybody" };
+				"Everybody" };
 		String showOtherVariabel = (String) JOptionPane.showInputDialog(frame,
 				"Select your acquaintance to show their appointments",
 				"Show others calenders", JOptionPane.PLAIN_MESSAGE, null,
@@ -91,15 +93,7 @@ public class App {
 		// HER M� VI VISE VALGTE DELTAGERES APPOINTMENTS!
 	}
 
-	// Cancel tilbake til KalenderView
-	public void cancelAddAppointment() {
-		addAppointmentView.setVisible(false);
-		frame.add(kalender);
-		kalender.setVisible(true);
+	public void cancelAddAppointmentGoToAppointment() {
+		frame.setView(calendarView);
 	}
-
-	public void showMessageDialog(String msg) {
-		JOptionPane.showMessageDialog(frame, msg);
-	}
-
 }

@@ -42,6 +42,7 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 		loginButton.addActionListener(this);
 
 		setLayout(new GridBagLayout());
+		this.setVisible(true);
 
 		add(loginEmailLabel, GBC(0, 0));
 		add(loginEmailField, GBC(1, 0));
