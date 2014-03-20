@@ -70,7 +70,6 @@ public class AppointmentPanel extends JPanel {
 				setBackground(Color.RED);
 				repaint();
 				int eventID = getModel().getEventID();
-				System.out.println(eventID);
 				session.getAppInstance().goToshowAppointment(model);
 			}
 
@@ -86,7 +85,6 @@ public class AppointmentPanel extends JPanel {
 			ArrayList<Boolean> status = DBConnection
 					.selectAttendingStatus(model.getEventID());
 			for (Boolean b : status) {
-				System.out.println(b);
 				if (b != null && Boolean.FALSE.equals(b)) {
 					return Color.red;
 				}

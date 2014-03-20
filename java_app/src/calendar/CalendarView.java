@@ -85,6 +85,7 @@ public class CalendarView extends JComponent {
 				updateHeader();
 			}
 		});
+
 	}
 
 	private void initView() {
