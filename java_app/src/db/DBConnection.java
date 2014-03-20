@@ -129,12 +129,13 @@ public class DBConnection {
 		ArrayList<String> participants = new ArrayList<String>();
 		int id = selectEmployeeId(email);
 
-
-
-
-		ResultSet rs = query("select Appointment.*, Reservation.* from Appointment left join Reservation on Appointment.id = Reservation.appointment_id, Employee, Invitation where (Employee.id = '"
+		ResultSet rs = query("select Appointment.*, Reservation.* "
+				+ "from (Appointment left join Reservation on Appointment.id = Reservation.appointment_id), "
+				+ "Employee, Invitation where (Employee.id = '"
 				+ id
-				+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id) and (week(start_time)="
+				+ "') "
+				+ "and (Employee.id = Invitation.employee_id) "
+				+ "and (Invitation.appointment_id = Appointment.id) and (week(start_time)="
 				+ weekNo + ")");
 		while (rs.next()) {
 			Appointment appointment = new Appointment();
@@ -148,12 +149,12 @@ public class DBConnection {
 
 			// appointment.setParticipants();
 
-			ResultSet rs2 = query("select email from (Invitation left join Appointment on (Invitation.appointment_id = Appointment.id) left join Employee on (Invitation.employee_id = Employee.id))"
-					+ " where (Invitation.appointment_id="
-					+ rs.getInt("id")
-					+ ") and "
-					+ "(Invitation.appointment_id ="
-					+ rs.getInt("id") + ")");
+			ResultSet rs2 = query("select email "
+					+ "from (Invitation left join Appointment on (Invitation.appointment_id = Appointment.id) "
+					+ "left join Employee on (Invitation.employee_id = Employee.id)) "
+					+ "where (Invitation.appointment_id=" + rs.getInt("id")
+					+ ") and (Invitation.appointment_id =" + rs.getInt("id")
+					+ ")");
 			while (rs2.next()) {
 				participants.add(rs2.getString("email"));
 			}
@@ -168,8 +169,8 @@ public class DBConnection {
 	public static ArrayList<Boolean> selectAttendingStatus(int appointmentID)
 			throws SQLException {
 		ArrayList<Boolean> attendingStatus = new ArrayList<Boolean>();
-		ResultSet rs = query("select Invitation.attending from Invitation where Invitation.appointment_id ="
-				+ appointmentID);
+		ResultSet rs = query("select Invitation.attending from Invitation"
+				+ " where Invitation.appointment_id =" + appointmentID);
 		while (rs.next()) {
 			String s = rs.getString("attending");
 			if (s == null) {
@@ -189,7 +190,7 @@ public class DBConnection {
 			int employeeID, boolean status) throws SQLException {
 		String sqlBoolStatus = status ? "1" : "0";
 		update("update Invitation SET attending = " + sqlBoolStatus
-				+ " where (appointment_id = " + appointmentID
-				+ ") and (employee_id = " + employeeID + ")");
+				+ " where (appointment_id = " + appointmentID + ")"
+				+ " and (employee_id = " + employeeID + ")");
 	}
 }
