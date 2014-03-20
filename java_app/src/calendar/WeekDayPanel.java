@@ -8,11 +8,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-class DayPanel extends JPanel {
+class WeekDayPanel extends JPanel {
 	private JLabel title;
 	private JPanel appointments;
 
-	public DayPanel(String dayName) {
+	public WeekDayPanel(String dayName) {
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBackground(Color.WHITE);
@@ -25,7 +25,7 @@ class DayPanel extends JPanel {
 	}
 
 	public Component add(AppointmentPanel appointmentPanel) {
-		System.out.println(appointmentPanel.getModel());
+		// System.out.println(appointmentPanel.getModel());
 		for (Component c : this.getComponents()) {
 			if (c instanceof AppointmentPanel) {
 				AppointmentPanel existingAppointmentPanel = (AppointmentPanel) c;
