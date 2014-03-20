@@ -40,46 +40,40 @@ public class AppointmentView extends NewAppointmentView {
 
 		System.out.println("weekno: " + weekNo);
 
+		ArrayList<Appointment> selectAppointments;
 		try {
-			System.out.println(DBConnection.selectAppointments(userEmail,
-					weekNo) + "halla");
-		} catch (EmailNotInDatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			for (int i = 0; i < DBConnection.selectAppointments(userEmail,
-					weekNo).size(); i++) {
-				if (DBConnection.selectAppointments(userEmail, weekNo).get(i)
+			selectAppointments = DBConnection.selectAppointments(userEmail,
+					weekNo);
+			for (int i = 0; i < selectAppointments.size(); i++) {
+				if (selectAppointments.get(i)
 						.getEventID() == dbID) {
 					avtalenr = i;
 				}
 			}
-
-			Description = DBConnection.selectAppointments(userEmail, weekNo)
+			
+			Description = selectAppointments
 					.get(avtalenr).getDescription();
-			Location = DBConnection.selectAppointments(userEmail, weekNo)
+			Location = selectAppointments
 					.get(avtalenr).getLocation();
-			Duration = DBConnection.selectAppointments(userEmail, weekNo)
+			Duration = selectAppointments
 					.get(avtalenr).getDuration();
-			timeS = DBConnection.selectAppointments(userEmail, weekNo)
+			timeS = selectAppointments
 					.get(avtalenr).getStartTime();
-
-			participants = DBConnection.selectAppointments(userEmail, weekNo)
+			
+			participants = selectAppointments
 					.get(avtalenr).getParticipants(); 
-
-			int room = DBConnection.selectAppointments(userEmail, weekNo)
+			
+			int room = selectAppointments
 					.get(avtalenr).getMeetingRoom();
-
+			
 			super.appointmentLocation.setText(Location);
-
+			
 			super.appointmentDescription.setText(Description);
-
-		} catch (EmailNotInDatabaseException e) {
+		} catch (EmailNotInDatabaseException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
+	
 
 		System.out.println(Duration + "dur");
 
@@ -111,12 +105,12 @@ public class AppointmentView extends NewAppointmentView {
 		super.duration.setEnabled(false);
 		super.duration.setSelectedItem(Duration);
 
-		for (int i = 0; i < participants.size(); i++){
-			
-			super.listModel.add(i, participants.get(i));
-			System.out.println(participants);
-			
-		}
+//		for (int i = 0; i < participants.size(); i++){
+//			
+//			super.listModel.add(i, participants.get(i));
+//			System.out.println(participants);
+//			
+//		}
 
 		super.duration.setSelectedItem(duration);
 
