@@ -25,7 +25,7 @@ class WeekDayPanel extends JPanel {
 	}
 
 	public Component add(AppointmentPanel appointmentPanel) {
-		System.out.println(appointmentPanel.getModel());
+		// System.out.println(appointmentPanel.getModel());
 		for (Component c : this.getComponents()) {
 			if (c instanceof AppointmentPanel) {
 				AppointmentPanel existingAppointmentPanel = (AppointmentPanel) c;

@@ -7,14 +7,18 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import db.DBConnection;
+import app.App;
 import authentication.UserSession;
 import model.Appointment;
 
@@ -27,10 +31,6 @@ public class AppointmentPanel extends JPanel {
 		this.setModel(appointment);
 		this.session = session;
 
-		// this.setLayout(new BorderLayout());
-		// this.setLayout(new GridLayout(0, 1));
-		// this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
 		JLabel descriptionLabel = new JLabel(
 				model.getDescription() == null ? "???" : model.getDescription());
 		// comp.setFont(new Font("SansSerif", Font.PLAIN, 20));
@@ -38,13 +38,11 @@ public class AppointmentPanel extends JPanel {
 		JLabel locationLabel = new JLabel(model.getLocation() == null ? "???"
 				: model.getLocation());
 		// comp2.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		// comp2.setMinimumSize(new Dimension(0, 0));
 
 		String startTime = "Start: "
 				+ new SimpleDateFormat("hh:mm").format(model.getStartTime());
 		JLabel startTimeLabel = new JLabel(startTime);
 		// comp3.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		// comp3.setMinimumSize(new Dimension(0, 0));
 
 		Timestamp endTimeStamp = new Timestamp(0);
 		endTimeStamp.setTime(model.getStartTime().getTime()
@@ -59,8 +57,9 @@ public class AppointmentPanel extends JPanel {
 		this.add(endTimeLabel);
 		this.validate();
 
-		this.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
-		this.setBackground(Color.pink);
+		Color statusColor = getStatusColor(session);
+		this.setBorder(BorderFactory.createLineBorder(statusColor));
+		this.setBackground(statusColor);
 		this.setVisible(true);
 
 		addMouseListener(new MouseAdapter() {
@@ -80,6 +79,28 @@ public class AppointmentPanel extends JPanel {
 			}
 
 		});
+	}
+
+	private Color getStatusColor(final UserSession session) {
+		try {
+			ArrayList<Boolean> status = DBConnection
+					.selectAttendingStatus(model.getEventID());
+			for (Boolean b : status) {
+				System.out.println(b);
+				if (b != null && Boolean.FALSE.equals(b)) {
+					return Color.red;
+				}
+			}
+			for (Boolean b : status) {
+				if (b == null) {
+					return Color.yellow;
+				}
+			}
+			return Color.green;
+		} catch (SQLException e1) {
+			session.appDialog(App.DB_ERROR_MSG);
+		}
+		return Color.lightGray;
 	}
 
 	public boolean equals(AppointmentPanel appointmentPanel) {

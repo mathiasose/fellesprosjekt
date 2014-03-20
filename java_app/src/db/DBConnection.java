@@ -26,7 +26,7 @@ public class DBConnection {
 	}
 
 	public static ResultSet query(String query) throws SQLException {
-		System.out.println(query);
+		// System.out.println(query);
 		Statement stmt = connect().createStatement();
 		return stmt.executeQuery(query);
 	}
@@ -164,19 +164,24 @@ public class DBConnection {
 		}
 		return appointments;
 	}
-	
-	public static ArrayList<Boolean> selectAttendingStatus(int appointmentID){
+
+	public static ArrayList<Boolean> selectAttendingStatus(int appointmentID)
+			throws SQLException {
 		ArrayList<Boolean> attendingStatus = new ArrayList<Boolean>();
-		try{
-			ResultSet rs = query("select Invitation.attending from Invitation where Invitation.appointment_id ="+ appointmentID);
-			while(rs.next()){
-				attendingStatus.add(rs.getBoolean("attending"));
+		ResultSet rs = query("select Invitation.attending from Invitation where Invitation.appointment_id ="
+				+ appointmentID);
+		while (rs.next()) {
+			String s = rs.getString("attending");
+			if (s == null) {
+				attendingStatus.add(null);
+			} else if (s == "1") {
+				attendingStatus.add(true);
+			} else if (s == "0") {
+				attendingStatus.add(false);
 			}
-		}catch (SQLException e) {
-			e.printStackTrace();
-		
+		}
 		return attendingStatus;
-		
+
 	}
 
 	// public static Appointment selectAppointmentInfo(int appointmentID){
