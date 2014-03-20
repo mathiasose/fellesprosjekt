@@ -1,6 +1,7 @@
 package authentication;
 
 import java.sql.SQLException;
+
 import app.App;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
@@ -40,5 +41,9 @@ public class UserSession {
 
 	public App getAppInstance() {
 		return appInstance;
+	}
+
+	public void appDialog(String msg) {
+		appInstance.showMessageDialog(msg);
 	}
 }

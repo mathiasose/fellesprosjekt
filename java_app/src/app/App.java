@@ -12,6 +12,9 @@ import authentication.LoginView;
 import authentication.UserSession;
 
 public class App {
+	public static final String DB_ERROR_MSG = "Could not talk to database. Are you sure you're connected to the internet?";
+	public static final String AUTH_ERROR_MSG = "Wrong user/password combination";
+
 	private Frame frame;
 
 	private UserSession session;
@@ -37,7 +40,7 @@ public class App {
 		try {
 			DBConnection.connect();
 		} catch (SQLException e) {
-			showMessageDialog("Could not talk to database. Are you sure you're connected to the internet?");
+			showMessageDialog(DB_ERROR_MSG);
 		}
 	}
 

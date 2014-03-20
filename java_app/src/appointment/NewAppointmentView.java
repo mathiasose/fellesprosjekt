@@ -77,9 +77,7 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 		try {
 			rooms = DBConnection.selectAllRoomIDs();
 		} catch (SQLException e3) {
-			session.getAppInstance()
-					.showMessageDialog(
-							"Could not talk to database. Are you sure you're connected to the internet?");
+			session.appDialog(App.AUTH_ERROR_MSG);
 		}
 
 		GridBagConstraints c;
@@ -276,9 +274,7 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 					appointmentIDi = DBConnection.insertAppointment(start_time,
 							duration, location, descrip, canceled);
 				} catch (SQLException e1) {
-					session.getAppInstance()
-							.showMessageDialog(
-									"Could not talk to database. Are you sure you're connected to the internet?");
+					session.appDialog(App.AUTH_ERROR_MSG);
 				}
 				String appointmentID = Integer.toString(appointmentIDi);
 
@@ -301,9 +297,7 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (SQLException e) {
-						session.getAppInstance()
-								.showMessageDialog(
-										"Could not talk to database. Are you sure you're connected to the internet?");
+						session.appDialog(App.AUTH_ERROR_MSG);
 					}
 
 				}
