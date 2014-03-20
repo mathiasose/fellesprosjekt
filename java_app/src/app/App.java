@@ -96,7 +96,7 @@ public class App {
 		// HER M� VI VISE VALGTE DELTAGERES APPOINTMENTS!
 	}
 
-	public void cancelAddAppointmentGoToAppointment() {
-		frame.setView(calendarView);
+	public void cancelAddAppointmentGoToCalendar() {
+		goToCalendar();
 	}
 }

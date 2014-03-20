@@ -310,7 +310,7 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 		cancelAppointment.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				session.getAppInstance().cancelAddAppointmentGoToAppointment();
+				session.getAppInstance().cancelAddAppointmentGoToCalendar();
 				// System.exit(0);
 			}
 		});
