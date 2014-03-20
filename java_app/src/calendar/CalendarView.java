@@ -30,16 +30,9 @@ public class CalendarView extends JComponent {
 	private int weekNo;
 	private HashSet<String> showUsers = new HashSet<String>();
 	private JLabel headerText;
-	private JPanel header;
-	private JButton prevWeekButton;
-	private JButton nextWeekButton;
-	private JButton showAppointment;
-	private JButton logoutButton;
-	private JPanel topRow;
-	private JPanel midRow;
-	private JPanel botRow;
-	private JButton addAppointmentButton;
-	private JButton showOtherButton;
+	private JPanel header, topRow, midRow, botRow;
+	private JButton prevWeekButton, nextWeekButton, showAppointment,
+			logoutButton, addAppointmentButton, showOtherButton;
 
 	public CalendarView(final UserSession session) {
 		this.session = session;
@@ -50,7 +43,6 @@ public class CalendarView extends JComponent {
 
 		showUsers.add(session.getEmail());
 		populateView();
-
 	}
 
 	private void initListeners() {
