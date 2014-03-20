@@ -185,17 +185,8 @@ public class DBConnection {
 	public static void updateInvitationStatus(int appointmentID,
 			int employeeID, boolean status) throws SQLException {
 		String sqlBoolStatus = status ? "1" : "0";
-		update("update Invitation SET (attending = " + sqlBoolStatus
-				+ ") where (appointment_id = " + appointmentID
-				+ "( and (employee_id = " + employeeID + ")");
+		update("update Invitation SET attending = " + sqlBoolStatus
+				+ " where (appointment_id = " + appointmentID
+				+ ") and (employee_id = " + employeeID + ")");
 	}
-
-	// public static void main(String[] args) {
-	// try {
-	// updateInvitationStatus(1, 2, true);
-	// } catch (SQLException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
 }
