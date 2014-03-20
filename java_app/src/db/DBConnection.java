@@ -128,7 +128,6 @@ public class DBConnection {
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 		ArrayList<String> participants = new ArrayList<String>();
 		int id = selectEmployeeId(email);
-
 		ResultSet rs = query("select Appointment.*, Reservation.* "
 				+ "from (Appointment left join Reservation on Appointment.id = Reservation.appointment_id), "
 				+ "Employee, Invitation where (Employee.id = '"
@@ -139,28 +138,34 @@ public class DBConnection {
 				+ weekNo + ")");
 		while (rs.next()) {
 			Appointment appointment = new Appointment();
-			appointment.setEventID(rs.getInt("id"));
+			int appointmentID = rs.getInt("id");
+			appointment.setEventID(appointmentID);
 			appointment.setLocation(rs.getString("location"));
 			appointment.setDuration(rs.getInt("duration"));
 			appointment.setDescription(rs.getString("description"));
 			appointment.setAppointmentTime(rs.getTimestamp("start_time"));
 			appointment.setMeetingRoom(rs.getInt("room_id"));
-			appointment.setEventID(rs.getInt("id"));
+			appointment.setEventID(appointmentID);
 
 			// appointment.setParticipants();
 
 			ResultSet rs2 = query("select email "
 					+ "from (Invitation left join Appointment on (Invitation.appointment_id = Appointment.id) "
 					+ "left join Employee on (Invitation.employee_id = Employee.id)) "
-					+ "where (Invitation.appointment_id=" + rs.getInt("id")
-					+ ") and (Invitation.appointment_id =" + rs.getInt("id")
+					+ "where (Invitation.appointment_id=" + appointmentID
+					+ ") and (Invitation.appointment_id =" + appointmentID
 					+ ")");
 			while (rs2.next()) {
 				participants.add(rs2.getString("email"));
 			}
-			// appointment.setParticipants(participants);
-			appointments.add(appointment);
+			appointment.setParticipants(participants);
 
+			ResultSet rs3 = query("select employee_id from Invitation where creator = 1 and appointment_id ="
+					+ appointmentID);
+			rs3.next();
+			appointment.setCreatedByID(rs3.getInt("employee_id"));
+
+			appointments.add(appointment);
 		}
 
 		return appointments;
