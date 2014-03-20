@@ -57,7 +57,7 @@ public class CalendarView extends JComponent {
 		showAppointment.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				session.getAppInstance().goToshowAppointment();
+				
 			}
 
 		});
@@ -184,7 +184,7 @@ public class CalendarView extends JComponent {
 		} else {
 			day -= 1;
 		}
-		AppointmentPanel panel = new AppointmentPanel(appointment);
+		AppointmentPanel panel = new AppointmentPanel(appointment, session);
 		// panel.setSize(new Dimension(this.getWidth(), 100));
 		// panel.setMaximumSize(panel.getSize());
 		week[day].add(panel);

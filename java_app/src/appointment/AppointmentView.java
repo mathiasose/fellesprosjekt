@@ -1,35 +1,47 @@
 package appointment;
 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-import javax.swing.JFrame;
+import javax.swing.JFrame; 
 import javax.swing.JPanel;
 
+import model.Appointment;
 import authentication.UserSession;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
 
 public class AppointmentView extends NewAppointmentView {
 
-	public AppointmentView(UserSession session) throws SQLException {
+	public AppointmentView(UserSession session, Appointment model) throws SQLException {
 
 		super(session);
-
-		int dbID = 4;
+		
+		
+		int dbID = model.getEventID();
 		int avtalenr = 0;
 		String Description = null;
 		String Location = null;
 		int Duration = 0;
 		Timestamp timeS = null;
 		String userEmail = "m@thiaso.se";
+		System.out.println("førweekno");
+		Timestamp weekNol = model.getStartTime();
+		Calendar tempCal = Calendar.getInstance();
+		tempCal.setTime(weekNol);
+		int weekNo = tempCal.get(Calendar.WEEK_OF_YEAR); 
+
+		System.out.println("weekno: " + weekNo);
+		
 
 		try {
-			System.out.println(DBConnection.selectAppointments(userEmail)
+			System.out.println(DBConnection.selectAppointments(userEmail, weekNo)
 					+ "halla");
 		} catch (EmailNotInDatabaseException e) {
 			// TODO Auto-generated catch block
@@ -37,23 +49,23 @@ public class AppointmentView extends NewAppointmentView {
 		}
 
 		try {
-			for (int i = 0; i < DBConnection.selectAppointments(userEmail)
+			for (int i = 0; i < DBConnection.selectAppointments(userEmail, weekNo)
 					.size(); i++) {
-				if (DBConnection.selectAppointments(userEmail).get(i)
+				if (DBConnection.selectAppointments(userEmail, weekNo).get(i)
 						.getEventID() == dbID) {
 					avtalenr = i;
 				}
 			}
 
-			Description = DBConnection.selectAppointments(userEmail)
+			Description = DBConnection.selectAppointments(userEmail, weekNo)
 					.get(avtalenr).getDescription();
-			Location = DBConnection.selectAppointments(userEmail).get(avtalenr)
+			Location = DBConnection.selectAppointments(userEmail, weekNo).get(avtalenr)
 					.getLocation();
-			Duration = DBConnection.selectAppointments(userEmail).get(avtalenr)
+			Duration = DBConnection.selectAppointments(userEmail, weekNo).get(avtalenr)
 					.getDuration();
-			timeS = DBConnection.selectAppointments(userEmail).get(avtalenr)
+			timeS = DBConnection.selectAppointments(userEmail, weekNo).get(avtalenr)
 					.getStartTime();
-			int room = DBConnection.selectAppointments(userEmail).get(avtalenr)
+			int room = DBConnection.selectAppointments(userEmail, weekNo).get(avtalenr)
 					.getMeetingRoom();
 
 			super.appointmentLocation.setText(Location);
