@@ -95,7 +95,6 @@ public class DBConnection {
 				+ start_time
 				+ "', '"
 				+ duration
-				+ "0000"
 				+ "', '"
 				+ location
 				+ "', '" + description + "', '" + canceled + "')");
