@@ -50,7 +50,7 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 	public JComboBox startHour, startMin, duration;
 	public JComboBox room;
 	public JButton cancelAppointment, saveAppointment;
-	public static JButton addParticipant;
+	public static JButton addParticipant, deleteParticipant;
 	public JList participantList;
 	public GhostText ghostText;
 	public DefaultListModel listModel;
@@ -137,6 +137,7 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 		cancelAppointment = new JButton("Cancel");
 		saveAppointment = new JButton("Save");
 		addParticipant = new JButton("Add Participant");
+		deleteParticipant = new JButton("Remove Participant");
 
 		// layout
 
@@ -212,6 +213,11 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 		// addparticipant button
 		c.gridy = 4;
 		add(addParticipant, c);
+		
+		//removeparticipant button
+		
+		c.gridy++;
+		add(deleteParticipant,c);
 
 		// actionlisteners
 
@@ -311,7 +317,12 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 				try {
 					DBConnection.insertReservation(appointmentID, room_id);
 				} catch (SQLException e1) {
+
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+
 					session.appDialog(App.DB_ERROR_MSG);
+
 				}
 
 				for (int y = 0; y < listModel.getSize(); y++) {
@@ -346,6 +357,20 @@ public class NewAppointmentView extends JPanel implements ActionListener,
 				session.getAppInstance().cancelAddAppointmentGoToCalendar();
 				// System.exit(0);
 			}
+		});
+		
+		
+		deleteParticipant.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				int index = participantList.getSelectedIndex();
+				listModel.remove(index);
+				
+			
+			}				
+			
+			
 		});
 
 		// appointmentDate.addKeyListener(new KeyListener() {
