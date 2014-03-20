@@ -9,6 +9,7 @@ import db.EmailNotInDatabaseException;
 public class UserSession {
 
 	private String email;
+	private int employeeID;
 	private boolean authenticated = false;
 	private App appInstance;
 
@@ -20,6 +21,10 @@ public class UserSession {
 		return email;
 	}
 
+	public int getEmployeeID() {
+		return employeeID;
+	}
+
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
@@ -28,6 +33,7 @@ public class UserSession {
 			throws EmailNotInDatabaseException, SQLException {
 		if (DBConnection.tryLogin(loginEmail, loginPassword)) {
 			this.email = loginEmail;
+			this.employeeID = DBConnection.selectEmployeeId(loginEmail);
 			this.authenticated = true;
 			return true;
 		}
