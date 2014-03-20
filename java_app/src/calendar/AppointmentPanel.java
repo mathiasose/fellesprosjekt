@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -22,53 +23,50 @@ public class AppointmentPanel extends JPanel {
 	public int eventID = 0;
 	protected UserSession session;
 
-
 	public AppointmentPanel(Appointment appointment, final UserSession session) {
 		this.setModel(appointment);
 		this.session = session;
 
 		// this.setLayout(new BorderLayout());
 		// this.setLayout(new GridLayout(0, 1));
-//		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		// this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-		String description = model.getDescription();
-		if (description == null) {
-			description = "???";
-		}
+		JLabel descriptionLabel = new JLabel(
+				model.getDescription() == null ? "???" : model.getDescription());
+		// comp.setFont(new Font("SansSerif", Font.PLAIN, 20));
 
-		JLabel comp = new JLabel(description);
-		comp.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		this.add(comp);
+		JLabel locationLabel = new JLabel(model.getLocation() == null ? "???"
+				: model.getLocation());
+		// comp2.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		// comp2.setMinimumSize(new Dimension(0, 0));
 
-		String location = model.getLocation();
-		if (location == null) {
-			location = "???";
-		}
-		JLabel comp2 = new JLabel(location);
-		comp2.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		comp2.setMinimumSize(new Dimension(0, 0));
-		this.add(comp2);
+		String startTime = "Start: "
+				+ new SimpleDateFormat("hh:mm").format(model.getStartTime());
+		JLabel startTimeLabel = new JLabel(startTime);
+		// comp3.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		// comp3.setMinimumSize(new Dimension(0, 0));
 
-		Timestamp startTime = model.getStartTime();
-		String timespan = String.format("%02d", startTime.getHours()) + ":"
-				+ String.format("%02d", startTime.getMinutes());
-		JLabel comp3 = new JLabel(timespan);
-		comp3.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		comp3.setMinimumSize(new Dimension(0, 0));
-		this.add(comp3);
+		Timestamp endTimeStamp = new Timestamp(0);
+		endTimeStamp.setTime(model.getStartTime().getTime()
+				+ model.getDuration() * 60 * 1000);
+		String endTime = "End: "
+				+ new SimpleDateFormat("hh:mm").format(endTimeStamp);
+		JLabel endTimeLabel = new JLabel(endTime);
 
-		this.add(new JLabel(model.getDuration() + "min"));
-
+		this.add(descriptionLabel);
+		this.add(locationLabel);
+		this.add(startTimeLabel);
+		this.add(endTimeLabel);
 		this.validate();
 
 		this.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		this.setBackground(Color.pink);
 		this.setVisible(true);
-		
-		addMouseListener(new MouseAdapter(){
-			private Color background; 
-			
-			public void mousePressed(MouseEvent e){
+
+		addMouseListener(new MouseAdapter() {
+			private Color background;
+
+			public void mousePressed(MouseEvent e) {
 				background = getBackground();
 				setBackground(Color.RED);
 				repaint();
@@ -76,11 +74,11 @@ public class AppointmentPanel extends JPanel {
 				System.out.println(eventID);
 				session.getAppInstance().goToshowAppointment(model);
 			}
-			
-			public void mouseReleased(MouseEvent e){
+
+			public void mouseReleased(MouseEvent e) {
 				setBackground(background);
 			}
-			
+
 		});
 	}
 
@@ -91,9 +89,7 @@ public class AppointmentPanel extends JPanel {
 	@Override
 	public int getHeight() {
 		double duration = (double) getModel().getDuration();
-		if (duration == 0) {
-			duration = 2 * 120;
-		}
+		duration = 240d; // until alignment gets figured out
 		return (int) (800 * (duration / (24 * 60)));
 	}
 

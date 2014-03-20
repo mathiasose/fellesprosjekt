@@ -8,11 +8,11 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-class DayPanel extends JPanel {
+class WeekDayPanel extends JPanel {
 	private JLabel title;
 	private JPanel appointments;
 
-	public DayPanel(String dayName) {
+	public WeekDayPanel(String dayName) {
 		super();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBackground(Color.WHITE);

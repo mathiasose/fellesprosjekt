@@ -21,10 +21,10 @@ import db.EmailNotInDatabaseException;
 import model.Appointment;
 
 public class CalendarView extends JComponent {
-	private final DayPanel[] week = { new DayPanel("Mandag"),
-			new DayPanel("Tirsdag"), new DayPanel("Onsdag"),
-			new DayPanel("Torsdag"), new DayPanel("Fredag"),
-			new DayPanel("Lørdag"), new DayPanel("Søndag") };
+	private final WeekDayPanel[] week = { new WeekDayPanel("Mandag"),
+			new WeekDayPanel("Tirsdag"), new WeekDayPanel("Onsdag"),
+			new WeekDayPanel("Torsdag"), new WeekDayPanel("Fredag"),
+			new WeekDayPanel("Lørdag"), new WeekDayPanel("Søndag") };
 	private UserSession session;
 	private int weekNo;
 	private HashSet<String> showUsers = new HashSet<String>();
@@ -48,7 +48,7 @@ public class CalendarView extends JComponent {
 		showAppointment.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 			}
 
 		});
@@ -114,7 +114,7 @@ public class CalendarView extends JComponent {
 
 		/* middle */
 		midRow.setLayout(new GridLayout(1, 7));
-		for (DayPanel dp : week) {
+		for (WeekDayPanel dp : week) {
 			midRow.add(dp);
 		}
 
@@ -162,7 +162,7 @@ public class CalendarView extends JComponent {
 	}
 
 	private void clearAppointments() {
-		for (DayPanel day : week) {
+		for (WeekDayPanel day : week) {
 			day.removeAllAppointments();
 		}
 	}
