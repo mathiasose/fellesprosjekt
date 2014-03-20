@@ -13,6 +13,8 @@ import authentication.LoginView;
 import authentication.UserSession;
 
 public class App {
+	public static final boolean DEBUG = true;
+
 	public static final String DB_ERROR_MSG = "Could not talk to database. Are you sure you're connected to the internet?";
 	public static final String AUTH_ERROR_MSG = "Wrong user/password combination";
 
