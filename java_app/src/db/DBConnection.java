@@ -160,10 +160,14 @@ public class DBConnection {
 			}
 			appointment.setParticipants(participants);
 
-			ResultSet rs3 = query("select employee_id from Invitation where creator = 1 and appointment_id ="
+			ResultSet rs3 = query("select employee_id from Invitation "
+					+ "where creator = 1 " + "and appointment_id ="
 					+ appointmentID);
-			rs3.next();
-			appointment.setCreatedByID(rs3.getInt("employee_id"));
+
+			while (rs3.next()) {
+				appointment.setCreatedByID(rs3.getInt("employee_id"));
+				break;
+			}
 
 			appointments.add(appointment);
 		}
