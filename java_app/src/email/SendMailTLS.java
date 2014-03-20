@@ -1,6 +1,5 @@
 package email;
 
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -22,15 +21,13 @@ public class SendMailTLS {
 
 		final String username = "vaginaknuser@gmail.com";
 		final String password = "5431offblast";
-		
+
 		System.out.println(DBConnection.selectParticipantEmails(1));
-		
-		for (int i = 0; i < DBConnection.selectParticipantEmails(1).size(); i++){
+
+		for (int i = 0; i < DBConnection.selectParticipantEmails(1).size(); i++) {
 			System.out.println(DBConnection.selectParticipantEmails(1).get(i));
-			
+
 		}
-		
-				
 
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
@@ -39,22 +36,24 @@ public class SendMailTLS {
 		props.put("mail.smtp.port", "587");
 
 		Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		  });
-		
-		for (int i = 0; i < DBConnection.selectParticipantEmails(1).size(); i++){
+				new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(username, password);
+					}
+				});
+
+		for (int i = 0; i < DBConnection.selectParticipantEmails(1).size(); i++) {
 			try {
 
 				Message message = new MimeMessage(session);
-				message.setFrom(new InternetAddress("kristofferringstaddahl@gmail.com"));
-				message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(DBConnection.selectParticipantEmails(1).get(i)));
+				message.setFrom(new InternetAddress(
+						"kristofferringstaddahl@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO, InternetAddress
+						.parse(DBConnection.selectParticipantEmails(1).get(i)));
 				message.setSubject("Appointment Invitation");
-				message.setText("Dear, " + DBConnection.selectParticipantEmails(1).get(i) 
-					+ "\n\n You have been invited to an icecream-party. woopwoop");
+				message.setText("Dear, "
+						+ DBConnection.selectParticipantEmails(1).get(i)
+						+ "\n\n You have been invited to an icecream-party. woopwoop");
 
 				Transport.send(message);
 
@@ -63,7 +62,7 @@ public class SendMailTLS {
 			} catch (MessagingException e) {
 				throw new RuntimeException(e);
 			}
-			
+
 		}
 
 	}

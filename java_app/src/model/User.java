@@ -1,14 +1,14 @@
 package model;
 
 public class User {
-	
+
 	private int userID = 0;
 	private String email = "";
 	private String name = "";
 	private String password = "";
-	
-	public User(){
-		
+
+	public User() {
+
 	}
 
 	public int getUserID() {
@@ -42,7 +42,5 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
 }

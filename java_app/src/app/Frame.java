@@ -15,8 +15,8 @@ public class Frame extends JFrame {
 		this.setSize(new Dimension(1600, 800));
 		this.setVisible(true);
 	}
-	
-	public void setView(JComponent view){
+
+	public void setView(JComponent view) {
 		if (this.currentView != null) {
 			this.currentView.setVisible(false);
 		}

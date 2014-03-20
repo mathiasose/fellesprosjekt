@@ -27,7 +27,7 @@ public class App {
 		testConnection();
 
 		session = new UserSession(this);
-		
+
 		loginView = new LoginView(session);
 		frame.setView(loginView);
 

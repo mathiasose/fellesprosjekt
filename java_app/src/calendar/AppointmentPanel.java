@@ -16,14 +16,14 @@ public class AppointmentPanel extends JPanel {
 	public AppointmentPanel(Appointment appointment) {
 		super();
 		setModel(appointment);
-		
+
 		setLayout(new BorderLayout());
 		add(new JLabel(getModel().getDescription()), BorderLayout.NORTH);
 		add(new JLabel(getModel().getLocation()), BorderLayout.CENTER);
-		
+
 		setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		setBackground(Color.pink);
-		
+
 		Dimension dim = new Dimension(getWidth(), getHeight());
 		System.out.println(dim);
 		this.setVisible(true);
@@ -32,14 +32,14 @@ public class AppointmentPanel extends JPanel {
 	public boolean equals(AppointmentPanel appointmentPanel) {
 		return getModel().equals(appointmentPanel.getModel());
 	}
-	
+
 	@Override
 	public int getHeight() {
-		double duration = (double)getModel().getDuration();
+		double duration = (double) getModel().getDuration();
 		if (duration == 0) {
 			duration = 120;
 		}
-		return (int)(800*(duration/(24*60)));
+		return (int) (800 * (duration / (24 * 60)));
 	}
 
 	public Appointment getModel() {

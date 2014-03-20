@@ -6,6 +6,7 @@ import db.DBConnection;
 import db.EmailNotInDatabaseException;
 
 public class UserSession {
+
 	private String email;
 	private boolean authenticated = false;
 	private App appInstance;

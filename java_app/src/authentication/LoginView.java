@@ -31,7 +31,7 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 
 	public LoginView(UserSession session) {
 		this.session = session;
-		
+
 		loginEmailLabel = new JLabel("Email: ");
 		loginPasswordLabel = new JLabel("Password: ");
 
@@ -75,12 +75,16 @@ public class LoginView extends JPanel implements KeyListener, ActionListener {
 				if (session.authenticate(getLoginEmail(), getLoginPassword())) {
 					session.getAppInstance().goToCalendar();
 				} else {
-					session.getAppInstance().showMessageDialog("Wrong user/password combination");
+					session.getAppInstance().showMessageDialog(
+							"Wrong user/password combination");
 				}
 			} catch (EmailNotInDatabaseException e) {
-				session.getAppInstance().showMessageDialog("Wrong user/password combination");
+				session.getAppInstance().showMessageDialog(
+						"Wrong user/password combination");
 			} catch (SQLException e) {
-				session.getAppInstance().showMessageDialog("Could not talk to database. Are you sure you're connected to the internet?");
+				session.getAppInstance()
+						.showMessageDialog(
+								"Could not talk to database. Are you sure you're connected to the internet?");
 			}
 		}
 	}
