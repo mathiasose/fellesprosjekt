@@ -31,5 +31,4 @@ class DayPanel extends JPanel {
 		}
 		return super.add(appointmentPanel);
 	}
-
 }

@@ -33,7 +33,6 @@ public class App {
 
 		loginView = new LoginView(session);
 		frame.setView(loginView);
-
 	}
 
 	private void testConnection() {
@@ -98,5 +97,9 @@ public class App {
 
 	public void cancelAddAppointmentGoToCalendar() {
 		goToCalendar();
+	}
+
+	public void validate() {
+		frame.validate();
 	}
 }

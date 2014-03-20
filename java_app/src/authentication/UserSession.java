@@ -46,4 +46,8 @@ public class UserSession {
 	public void appDialog(String msg) {
 		appInstance.showMessageDialog(msg);
 	}
+
+	public void validate() {
+		appInstance.validate();
+	}
 }
