@@ -112,13 +112,9 @@ public class DBConnection {
 				+ "', '" + hidden + "')");
 	}
 
-	public static void insertReservation(String appointment_id, String room_id) {
-		try {
-			update("insert into Reservation (appointment_id, room_id) values('"
-					+ appointment_id + "', '" + room_id + "')");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public static void insertReservation(String appointment_id, String room_id) throws SQLException {
+		update("insert into Reservation (appointment_id, room_id) values('"
+				+ appointment_id + "', '" + room_id + "')");
 	}
 
 	public static ArrayList<Appointment> selectAppointments(String email,
@@ -129,40 +125,44 @@ public class DBConnection {
 		}
 
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
-		ArrayList<Integer> participants = new ArrayList<Integer>();
+		ArrayList<String> participants = new ArrayList<String>();
 		int id = selectEmployeeId(email);
-		try {
-			ResultSet rs = query("select Appointment.*, Reservation.* from Appointment left join Reservation on Appointment.id = Reservation.appointment_id, Employee, Invitation where (Employee.id = '"
-					+ id
-					+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id) and (week(start_time)="
-					+ weekNo + ")");
-			while (rs.next()) {
-				Appointment appointment = new Appointment();
-				appointment.setEventID(rs.getInt("id"));
-				appointment.setLocation(rs.getString("location"));
-				appointment.setDuration(rs.getInt("duration"));
-				appointment.setDescription(rs.getString("description"));
-				appointment.setAppointmentTime(rs.getTimestamp("start_time"));
-				appointment.setMeetingRoom(rs.getInt("room_id"));
-				appointment.setEventID(rs.getInt("id"));
-				// appointment.setParticipants();
 
-				ResultSet rs2 = query("select Invitation.* from (Invitation left join Appointment on Invitation.appointment_id = Appointment.id)"
-						+ " where Appointment.id ="
-						+ rs.getInt("id")
-						+ " and Invitation.appointment_id =" + rs.getInt("id"));
-				while (rs2.next()) {
-					participants.add(rs2.getInt("employee_id"));
-				}
-				appointment.setParticipants(participants);
-				appointments.add(appointment);
 
+
+
+		ResultSet rs = query("select Appointment.*, Reservation.* from Appointment left join Reservation on Appointment.id = Reservation.appointment_id, Employee, Invitation where (Employee.id = '"
+				+ id
+				+ "') and (Employee.id = Invitation.employee_id) and (Invitation.appointment_id = Appointment.id) and (week(start_time)="
+				+ weekNo + ")");
+		while (rs.next()) {
+			Appointment appointment = new Appointment();
+			appointment.setEventID(rs.getInt("id"));
+			appointment.setLocation(rs.getString("location"));
+			appointment.setDuration(rs.getInt("duration"));
+			appointment.setDescription(rs.getString("description"));
+			appointment.setAppointmentTime(rs.getTimestamp("start_time"));
+			appointment.setMeetingRoom(rs.getInt("room_id"));
+			appointment.setEventID(rs.getInt("id"));
+			// appointment.setParticipants();
+
+			ResultSet rs2 = query("select email from Invitation left join Appointment on Invitation.appointment_id = Appointment.id left join Employee on )"
+					+ " Invitation.employee_id = Employee.id where Invitation.appointment_id="
+					+ rs.getInt("id")
+					+ " and Invitation.appointment_id =" + rs.getInt("id"));
+			while (rs2.next()) {
+				participants.add(rs2.getString("email"));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			// appointment.setParticipants(participants);
+			appointments.add(appointment);
+
 		}
+		
+		
+
 		return appointments;
 	}
+
 
 	public static ArrayList<Boolean> selectAttendingStatus(int appointmentID)
 			throws SQLException {
@@ -179,6 +179,7 @@ public class DBConnection {
 				attendingStatus.add(false);
 			}
 		}
+
 		return attendingStatus;
 
 	}

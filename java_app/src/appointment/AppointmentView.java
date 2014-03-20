@@ -31,7 +31,7 @@ public class AppointmentView extends NewAppointmentView {
 		int Duration = 0;
 		Timestamp timeS = null;
 		String userEmail = "m@thiaso.se";
-		ArrayList<Integer> participants = new ArrayList<Integer>();
+		ArrayList<String> participants = new ArrayList<String>();
 
 		Timestamp weekNol = model.getStartTime();
 		Calendar tempCal = Calendar.getInstance();
@@ -113,8 +113,8 @@ public class AppointmentView extends NewAppointmentView {
 
 		for (int i = 0; i < participants.size(); i++){
 			
-
-			super.listModel.add(0, "kensivalie@gmail.com");
+			super.listModel.add(i, participants.get(i));
+			System.out.println(participants);
 			
 		}
 
