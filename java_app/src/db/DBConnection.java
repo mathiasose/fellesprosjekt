@@ -124,7 +124,7 @@ public class DBConnection {
 	public static ArrayList<Appointment> selectAppointments(String email,
 			int weekNo) throws EmailNotInDatabaseException, SQLException {
 		weekNo = weekNo - 1; // sql 0-indexes weeks
-		if (weekNo < 0){
+		if (weekNo < 0) {
 			weekNo = 51;
 		}
 
