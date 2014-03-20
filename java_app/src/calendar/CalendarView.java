@@ -140,6 +140,7 @@ public class CalendarView extends JComponent {
 		headerText.setFont(new Font("Serif", Font.PLAIN, 32));
 
 		header.removeAll();
+		session.validate();
 
 		header.add(prevWeekButton);
 		header.add(headerText);
@@ -151,7 +152,6 @@ public class CalendarView extends JComponent {
 
 	private void populateView() {
 		clearAppointments();
-		session.validate();
 		for (String email : showUsers) {
 			addAppointments(email, weekNo);
 		}
@@ -174,7 +174,6 @@ public class CalendarView extends JComponent {
 		for (DayPanel day : week) {
 			day.removeAll();
 		}
-		session.validate();
 	}
 
 	private void addAppointment(Appointment appointment) {
