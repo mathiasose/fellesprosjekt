@@ -13,8 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import app.App;
+import appointment.GhostText;
 import authentication.UserSession;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
@@ -30,8 +32,9 @@ public class CalendarView extends JComponent {
 	private HashSet<String> showUsers = new HashSet<String>();
 	private JLabel headerText;
 	private JPanel header, topRow, midRow, botRow;
-	private JButton prevWeekButton, nextWeekButton, showAppointment,
-			logoutButton, addAppointmentButton, showOtherButton;
+	private JButton prevWeekButton, nextWeekButton, logoutButton,
+			addAppointmentButton, showOtherButton;
+	private JTextField otherUserEmailInput;
 
 	public CalendarView(final UserSession session) {
 		this.session = session;
@@ -45,13 +48,6 @@ public class CalendarView extends JComponent {
 	}
 
 	private void initListeners() {
-		showAppointment.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-			}
-
-		});
 
 		addAppointmentButton.addActionListener(new ActionListener() {
 			@Override
@@ -90,7 +86,7 @@ public class CalendarView extends JComponent {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				showUsers.add("test@epost.com");
+				showUsers.add(otherUserEmailInput.getText());
 				System.out.println(showUsers);
 				populateView();
 			}
@@ -113,7 +109,6 @@ public class CalendarView extends JComponent {
 
 		prevWeekButton = new JButton("<");
 		nextWeekButton = new JButton(">");
-		showAppointment = new JButton("ShowAppYOLOSWAG");
 
 		logoutButton = new JButton("Logg ut");
 
@@ -130,10 +125,14 @@ public class CalendarView extends JComponent {
 		}
 
 		/* bottom */
-		addAppointmentButton = new JButton("Legg til avtale");
-		showOtherButton = new JButton("Vis andre");
+		addAppointmentButton = new JButton("Legg til ny avtale");
+
+		otherUserEmailInput = new JTextField(20);
+		new GhostText(otherUserEmailInput, "Vis annen bruker");
+		showOtherButton = new JButton("Vis");
 
 		botRow.add(addAppointmentButton);
+		botRow.add(otherUserEmailInput);
 		botRow.add(showOtherButton);
 	}
 
@@ -147,7 +146,6 @@ public class CalendarView extends JComponent {
 		header.add(prevWeekButton);
 		header.add(headerText);
 		header.add(nextWeekButton);
-		header.add(showAppointment);
 
 		session.validate();
 	}
