@@ -24,16 +24,16 @@ class WeekDayPanel extends JPanel {
 		add(appointments);
 	}
 
-	public Component add(AppointmentPanel appointmentPanel) {
+	public Component add(AppointmentPanel newAppointmentPanel) {
 		for (Component c : this.getComponents()) {
 			if (c instanceof AppointmentPanel) {
 				AppointmentPanel existingAppointmentPanel = (AppointmentPanel) c;
-				if (existingAppointmentPanel.equals(appointmentPanel)) {
+				if (existingAppointmentPanel.equals(newAppointmentPanel)) {
 					return null;
 				}
 			}
 		}
-		return appointments.add(appointmentPanel);
+		return appointments.add(newAppointmentPanel);
 	}
 
 	public void removeAllAppointments() {

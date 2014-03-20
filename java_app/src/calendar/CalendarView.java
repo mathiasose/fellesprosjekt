@@ -86,6 +86,15 @@ public class CalendarView extends JComponent {
 			}
 		});
 
+		showOtherButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showUsers.add("test@epost.com");
+				session.getAppInstance().goToCalendar();
+			}
+		});
+
 	}
 
 	private void initView() {
