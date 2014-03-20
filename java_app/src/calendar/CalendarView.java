@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import app.App;
 import authentication.UserSession;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
@@ -68,33 +69,30 @@ public class CalendarView extends JComponent {
 		}
 
 		/* bottom row */
-		JButton addAppButton = new JButton("Legg til avtale");
+		JButton addAppointmentButton = new JButton("Legg til avtale");
 		JButton showOtherButton = new JButton("Vis andre");
 
-		botRow.add(addAppButton);
+		botRow.add(addAppointmentButton);
 		botRow.add(showOtherButton);
 
+		/* default display data is current user, current week */
+		addAppointments(session.getEmail(), weekNo);
+		
+		/* action listeners */
 		showAppointment.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				session.getAppInstance().goToshowAppointment();
-
 			}
 
 		});
 
-		addAppButton.addActionListener(new ActionListener() {
-
+		addAppointmentButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				session.getAppInstance().goToAddApointment();
-
 			}
-
 		});
-
-		addAppointments(session.getEmail(), weekNo);
 	}
 
 	private void addAppointments(String userEmail, int weekNo) {
@@ -103,9 +101,10 @@ public class CalendarView extends JComponent {
 					userEmail, weekNo)) {
 				addAppointment(appointment);
 			}
-		} catch (EmailNotInDatabaseException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (EmailNotInDatabaseException e) {
+			session.appDialog("Fant ikke den brukeren");
+		} catch (SQLException e) {
+			session.appDialog(App.DB_ERROR_MSG);
 		}
 	}
 
