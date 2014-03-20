@@ -145,10 +145,12 @@ public class DBConnection {
 
 			// appointment.setParticipants();
 
-			ResultSet rs2 = query("select email from Invitation left join Appointment on Invitation.appointment_id = Appointment.id left join Employee on )"
-					+ " Invitation.employee_id = Employee.id where Invitation.appointment_id="
+			ResultSet rs2 = query("select email from (Invitation left join Appointment on (Invitation.appointment_id = Appointment.id) left join Employee on (Invitation.employee_id = Employee.id))"
+					+ " where (Invitation.appointment_id="
 					+ rs.getInt("id")
-					+ " and Invitation.appointment_id =" + rs.getInt("id"));
+					+ ") and "
+					+ "(Invitation.appointment_id ="
+					+ rs.getInt("id") + ")");
 			while (rs2.next()) {
 				participants.add(rs2.getString("email"));
 			}
@@ -156,12 +158,9 @@ public class DBConnection {
 			appointments.add(appointment);
 
 		}
-		
-		
 
 		return appointments;
 	}
-
 
 	public static ArrayList<Boolean> selectAttendingStatus(int appointmentID)
 			throws SQLException {
@@ -182,4 +181,21 @@ public class DBConnection {
 		return attendingStatus;
 
 	}
+
+	public static void updateInvitationStatus(int appointmentID,
+			int employeeID, boolean status) throws SQLException {
+		String sqlBoolStatus = status ? "1" : "0";
+		update("update Invitation SET (attending = " + sqlBoolStatus
+				+ ") where (appointment_id = " + appointmentID
+				+ "( and (employee_id = " + employeeID + ")");
+	}
+
+	// public static void main(String[] args) {
+	// try {
+	// updateInvitationStatus(1, 2, true);
+	// } catch (SQLException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
 }

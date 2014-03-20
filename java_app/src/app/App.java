@@ -43,6 +43,9 @@ public class App {
 		try {
 			DBConnection.connect();
 		} catch (SQLException e) {
+			if (DEBUG) {
+				e.printStackTrace();
+			}
 			showMessageDialog(DB_ERROR_MSG);
 		}
 	}
