@@ -32,6 +32,7 @@ import authentication.UserSession;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
 import email.EmailValidator;
+import email.SendMailTLS;
 
 public class AppointmentView extends JPanel implements ActionListener,
 		PropertyChangeListener {
@@ -202,6 +203,8 @@ public class AppointmentView extends JPanel implements ActionListener,
 //						String employeeId = Integer.toString(employeeIdi);
 						DBConnection.insertInvitation(employeeIdi,
 								appointmentIDi, false, false);
+						SendMailTLS.sendMail(model.getDescription(), participantEmail);
+						
 
 					} catch (EmailNotInDatabaseException e) {
 						// TODO Auto-generated catch block
