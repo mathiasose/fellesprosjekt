@@ -202,4 +202,15 @@ public class DBConnection {
 				+ " where (appointment_id = " + appointmentID + ")"
 				+ " and (employee_id = " + employeeID + ")");
 	}
+
+	public static void deleteAppointment(int appointmentID) throws SQLException {
+		String sql1 = "delete from Reservation " + "where appointment_id = "
+				+ appointmentID + " limit 1;";
+		String sql2 = "delete from Invitation where appointment_id = "
+				+ appointmentID + ";";
+		// delete notification?
+		String sql3 = "delete from Appointment where id = " + appointmentID
+				+ " limit 1;";
+		update(sql1 + sql2 + sql3);
+	}
 }
