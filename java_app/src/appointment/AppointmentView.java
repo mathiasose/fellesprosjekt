@@ -58,7 +58,7 @@ public class AppointmentView extends JPanel implements ActionListener,
 			"29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
 			"40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50",
 			"51", "52", "53", "54", "55", "56", "57", "68", "59" };
-	String[] dur = { "1", "2", "3", "4" };
+	String[] dur = { "30", "60", "90", "120" };
 	ArrayList<String> rooms;
 	ArrayList<String> roomsnumb = new ArrayList<String>();
 
@@ -167,7 +167,7 @@ public class AppointmentView extends JPanel implements ActionListener,
 				System.out.println(listModel.toString() + "LM");
 
 				int room_idi = model.getMeetingRoom();
-				String room_id = Integer.toString(room_idi);
+//				String room_id = Integer.toString(room_idi);
 
 				System.out.println(start_time + " " + duration);
 
@@ -178,12 +178,12 @@ public class AppointmentView extends JPanel implements ActionListener,
 				} catch (SQLException e1) {
 					session.appDialog(App.AUTH_ERROR_MSG);
 				}
-				String appointmentID = Integer.toString(appointmentIDi);
+//				String appointmentID = Integer.toString(appointmentIDi);
 
-				System.out.println(appointmentID + " appointmentid");
+				System.out.println(appointmentIDi + " appointmentid");
 
 				try {
-					DBConnection.insertReservation(appointmentID, room_id);
+					DBConnection.insertReservation(appointmentIDi, room_idi);
 				} catch (SQLException e1) {
 
 					// TODO Auto-generated catch block
@@ -191,6 +191,12 @@ public class AppointmentView extends JPanel implements ActionListener,
 
 					session.appDialog(App.DB_ERROR_MSG);
 
+				}
+				try {
+					DBConnection.insertInvitation(session.getEmployeeID(), appointmentIDi, true, false, true);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 
 				for (int y = 0; y < listModel.getSize(); y++) {
@@ -200,9 +206,9 @@ public class AppointmentView extends JPanel implements ActionListener,
 					try {
 						int employeeIdi = DBConnection
 								.selectEmployeeId(participantEmail);
-						String employeeId = Integer.toString(employeeIdi);
-						DBConnection.insertInvitation(employeeId,
-								appointmentID, "1", "0");
+//						String employeeId = Integer.toString(employeeIdi);
+						DBConnection.insertInvitation(employeeIdi,
+								appointmentIDi, false, false);
 
 					} catch (EmailNotInDatabaseException e) {
 						// TODO Auto-generated catch block
