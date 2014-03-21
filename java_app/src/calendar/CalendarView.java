@@ -91,6 +91,14 @@ public class CalendarView extends JComponent {
 				populateView();
 			}
 		});
+		
+		logoutButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				session.getAppInstance().logoutAndGoToLogin();
+			}
+		});
 
 	}
 

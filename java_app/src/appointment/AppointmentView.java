@@ -42,7 +42,7 @@ public class AppointmentView extends JPanel implements ActionListener,
 	public JTextField participantEmail;
 	public JComboBox startHour, startMin, duration;
 	public JComboBox room;
-	public JButton cancelAppointment, saveAppointment;
+	public JButton cancelAppointment, saveAppointment, deleteAppointment;
 	public static JButton addParticipant, deleteParticipant;
 	public JList participantList;
 	public GhostText ghostText;
@@ -282,7 +282,7 @@ public class AppointmentView extends JPanel implements ActionListener,
 		saveAppointment = new JButton("Save");
 		addParticipant = new JButton("Add Participant");
 		deleteParticipant = new JButton("Remove Participant");
-
+		
 		// layout
 
 		// date-Jtextfield

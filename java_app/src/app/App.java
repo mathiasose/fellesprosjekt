@@ -64,6 +64,7 @@ public class App {
 
 	public void logoutAndGoToLogin() {
 		session.end();
+		loginView = new LoginView(session);
 		frame.setView(loginView);
 	}
 

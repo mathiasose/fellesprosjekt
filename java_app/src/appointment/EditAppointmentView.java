@@ -38,7 +38,7 @@ public class EditAppointmentView extends AppointmentView {
 		final String userEmail = session.getEmail();
 		int createdbyID = -1;
 
-		JButton acceptInvitation, declineInvitation, saveChanges;
+		JButton acceptInvitation, declineInvitation, saveChanges, deleteAppointment;
 
 		Timestamp weekNol = model.getStartTime();
 		Calendar tempCal = Calendar.getInstance();
@@ -111,6 +111,7 @@ public class EditAppointmentView extends AppointmentView {
 		acceptInvitation = new JButton("Accept Invitaion");
 		declineInvitation = new JButton("Decline Invitation");
 		saveChanges = new JButton("Save");
+		deleteAppointment = new JButton("Delete appointment");
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -133,6 +134,9 @@ public class EditAppointmentView extends AppointmentView {
 			c.gridx = 2;
 			c.gridy = 4;
 			add(saveChanges, c);
+			
+			c.gridy++;
+			add(deleteAppointment,c);
 			
 			super.appointmentLocation.setEditable(true);
 			super.appointmentDescription.setEditable(true);
@@ -171,6 +175,22 @@ public class EditAppointmentView extends AppointmentView {
 					
 				}
 
+				
+			});
+			
+			deleteAppointment.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						DBConnection.deleteAppointment(dbID);
+						session.getAppInstance().goToCalendar();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
 				
 			});
 
