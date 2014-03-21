@@ -18,8 +18,14 @@ CREATE TABLE Reservation (
     appointment_id INT NOT NULL,
     room_id INT NOT NULL,
     PRIMARY KEY (appointment_id, room_id),
-    CONSTRAINT reservation_fk_appointment FOREIGN KEY (appointment_id) REFERENCES Appointment(id),
-    CONSTRAINT reservation_fk_room FOREIGN KEY (room_id) REFERENCES Room(id)
+    CONSTRAINT reservation_fk_appointment
+        FOREIGN KEY (appointment_id)
+        REFERENCES Appointment(id)
+        ON DELETE CASCADE,
+    CONSTRAINT reservation_fk_room
+        FOREIGN KEY (room_id)
+        REFERENCES Room(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE Employee (
@@ -40,16 +46,24 @@ CREATE TABLE Subgroup (
    child_id INT NOT NULL,
    parent_id INT NOT NULL,
    PRIMARY KEY (child_id, parent_id),
-   CONSTRAINT subgroup_fk_child FOREIGN KEY (child_id) REFERENCES EmployeeGroup(id),
-   CONSTRAINT subgroup_fk_parent FOREIGN KEY (parent_id) REFERENCES EmployeeGroup(id)
+   CONSTRAINT subgroup_fk_child
+        FOREIGN KEY (child_id)
+        REFERENCES EmployeeGroup(id),
+   CONSTRAINT subgroup_fk_parent
+        FOREIGN KEY (parent_id)
+        REFERENCES EmployeeGroup(id)
 );
 
 CREATE TABLE Member (
     employee_id INT NOT NULL,
     group_id INT NOT NULL,
     PRIMARY KEY (employee_id, group_id),
-    CONSTRAINT member_fk_employee FOREIGN KEY (employee_id) REFERENCES Employee(id),
-    CONSTRAINT member_fk_group FOREIGN KEY (group_id) REFERENCES EmployeeGroup(id)
+    CONSTRAINT member_fk_employee
+        FOREIGN KEY (employee_id)
+        REFERENCES Employee(id),
+    CONSTRAINT member_fk_group
+        FOREIGN KEY (group_id)
+        REFERENCES EmployeeGroup(id)
 );
 
 CREATE TABLE Notification (
@@ -66,9 +80,17 @@ CREATE TABLE Invitation (
     creator BOOLEAN NOT NULL,
     hidden BOOLEAN NOT NULL,
     PRIMARY KEY (employee_id, appointment_id),
-    CONSTRAINT invitation_fk_employee FOREIGN KEY (employee_id) REFERENCES Employee(id),
-    CONSTRAINT invitation_fk_appointment FOREIGN KEY (appointment_id) REFERENCES Appointment(id),
-    CONSTRAINT invitation_fk_notification FOREIGN KEY (notification_id) REFERENCES Notification(id)
+    CONSTRAINT invitation_fk_employee
+        FOREIGN KEY (employee_id)
+        REFERENCES Employee(id),
+    CONSTRAINT invitation_fk_appointment
+        FOREIGN KEY (appointment_id)
+        REFERENCES Appointment(id)
+        ON DELETE CASCADE,
+    CONSTRAINT invitation_fk_notification
+        FOREIGN KEY (notification_id)
+        REFERENCES Notification(id)
+        ON DELETE CASCADE
 );
 
 INSERT INTO Employee (name, email, password) VALUES
@@ -141,7 +163,7 @@ insert into Reservation (appointment_id, room_id) values
     (8, 1),
     (9, 5),
     (10, 5),
-    (11, 5)
+    (11, 5),
     (12, 5),
     (13, 5);
 
