@@ -184,9 +184,9 @@ public class DBConnection {
 			String s = rs.getString("attending");
 			if (s == null) {
 				attendingStatus.add(null);
-			} else if (s == "1") {
+			} else if (s.equals("1")) {
 				attendingStatus.add(true);
-			} else if (s == "0") {
+			} else if (s.equals("0")) {
 				attendingStatus.add(false);
 			}
 		}

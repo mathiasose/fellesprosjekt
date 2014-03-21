@@ -80,7 +80,7 @@ public class AppointmentPanel extends JPanel {
 			ArrayList<Boolean> status = DBConnection
 					.selectAttendingStatus(model.getEventID());
 			for (Boolean b : status) {
-				if (b != null && Boolean.FALSE.equals(b)) {
+				if (Boolean.FALSE.equals(b)) {
 					return Color.red;
 				}
 			}
