@@ -23,6 +23,7 @@ public class Frame extends JFrame {
 		this.add(view);
 		this.currentView = view;
 		view.setVisible(true);
+		this.validate();
 	}
 
 }
