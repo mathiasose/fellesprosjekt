@@ -64,8 +64,7 @@ public class AppointmentPanel extends JPanel {
 				background = getBackground();
 				setBackground(Color.RED);
 				repaint();
-				int eventID = getModel().getEventID();
-				session.getAppInstance().goToshowAppointment(model);
+				session.getAppInstance().goToShowAppointment(model);
 			}
 
 			public void mouseReleased(MouseEvent e) {

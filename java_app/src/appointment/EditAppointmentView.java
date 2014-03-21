@@ -6,20 +6,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
 
 import javax.swing.JButton;
 
 import model.Appointment;
+import app.App;
 import authentication.UserSession;
 import db.DBConnection;
 import db.EmailNotInDatabaseException;
 
 public class EditAppointmentView extends AppointmentView {
 
-	public EditAppointmentView(final UserSession session, Appointment model)
+	public EditAppointmentView(final UserSession session, Appointment model) 
 			throws SQLException {
 
 		super(session);
@@ -31,10 +36,9 @@ public class EditAppointmentView extends AppointmentView {
 		int Duration = 0;
 		Timestamp timeS = null;
 		final String userEmail = session.getEmail();
-		ArrayList<String> participants = new ArrayList<String>();
 		int createdbyID = -1;
 
-		JButton acceptInvitation, declineInvitation;
+		JButton acceptInvitation, declineInvitation, saveChanges;
 
 		Timestamp weekNol = model.getStartTime();
 		Calendar tempCal = Calendar.getInstance();
@@ -44,31 +48,19 @@ public class EditAppointmentView extends AppointmentView {
 		System.out.println("weekno: " + weekNo);
 
 		ArrayList<Appointment> selectAppointments;
-		try {
-			selectAppointments = DBConnection.selectAppointments(userEmail,
-					weekNo);
-			for (int i = 0; i < selectAppointments.size(); i++) {
-				if (selectAppointments.get(i).getEventID() == dbID) {
-					avtalenr = i;
-				}
-			}
+		Description = model.getDescription();
+		Location = model.getLocation();
+		Duration = model.getDuration();
+		timeS = model.getStartTime();
+		HashSet<String> participants = model.getParticipants();
+		System.out.println("participants: " + participants);
+		createdbyID = model.getCreatedByID();
 
-			Description = selectAppointments.get(avtalenr).getDescription();
-			Location = selectAppointments.get(avtalenr).getLocation();
-			Duration = selectAppointments.get(avtalenr).getDuration();
-			timeS = selectAppointments.get(avtalenr).getStartTime();
-			participants = selectAppointments.get(avtalenr).getParticipants();
-			createdbyID = selectAppointments.get(avtalenr).getCreatedByID();
+		int room = model.getMeetingRoom();
 
-			int room = selectAppointments.get(avtalenr).getMeetingRoom();
+		super.appointmentLocation.setText(Location);
 
-			super.appointmentLocation.setText(Location);
-
-			super.appointmentDescription.setText(Description);
-		} catch (EmailNotInDatabaseException e1) {
-			session.appDialog("error");
-			session.getAppInstance().goToCalendar();
-		}
+		super.appointmentDescription.setText(Description);
 
 		System.out.println(Duration + "dur");
 
@@ -101,13 +93,11 @@ public class EditAppointmentView extends AppointmentView {
 		super.duration.setSelectedItem(Duration);
 
 		super.room.setEnabled(false);
-
+		
 		if (participants != null) {
-			for (int i = 0; i < participants.size(); i++) {
-
-				super.listModel.add(i, participants.get(i));
-				System.out.println(participants);
-
+			int i = 0;
+			for (String participant : participants) {
+				super.listModel.add(i++, participant);
 			}
 		}
 
@@ -120,6 +110,7 @@ public class EditAppointmentView extends AppointmentView {
 
 		acceptInvitation = new JButton("Accept Invitaion");
 		declineInvitation = new JButton("Decline Invitation");
+		saveChanges = new JButton("Save");
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -133,6 +124,55 @@ public class EditAppointmentView extends AppointmentView {
 
 			c.gridx++;
 			add(declineInvitation, c);
+
+		} else{
+			
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(22, 7, 0, 7);
+			c.weightx = 0.5;
+			c.gridx = 2;
+			c.gridy = 4;
+			add(saveChanges, c);
+			
+			super.appointmentLocation.setEditable(true);
+			super.appointmentDescription.setEditable(true);
+			super.startHour.setEnabled(true);
+			super.startMin.setEnabled(true);
+			super.appointmentDate.setEditable(true);
+			super.duration.setEnabled(true);
+			super.room.setEnabled(true);
+			
+			
+			super.participantEmail.setVisible(true);
+			super.addParticipant.setVisible(true);
+			super.deleteParticipant.setVisible(true);
+			
+			
+			
+			
+			//final String uDuration = super.duration.getSelectedItem().toString();
+						
+			saveChanges.addActionListener(new ActionListener(){
+				
+				
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						final Timestamp uAppTime = getAppTime();
+						final String uLocation = getuLocation(); 
+						//final String uDuration = getuDuration();
+						final String uDescription = getuDescription();
+						DBConnection.updateAppointment(dbID, uAppTime, "60", uLocation, uDescription, "0");
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+
+				
+			});
 
 		}
 
@@ -172,6 +212,44 @@ public class EditAppointmentView extends AppointmentView {
 
 		});
 
+	}
+	
+	private Timestamp getAppTime() {
+		return getUpdateTime(session, model);	
+	}
+
+	private String getuLocation() {
+		return super.appointmentLocation.getText();
+	}
+	private String getuDescription() {
+		return super.appointmentDescription.getText();
+
+	}
+	private String getuDuration() {
+		return super.duration.getSelectedItem().toString();
+	}
+	
+
+	private Timestamp getUpdateTime(final UserSession session, Appointment model) {
+		String dateText = super.appointmentDate.getText();
+		String hourText = (String) super.startHour.getSelectedItem();
+		String minText = (String) super.startMin.getSelectedItem();
+		final String dateString = dateText + " " + hourText + ":" + minText
+				+ ":00";
+		String halla = null;
+		DateFormat inputdf = new SimpleDateFormat("dd . MM . yyyy HH:mm:ss");
+		try {
+			Date date = inputdf.parse(dateString);
+			SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			halla = sdf3.format(date);
+			model.setAppointmentTime(Timestamp.valueOf(halla));
+		} catch (ParseException e2) {
+			session.appDialog(App.DB_ERROR_MSG);
+		}
+
+		final Timestamp uAppTime = model.getStartTime();
+		System.out.println("timestampnew: " + uAppTime);
+		return uAppTime;
 	}
 
 	// public static void main(String[] args) {

@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import model.Appointment;
 import app.App;
@@ -20,6 +22,9 @@ public class DBConnection {
 	}
 
 	private static int update(String update) throws SQLException {
+		if (App.DEBUG) {
+			System.out.println(update);
+		}
 		Connection connection = connect();
 		Statement stmt = connection.createStatement();
 		stmt.executeUpdate(update);
@@ -87,7 +92,7 @@ public class DBConnection {
 		return rooms;
 	}
 
-	public static int insertAppointment(String start_time, String duration,
+	public static int insertAppointment(Timestamp start_time, String duration,
 			String location, String description, String canceled)
 			throws SQLException {
 		return update("insert into Appointment(start_time, duration, location, description, canceled) values('"
@@ -100,13 +105,13 @@ public class DBConnection {
 				+ description + "', '" + canceled + "')");
 	}
 
-	public static void updateAppointment(int appointmentID, String start_time,
+	public static void updateAppointment(int appointmentID, Timestamp start_time,
 			String duration, String location, String description,
 			String canceled) throws SQLException {
 		update("update Appointment set start_time='" + start_time
 				+ "', duration=" + duration + ", location='" + location
 				+ "', description='" + description + "', canceled=" + canceled
-				+ "where id =" + appointmentID);
+				+ " where id =" + appointmentID);
 
 	}
 
@@ -149,7 +154,7 @@ public class DBConnection {
 		}
 
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
-		ArrayList<String> participants = new ArrayList<String>();
+		HashSet<String> participants = new HashSet<String>();
 		int id = selectEmployeeId(email);
 		ResultSet rs = query("select Appointment.*, Reservation.* "
 				+ "from (Appointment left join Reservation on Appointment.id = Reservation.appointment_id), "
@@ -170,8 +175,6 @@ public class DBConnection {
 			appointment.setMeetingRoom(rs.getInt("room_id"));
 			appointment.setEventID(appointmentID);
 
-			// appointment.setParticipants();
-
 			ResultSet rs2 = query("select email "
 					+ "from (Invitation left join Appointment on (Invitation.appointment_id = Appointment.id) "
 					+ "left join Employee on (Invitation.employee_id = Employee.id)) "
@@ -180,6 +183,7 @@ public class DBConnection {
 				participants.add(rs2.getString("email"));
 			}
 			appointment.setParticipants(participants);
+			System.out.println(appointment.getDescription() + " " + participants);
 
 			ResultSet rs3 = query("select employee_id from Invitation "
 					+ "where creator = 1 " + "and appointment_id ="

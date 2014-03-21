@@ -13,7 +13,7 @@ import calendar.CalendarView;
 import db.DBConnection;
 
 public class App {
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	public static final String DB_ERROR_MSG = "Could not talk to database. Are you sure you're connected to the internet?";
 	public static final String AUTH_ERROR_MSG = "Wrong user/password combination";
@@ -72,7 +72,7 @@ public class App {
 		frame.setView(newAppointmentView);
 	}
 
-	public void goToshowAppointment(Appointment model) {
+	public void goToShowAppointment(Appointment model) {
 		try {
 			appointmentView = new EditAppointmentView(session, model);
 			frame.setView(appointmentView);

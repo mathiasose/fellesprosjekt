@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Appointment {
 
@@ -13,7 +14,7 @@ public class Appointment {
 
 	private String description, location;
 	private int duration;
-	private ArrayList<String> participants;
+	private HashSet<String> participants;
 	private int meetingRoom;
 
 	private Timestamp startTime;
@@ -49,12 +50,13 @@ public class Appointment {
 	// this.createdBy = createdBy;
 	// }
 
-	public ArrayList<String> getParticipants() {
+	public HashSet<String> getParticipants() {
+		System.out.println(participants + "appointment,model");
 		return participants;
 	}
 
-	public void setParticipants(ArrayList<String> participants) {
-		this.participants = participants;
+	public void setParticipants(HashSet<String> participants2) {
+		this.participants = participants2;
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener listener) {

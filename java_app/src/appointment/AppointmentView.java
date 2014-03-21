@@ -47,7 +47,7 @@ public class AppointmentView extends JPanel implements ActionListener,
 	public JList participantList;
 	public GhostText ghostText;
 	public DefaultListModel listModel;
-	private Appointment model = new Appointment();
+	protected Appointment model = new Appointment();
 
 	static final String[] hours = { "00", "01", "02", "03", "04", "05", "06",
 			"07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17",
@@ -62,7 +62,7 @@ public class AppointmentView extends JPanel implements ActionListener,
 	ArrayList<String> rooms;
 	ArrayList<String> roomsnumb = new ArrayList<String>();
 
-	private UserSession session;
+	protected UserSession session;
 
 	public AppointmentView(final UserSession session) {
 		this.session = session;
@@ -72,8 +72,6 @@ public class AppointmentView extends JPanel implements ActionListener,
 			rooms = DBConnection.selectAllRoomIDs();
 
 			ArrayList<String> roomscap = new ArrayList<String>();
-
-			System.out.println(rooms);
 
 			for (int i = 0; i < rooms.size(); i = i + 2) {
 				roomsnumb.add(rooms.get(i));
@@ -117,7 +115,6 @@ public class AppointmentView extends JPanel implements ActionListener,
 			public void actionPerformed(ActionEvent arg0) {
 				// Setters to model
 				model.setDescription(appointmentDescription.getText());
-
 				model.setLocation(appointmentLocation.getText());
 
 				Object durationH = duration.getSelectedItem();
@@ -127,18 +124,15 @@ public class AppointmentView extends JPanel implements ActionListener,
 				Object roomid = room.getSelectedItem();
 				String room_IDS = roomid.toString();
 				int room_ID = Integer.parseInt(room_IDS);
-
 				model.setMeetingRoom(room_ID);
 
+				
 				String start_time = null;
-
 				String dateText = appointmentDate.getText();
 				String hourText = (String) startHour.getSelectedItem();
 				String minText = (String) startMin.getSelectedItem();
-
 				String dateString = dateText + " " + hourText + ":" + minText
 						+ ":00";
-
 				String halla = null;
 				DateFormat inputdf = new SimpleDateFormat(
 						"dd . MM . yyyy HH:mm:ss");
@@ -159,21 +153,20 @@ public class AppointmentView extends JPanel implements ActionListener,
 				duration = Integer.toString(model.getDuration());
 
 				String location = model.getLocation();
-
 				String descrip = model.getDescription();
-
 				String canceled = "0";
-
 				System.out.println(listModel.toString() + "LM");
 
 				int room_idi = model.getMeetingRoom();
 //				String room_id = Integer.toString(room_idi);
 
 				System.out.println(start_time + " " + duration);
+				
+				Timestamp appTime = model.getStartTime();
 
 				int appointmentIDi = 0;
 				try {
-					appointmentIDi = DBConnection.insertAppointment(start_time,
+					appointmentIDi = DBConnection.insertAppointment(appTime,
 							duration, location, descrip, canceled);
 				} catch (SQLException e1) {
 					session.appDialog(App.AUTH_ERROR_MSG);
@@ -221,6 +214,8 @@ public class AppointmentView extends JPanel implements ActionListener,
 
 				session.getAppInstance().goToCalendar();
 				// vinduet lukkes og du tas tilbake til kalender
+				
+				listModel.clear();
 
 			}
 		});
