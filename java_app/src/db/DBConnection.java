@@ -153,7 +153,6 @@ public class DBConnection {
 					+ "from (Invitation left join Appointment on (Invitation.appointment_id = Appointment.id) "
 					+ "left join Employee on (Invitation.employee_id = Employee.id)) "
 					+ "where (Invitation.appointment_id=" + appointmentID
-					+ ") and (Invitation.appointment_id =" + appointmentID
 					+ ")");
 			while (rs2.next()) {
 				participants.add(rs2.getString("email"));
