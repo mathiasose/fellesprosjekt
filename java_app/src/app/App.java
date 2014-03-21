@@ -26,7 +26,6 @@ public class App {
 	private AppointmentView newAppointmentView;
 	private EditAppointmentView appointmentView;
 	private LoginView loginView;
-	private Appointment model;
 
 	public App() {
 		frame = new Frame();
@@ -76,30 +75,11 @@ public class App {
 	public void goToshowAppointment(Appointment model) {
 		try {
 			appointmentView = new EditAppointmentView(session, model);
+			frame.setView(appointmentView);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			showMessageDialog(DB_ERROR_MSG);
 		}
 
-		frame.setView(appointmentView);
-	}
-
-	// TRENGER FUNKSJONALITET HER ETTERHVERT
-	public void goToshowOther() {
-		// JOptionPane.showMessageDialog(frame,
-		// "We will implement this as soon as we can! SORRY >_<",
-		// "Comming this Spring",
-		// JOptionPane.PLAIN_MESSAGE);
-		Object[] showSomeonesAppointments = { "Just yours", "exampleUser1",
-				"Everybody" };
-		String showOtherVariabel = (String) JOptionPane.showInputDialog(frame,
-				"Select your acquaintance to show their appointments",
-				"Show others calenders", JOptionPane.PLAIN_MESSAGE, null,
-				showSomeonesAppointments,
-				"Vet ikke hvorfor eller hva denne strengen er godt for :/");
-
-		System.out.println(showOtherVariabel + "s appointments are showing!");
-		// HER M� VI VISE VALGTE DELTAGERES APPOINTMENTS!
 	}
 
 	public void cancelAddAppointmentGoToCalendar() {

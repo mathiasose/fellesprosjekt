@@ -376,7 +376,8 @@ public class AppointmentView extends JPanel implements ActionListener,
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {}
+	public void actionPerformed(ActionEvent e) {
+	}
 
 	// gj�r s�nn at man bare kan skrive tall i Date-feltet
 	// med formatter f�r man ikke ghostText, s� m� ta et valg
