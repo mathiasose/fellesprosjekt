@@ -100,22 +100,38 @@ public class DBConnection {
 				+ description + "', '" + canceled + "')");
 	}
 
-	public static void insertInvitation(String employeeId,
-			String appointmentId, String creator, String hidden)
-			throws SQLException {
-		update("insert into Invitation (employee_id, appointment_id, creator, hidden) values('"
-				+ employeeId
-				+ "', '"
-				+ appointmentId
-				+ "' , '"
+	public static void insertInvitation(int employeeID, int appointmentID,
+			boolean creator, boolean hidden) throws SQLException {
+		update("insert into Invitation (employee_id, appointment_id, creator, hidden) values("
+				+ employeeID
+				+ ", "
+				+ appointmentID
+				+ " , "
 				+ creator
-				+ "', '" + hidden + "')");
+				+ ", "
+				+ hidden
+				+ ")");
 	}
 
-	public static void insertReservation(String appointment_id, String room_id)
+	public static void insertInvitation(int employeeID, int appointmentID,
+			boolean creator, boolean hidden, boolean attending) throws SQLException {
+		update("insert into Invitation (employee_id, appointment_id, creator, hidden, attending) values("
+				+ employeeID
+				+ ", "
+				+ appointmentID
+				+ " , "
+				+ creator
+				+ ", "
+				+ hidden
+				+ ", "
+				+ attending
+				+ ")");		
+	}
+	
+	public static void insertReservation(int appointmentIDi, int room_id)
 			throws SQLException {
-		update("insert into Reservation (appointment_id, room_id) values('"
-				+ appointment_id + "', '" + room_id + "')");
+		update("insert into Reservation (appointment_id, room_id) values("
+				+ appointmentIDi + ", " + room_id + ")");
 	}
 
 	public static ArrayList<Appointment> selectAppointments(String email,
@@ -183,9 +199,9 @@ public class DBConnection {
 			String s = rs.getString("attending");
 			if (s == null) {
 				attendingStatus.add(null);
-			} else if (s == "1") {
+			} else if (s.equals("1")) {
 				attendingStatus.add(true);
-			} else if (s == "0") {
+			} else if (s.equals("0")) {
 				attendingStatus.add(false);
 			}
 		}
@@ -206,4 +222,5 @@ public class DBConnection {
 		update("delete from Appointment where id = " + appointmentID
 				+ " limit 1;");
 	}
+
 }
