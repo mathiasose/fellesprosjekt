@@ -100,6 +100,16 @@ public class DBConnection {
 				+ description + "', '" + canceled + "')");
 	}
 
+	public static void updateAppointment(int appointmentID, String start_time,
+			String duration, String location, String description,
+			String canceled) throws SQLException {
+		update("update Appointment set start_time='" + start_time
+				+ "', duration=" + duration + ", location='" + location
+				+ "', description='" + description + "', canceled=" + canceled
+				+ "where id =" + appointmentID);
+
+	}
+
 	public static void insertInvitation(int employeeID, int appointmentID,
 			boolean creator, boolean hidden) throws SQLException {
 		update("insert into Invitation (employee_id, appointment_id, creator, hidden) values("
@@ -109,12 +119,12 @@ public class DBConnection {
 				+ " , "
 				+ creator
 				+ ", "
-				+ hidden
-				+ ")");
+				+ hidden + ")");
 	}
 
 	public static void insertInvitation(int employeeID, int appointmentID,
-			boolean creator, boolean hidden, boolean attending) throws SQLException {
+			boolean creator, boolean hidden, boolean attending)
+			throws SQLException {
 		update("insert into Invitation (employee_id, appointment_id, creator, hidden, attending) values("
 				+ employeeID
 				+ ", "
@@ -122,12 +132,9 @@ public class DBConnection {
 				+ " , "
 				+ creator
 				+ ", "
-				+ hidden
-				+ ", "
-				+ attending
-				+ ")");		
+				+ hidden + ", " + attending + ")");
 	}
-	
+
 	public static void insertReservation(int appointmentIDi, int room_id)
 			throws SQLException {
 		update("insert into Reservation (appointment_id, room_id) values("
@@ -168,8 +175,7 @@ public class DBConnection {
 			ResultSet rs2 = query("select email "
 					+ "from (Invitation left join Appointment on (Invitation.appointment_id = Appointment.id) "
 					+ "left join Employee on (Invitation.employee_id = Employee.id)) "
-					+ "where (Invitation.appointment_id=" + appointmentID
-					+ ")");
+					+ "where (Invitation.appointment_id=" + appointmentID + ")");
 			while (rs2.next()) {
 				participants.add(rs2.getString("email"));
 			}
