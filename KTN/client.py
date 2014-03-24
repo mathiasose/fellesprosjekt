@@ -3,17 +3,19 @@
 
 A Client object communicates with a running Server object from the server module by sending 
 messages governed by the 'project protocol'. This protocol uses the json format. A client can 
-decode and encode messages based on the protocol, and therefore able to both sendData and receive 
+decode and encode messages based on the protocol, and therefore able to both sendResponse and receive 
 this kind of messages.
 
-Project protocol has four fields:
+Project request protocol consists of four fields:
 
 - 'user': Username or requested username of a client
-- 'message': Message to be displayed
 - 'time': Date & time the message was made
-- 'flag': Notification of client attempting to log in or disconnect
+- 'message': Message from entry window
+- 'flag': Requesting special action apart from message push
+    * 'login': Requesting login 
+    * 'logout': Requesting logout
 
-The Client class uses the console for displaying messages and notifications. To sendData a message 
+The Client class uses the console for displaying messages and notifications. To sendResponse a message 
 a client will use tkinter entry window. Messages sent by a client will be shown in the console 
 of all the connected clients.
 
@@ -27,9 +29,21 @@ import tkinter
 from datetime import datetime
 
 
+LOGIN = 'login'
+EXIT = 'exit'
+
+ENTER = 'enter'
+LEAVE = 'leave'
+STATUS = 'status'
+
+NONE = 'none'
+
+
 class Client(object):
     
-    '''A client able to communicate with similar clients through the Server class
+    '''Client able to communicate with similar clients through the server module.
+    
+    Extends object Class.
     
     Methods:
     
@@ -37,7 +51,7 @@ class Client(object):
     - start(host, port)
     - message_write()
     - message_read()
-    - sendData(data)
+    - sendResponse(data)
     - receive()
     - callback()
     
@@ -46,20 +60,24 @@ class Client(object):
     - __connection
     - __login
     - __user
+    - __root
     
     '''
 
     def __init__(self):
         '''Constructor. Sets up for TCP connection.'''
-        self.__connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   #Holds the TCP socket
-        self.__user = None      #Holds the username of the client
-        self.__login = False    #Is True if the client is logged in with valid username
         
+        self.__connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   #Holds TCP socket
+        self.__root = tkinter.Tk()      #Holds root to which add the tkinter components
+        self.__user = None              #Holds username of the client
+        self.__login = False            #Is True if Client is logged in with valid username
         
+    
+    
     def start(self, host, port):
-        '''Initiates the client. Gives control to the caller.
+        '''Initiate the client. Give control to the caller.
         
-        Connects to a running Server instance. The host is at the moment local host. The port is 8088.
+        Connect to a running Server instance. Host is local. Port is 8088.
         
         Initiates two threads in order to send and receive messages simultaneously. The client will run 
         until both threads are terminated. The connection is closed by the message_read() method.
@@ -69,110 +87,141 @@ class Client(object):
         self.__connection.connect((host, port))
         print('Enter your username')
         
+        #Output thread
         read_thread = threading.Thread(target = self.message_read)
         read_thread.start()
         
+        #Input thread
         write_thread = threading.Thread(target = self.message_write)
         write_thread.start()
         
+    
         
     def message_write(self):
-        '''Method taking care of input from the user. Initiating and controlling the entry window'''
+        '''Thread for taking care of input from user. Initiates and controls entry window'''
         
         def callback():
-            '''Called by pushing the tkinter button. Set up message to the server.'''
+            '''Call by pushing tkinter button. Set up message to the server.'''
             
-            #Sends login request if you're not logged in. Terminates method when message sent.
+            #Process login request if not logged in.
             if not self.__login:
-                self.__user = entryWindow.get()
-                data = json.dumps({'user': self.__user, 
-                                   'message': self.__user + ' has entered the chat', 
-                                   'time': datetime.now().strftime("%Y-%m-%d %H:%M"), 
-                                   'flag': 'login'})
-                self.sendData(data)
-                return
+                
+                #Send disconnect request. Terminate input loop when message sent.
+                if entryWindow.get() == 'exit' or entryWindow.get() == 'quit':
+                    data = json.dumps({'user': self.__user, 
+                                       'time': datetime.now().strftime("%Y-%m-%d %H:%M"), 
+                                       'message': entryWindow.get(), 
+                                       'flag': EXIT})
+                    self.sendResponse(data)
+                
+                #Send username request
+                else:
+                    data = json.dumps({'user': self.__user, 
+                                       'time': datetime.now().strftime("%Y-%m-%d %H:%M"), 
+                                       'message': entryWindow.get(), 
+                                       'flag': LOGIN})
+                    self.sendResponse(data)
             
-            #Sends disconnect request. Terminates the input loop when message sent.
-            if entryWindow.get() == 'exit' or entryWindow.get() == 'quit':
-                data = json.dumps({'user': self.__user, 
-                                   'message': self.__user + ' has left the chat', 
-                                   'time': datetime.now().strftime("%Y-%m-%d %H:%M"), 
-                                   'flag': 'disconnect'})
-                self.sendData(data)
-                root.quit()
-            
-            #Sends message to all connected clients.
+            #Process message if logged in.    
             else:
-                data = json.dumps({'user': self.__user, 
-                               'message': entryWindow.get(), 
-                               'time': datetime.now().strftime("%Y-%m-%d %H:%M"), 
-                               'flag': 'none'})
-                self.sendData(data)
-        
-        
-        #Root to which add the tkinter components
-        root = tkinter.Tk()
+            
+                #Send disconnect request. Terminate input loop when message sent.
+                if entryWindow.get() == 'exit' or entryWindow.get() == 'quit':
+                    data = json.dumps({'user': self.__user, 
+                                       'time': datetime.now().strftime("%Y-%m-%d %H:%M"), 
+                                       'message': entryWindow.get(), 
+                                       'flag': EXIT})
+                    self.sendResponse(data)
+            
+                #Send message to connected clients.
+                else:
+                    data = json.dumps({'user': self.__user, 
+                                   'time': datetime.now().strftime("%Y-%m-%d %H:%M"), 
+                                   'message': entryWindow.get(), 
+                                   'flag': NONE})
+                    self.sendResponse(data)
+                
         
         #tkinter entry window
-        entryWindow = tkinter.Entry(root)
+        entryWindow = tkinter.Entry(self.__root)
         entryWindow.pack()
         entryWindow.focus_set()
         
         #tkinter button
-        button = tkinter.Button(root, text = "OK", width = 10, command = callback)
+        button = tkinter.Button(self.__root, text = "OK", width = 10, command = callback)
         button.pack()
         
-        #Activates the components and loops until terminated
+        #Activate tkinter components and loop until terminated
         tkinter.mainloop()
         
+    
             
     def message_read(self):
-        '''Method taking care of output. Prints to the console window.'''
-        
-        #Login loop. Terminates once __login is true (username is valid)
+        '''Thread for taking care of output. Prints to console window.'''
+
+        #Login loop. Terminate once __login is True (username is valid)
         while not self.__login:
             data = self.receive()
             print(data['message'])
             
-            #Checks message to see if login was successful 
-            if not (data['message'] == 'invalid username'):
+            #Successful login
+            if (data['flag'] == ENTER):
+                self.__user = data['user'] 
                 self.__login = True
+                
+            #Disconnect without logging in
+            elif (data['flag'] == LEAVE):
+                break
         
-        #Input loop. Terminates once __login is false
+        #Input loop. Terminate once __login is False
         while self.__login:
-            data = self.receive()
             
-            #Determine if data is status notification or message
-            if data['flag'] == 'disconnect' or data['flag'] == 'login':
-                print(data['message']) 
-            else:
-                print(data['time'] + ' ' + data['user'] + ': ' + data['message'])    
+            #The server may send two json strings concatenated. Will cause error
+            try:
+                data = self.receive()
             
-            #Checks message to see if logout was successful   
-            if data['message'] == 'now exiting...':
-                self.__login = False   
+                #Successful logout
+                if data['flag'] == LEAVE:
+                    print(data['message'])
+                    self.__login = False
+                 
+                #Received status notification
+                elif data['flag'] == STATUS:
+                    print(data['message'])
+            
+                #Received new message
+                elif data['flag'] == NONE:
+                    print(data['time'] + ' ' + data['user'] + ': ' + data['message'])
+                    
+            except:
+                print('***Backlog error, two messages lost***')   
         
+        self.__root.quit()
         self.__connection.close()
 
 
-    def sendData(self, data):
-        '''Method for encoding and sending data'''
+
+    def sendResponse(self, data):
+        '''Encode and send data'''
         
         data = data.encode('utf-8')
         self.__connection.sendall(data)
 
 
+
     def receive(self):
-        '''Method for decoding and loading received data according to the protocol'''
+        '''Decode and load received data according to protocol'''
         
         received_data = self.__connection.recv(1024)
         received_data = received_data.decode('utf-8')
         received_data = json.loads(received_data)
         return received_data
+        
+        
 
 
 if __name__ == "__main__":
-    '''Creates a Client object. Initiates it.
-    '''
+    '''Create Client object. Initiate it'''
+    
     client = Client()
     client.start('localhost', 8088)
